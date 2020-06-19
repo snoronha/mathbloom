@@ -24,17 +24,12 @@ export default function Footer(props) {
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <a href="#company" className={classes.block}>
-                Company
+                About Us
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <a href="#portfolio" className={classes.block}>
-                Portfolio
-              </a>
-            </ListItem>
-            <ListItem className={classes.inlineBlock}>
-              <a href="#blog" className={classes.block}>
-                Blog
+                Resources
               </a>
             </ListItem>
           </List>
@@ -49,7 +44,7 @@ export default function Footer(props) {
             >
               MathBloom
             </a>
-            , math done right
+            , Math done right
           </span>
         </p>
       </div>
