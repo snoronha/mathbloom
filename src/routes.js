@@ -25,12 +25,13 @@ import Notifications from "@material-ui/icons/Notifications";
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
-import TableList from "views/TableList/TableList.js";
+// import TableList from "views/TableList/TableList.js";
 // import Typography from "views/Typography/Typography.js";
 // import Icons from "views/Icons/Icons.js";
 // import Maps from "views/Maps/Maps.js";
 // import NotificationsPage from "views/Notifications/Notifications.js";
 import MathK5Page from "views/Math-K-5/MathK5.js";
+// import AboutPage from "views/About/About.js";
 
 const dashboardRoutes = [
   {
@@ -43,7 +44,7 @@ const dashboardRoutes = [
   },
   {
     path: "/user",
-    name: "User Profile",
+    name: "Your Profile",
     rtlName: "ملف تعريفي للمستخدم",
     icon: Person,
     component: UserProfile,
@@ -57,6 +58,8 @@ const dashboardRoutes = [
     component: MathK5Page,
     layout: "/admin",
   },
+
+  /*
   {
     path: "/table",
     name: "Table List",
@@ -65,7 +68,7 @@ const dashboardRoutes = [
     component: TableList,
     layout: "/admin",
   },
-  /*
+
   {
     path: "/typography",
     name: "Typography",

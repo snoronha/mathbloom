@@ -1,6 +1,7 @@
 /*eslint-disable*/
 import React from "react";
-import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+// import PropTypes from "prop-types";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import ListItem from "@material-ui/core/ListItem";
@@ -23,9 +24,7 @@ export default function Footer(props) {
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a href="#company" className={classes.block}>
-                About Us
-              </a>
+              <Link to="/admin/about">About Us</Link>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <a href="#portfolio" className={classes.block}>
