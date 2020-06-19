@@ -1,10 +1,10 @@
 {
-  "name": "material-dashboard-react",
-  "homepage": "https://github.com/creativetimofficial/material-dashboard-react",
+  "name": "mathbloom",
+  "homepage": "https://github.com/snoronha/mathbloom",
   "authors": [
     "creative-tim"
   ],
-  "description": "A Badass Material-UI Kit based on Material Design",
+  "description": "MathBloom",
   "main": "public/index.html",
   "keywords": [
     "material",
