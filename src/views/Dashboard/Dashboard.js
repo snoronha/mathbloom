@@ -34,7 +34,7 @@ import { bugs, website, server } from "variables/general.js";
 import {
   dailySalesChart,
   emailsSubscriptionChart,
-  completedTasksChart
+  completedTasksChart,
 } from "variables/charts.js";
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
@@ -52,9 +52,9 @@ export default function Dashboard() {
               <CardIcon color="warning">
                 <Icon>content_copy</Icon>
               </CardIcon>
-              <p className={classes.cardCategory}>Used Space</p>
+              <p className={classes.cardCategory}>Lessons</p>
               <h3 className={classes.cardTitle}>
-                49/50 <small>GB</small>
+                23/50 <small>Math</small>
               </h3>
             </CardHeader>
             <CardFooter stats>
@@ -62,13 +62,14 @@ export default function Dashboard() {
                 <Danger>
                   <Warning />
                 </Danger>
-                <a href="#pablo" onClick={e => e.preventDefault()}>
-                  Get more space
+                <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                  Do more lessons
                 </a>
               </div>
             </CardFooter>
           </Card>
         </GridItem>
+        {/*
         <GridItem xs={12} sm={6} md={3}>
           <Card>
             <CardHeader color="success" stats icon>
@@ -120,6 +121,7 @@ export default function Dashboard() {
             </CardFooter>
           </Card>
         </GridItem>
+        */}
       </GridContainer>
       <GridContainer>
         <GridItem xs={12} sm={12} md={4}>
@@ -134,12 +136,12 @@ export default function Dashboard() {
               />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Daily Sales</h4>
+              <h4 className={classes.cardTitle}>Math Progress</h4>
               <p className={classes.cardCategory}>
                 <span className={classes.successText}>
                   <ArrowUpward className={classes.upArrowCardCategory} /> 55%
                 </span>{" "}
-                increase in today sales.
+                increase in Math score.
               </p>
             </CardBody>
             <CardFooter chart>
@@ -149,6 +151,7 @@ export default function Dashboard() {
             </CardFooter>
           </Card>
         </GridItem>
+        {/*
         <GridItem xs={12} sm={12} md={4}>
           <Card chart>
             <CardHeader color="warning">
@@ -172,6 +175,7 @@ export default function Dashboard() {
             </CardFooter>
           </Card>
         </GridItem>
+        */}
         <GridItem xs={12} sm={12} md={4}>
           <Card chart>
             <CardHeader color="danger">
@@ -185,16 +189,17 @@ export default function Dashboard() {
             </CardHeader>
             <CardBody>
               <h4 className={classes.cardTitle}>Completed Tasks</h4>
-              <p className={classes.cardCategory}>Last Campaign Performance</p>
+              <p className={classes.cardCategory}>Cumulative Performance</p>
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
-                <AccessTime /> campaign sent 2 days ago
+                <AccessTime /> updated 2 days ago
               </div>
             </CardFooter>
           </Card>
         </GridItem>
       </GridContainer>
+      {/*
       <GridContainer>
         <GridItem xs={12} sm={12} md={6}>
           <CustomTabs
@@ -210,7 +215,7 @@ export default function Dashboard() {
                     tasksIndexes={[0, 1, 2, 3]}
                     tasks={bugs}
                   />
-                )
+                ),
               },
               {
                 tabName: "Website",
@@ -221,7 +226,7 @@ export default function Dashboard() {
                     tasksIndexes={[0, 1]}
                     tasks={website}
                   />
-                )
+                ),
               },
               {
                 tabName: "Server",
@@ -232,8 +237,8 @@ export default function Dashboard() {
                     tasksIndexes={[0, 1, 2]}
                     tasks={server}
                   />
-                )
-              }
+                ),
+              },
             ]}
           />
         </GridItem>
@@ -253,13 +258,14 @@ export default function Dashboard() {
                   ["1", "Dakota Rice", "$36,738", "Niger"],
                   ["2", "Minerva Hooper", "$23,789", "Curaçao"],
                   ["3", "Sage Rodriguez", "$56,142", "Netherlands"],
-                  ["4", "Philip Chaney", "$38,735", "Korea, South"]
+                  ["4", "Philip Chaney", "$38,735", "Korea, South"],
                 ]}
               />
             </CardBody>
           </Card>
         </GridItem>
       </GridContainer>
+      */}
     </div>
   );
 }
