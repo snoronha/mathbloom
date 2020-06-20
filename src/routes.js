@@ -31,7 +31,7 @@ import UserProfile from "views/UserProfile/UserProfile.js";
 // import Maps from "views/Maps/Maps.js";
 // import NotificationsPage from "views/Notifications/Notifications.js";
 import MathK5Page from "views/Math-K-5/MathK5.js";
-// import AboutPage from "views/About/About.js";
+import AboutPage from "views/About/About.js";
 
 const dashboardRoutes = [
   {
@@ -48,6 +48,14 @@ const dashboardRoutes = [
     rtlName: "ملف تعريفي للمستخدم",
     icon: Person,
     component: UserProfile,
+    layout: "/admin",
+  },
+  {
+    path: "/about",
+    name: "About Us",
+    rtlName: "إخطارات",
+    icon: Notifications,
+    component: AboutPage,
     layout: "/admin",
   },
   {
