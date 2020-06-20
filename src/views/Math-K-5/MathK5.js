@@ -52,16 +52,7 @@ export default function MathK5() {
   const [bc, setBC] = useState(false);
   const [br, setBR] = useState(false);
   const [latex, setLatex] = useState("\\frac{1}{\\sqrt{2}}\\cdot 2");
-  React.useEffect(() => {
-    // Specify how to clean up after this effect:
-    return function cleanup() {
-      // to stop the warning of calling setState of unmounted component
-      var id = window.setTimeout(null, 0);
-      while (id--) {
-        window.clearTimeout(id);
-      }
-    };
-  });
+
   return (
     <>
       <Card>
@@ -69,6 +60,14 @@ export default function MathK5() {
           <h4 className={classes.cardTitleWhite}>Math Grades K - 5</h4>
         </CardHeader>
         <CardBody>
+          <EditableMathField
+            latex={latex} // latex value for the input field
+            onChange={(mathField) => {
+              // called everytime the input changes
+              setLatex(mathField.latex());
+            }}
+          />
+          <br />
           <EditableMathField
             latex={latex} // latex value for the input field
             onChange={(mathField) => {
