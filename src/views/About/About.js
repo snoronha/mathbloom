@@ -90,7 +90,9 @@ export default function UpgradeToPro() {
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="info">
-            <h4 className={classes.cardTitleWhite}>For Students by Students</h4>
+            <h4 className={classes.cardTitleWhite}>
+              Math For Students By Students
+            </h4>
             <p className={classes.cardCategoryWhite}></p>
           </CardHeader>
           <CardBody>
@@ -99,9 +101,26 @@ export default function UpgradeToPro() {
                 <tbody>
                   <tr>
                     <td>
-                      We're students who have struggled with Math. We understand
-                      your pain. We know the fear. And we will help you overcome
-                      it.
+                      <p>
+                        <b>What is MathBloom</b>
+                      </p>
+                      Mathbloom is your one-stop destination for personalized
+                      math tutoring, lessons and practice for grades K - 8.
+                      Mathbloom was born from dinner conversations about the
+                      challenges elementary and middle school kids face with
+                      math. No one does it like us. We are one of a kind, we are
+                      unique, and we will help you achieve your wildest dreams
+                      and ultimate life goals.
+                      <p>
+                        <b>Who we are</b>
+                      </p>
+                      We are students who have seen others struggle with math.
+                      We understand your pain. We know the fear. And we will
+                      help you overcome it. Our immediate goal is to help you
+                      gain math confidence using personalized tutoring, online
+                      practice, helpful hints and automated grading. Our
+                      eventual goal is to have you pay it forward with other
+                      kids who need help.
                     </td>
                   </tr>
                 </tbody>
