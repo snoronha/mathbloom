@@ -45,14 +45,16 @@ const useStyles = makeStyles(styles);
 const MathK5 = ({ size }) => {
   const classes = useStyles();
   // const [latex, setLatex] = useState("\\frac{1}{\\sqrt{2}}\\cdot 2");
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(0);
 
   const handleMouseDown = () => {
-    setOpen(!open);
+    if (open === 0) setOpen(1);
+    else if (open === 1) setOpen(2);
+    else setOpen(0);
   };
 
   const handleTouchStart = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     handleMouseDown();
   };
 
@@ -63,7 +65,13 @@ const MathK5 = ({ size }) => {
       </CardHeader>
       <CardBody>
         <br />
-        <Motion style={{ x: spring(open ? 1000 : size.width / 2 - 120) }}>
+        <Motion
+          style={{
+            x: spring(
+              open === 0 ? size.width : open === 1 ? size.width / 2 - 120 : -240
+            ),
+          }}
+        >
           {({ x }) => (
             <Addition
               style={{
