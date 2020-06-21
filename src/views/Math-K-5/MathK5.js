@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 // import PropTypes from "prop-types";
 import { Motion, spring } from "react-motion";
+import { withSize } from "react-sizeme";
 import { makeStyles } from "@material-ui/core/styles";
 // core components
 import Card from "components/Card/Card.js";
@@ -41,7 +42,7 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function MathK5() {
+const MathK5 = ({ size }) => {
   const classes = useStyles();
   // const [latex, setLatex] = useState("\\frac{1}{\\sqrt{2}}\\cdot 2");
   const [open, setOpen] = useState(false);
@@ -62,7 +63,7 @@ export default function MathK5() {
       </CardHeader>
       <CardBody>
         <br />
-        <Motion style={{ x: spring(open ? 1000 : 400) }}>
+        <Motion style={{ x: spring(open ? 1000 : size.width / 2 - 120) }}>
           {({ x }) => (
             <Addition
               style={{
@@ -80,4 +81,6 @@ export default function MathK5() {
       </CardBody>
     </Card>
   );
-}
+};
+
+export default withSize()(MathK5);
