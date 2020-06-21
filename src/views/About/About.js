@@ -2,8 +2,8 @@ import React from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
-import Close from "@material-ui/icons/Close";
-import Check from "@material-ui/icons/Check";
+// import Close from "@material-ui/icons/Close";
+// import Check from "@material-ui/icons/Check";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -147,6 +147,7 @@ export default function UpgradeToPro() {
                       <a
                         href="https://forms.gle/353CD1ZcB6iTP9Mr9"
                         target="_blank"
+                        rel="noopener noreferrer"
                       >
                         Grades K - 5
                       </a>{" "}
@@ -154,6 +155,7 @@ export default function UpgradeToPro() {
                       <a
                         href="https://forms.gle/SMnXFe9jkBhiBGeWA"
                         target="_blank"
+                        rel="noopener noreferrer"
                       >
                         Grades 6 - 8
                       </a>
