@@ -106,21 +106,57 @@ export default function UpgradeToPro() {
                       </p>
                       Mathbloom is your one-stop destination for personalized
                       math tutoring, lessons and practice for grades K - 8.
-                      Mathbloom was born from dinner conversations about the
-                      challenges elementary and middle school kids face with
-                      math. No one does it like us. We are one of a kind, we are
-                      unique, and we will help you achieve your wildest dreams
-                      and ultimate life goals.
+                      Mathbloom was born from conversations about the challenges
+                      elementary and middle school kids face with math.
                       <p>
                         <b>Who we are</b>
                       </p>
-                      We are students who have seen others struggle with math.
-                      We understand your pain. We know the fear. And we will
-                      help you overcome it. Our immediate goal is to help you
-                      gain math confidence using personalized tutoring, online
-                      practice, helpful hints and automated grading. Our
-                      eventual goal is to have you pay it forward with other
-                      kids who need help.
+                      We are students who have seen others struggle with math
+                      and even struggled ourselves. We understand your pain. We
+                      know the fear. And we will help you overcome it. Our
+                      immediate goal is to help you gain math confidence using
+                      personalized tutoring, online practice, helpful hints and
+                      automated grading. Our eventual goal is to have you pay it
+                      forward with other kids who need help.
+                      <p>
+                        <b>Tutor Profile</b>
+                      </p>
+                      I am a rising junior at Monta Vista High School, a
+                      competitive high school in Cupertino, CA. I have excelled
+                      in math courses that I have taken in Middle School and
+                      High School. In Middle school, I was placed in the
+                      advanced path and took Algebra 1 and Geometry. In High
+                      School, I have taken Alg-2/Trig and Pre-Calculus Honors. I
+                      have also taken the AMC 8 and AMC 10 tests as well as the
+                      Math Olympiad. I would like to offer my help <b>FREE</b>{" "}
+                      to anyone who wants a hand at succeeding in Middle School
+                      and preparing for High School. Along with my brother, who
+                      is on the honor roll for AMC8 and has Straight A's in
+                      school, I am also conducting a <b>FREE</b> Math program
+                      for students.
+                      <p>
+                        <b>Program Schedule</b>
+                      </p>
+                      This is a <b>FREE</b> Tutoring program offered 2x per week
+                      till Aug 15th and 1x per week after Aug 15th. We would
+                      like to help kids in grades K-8 with all their
+                      mathematical needs. Please fill out the Math Class
+                      Interest Forms below so we can gather details about both
+                      the student and parent:
+                      <br />
+                      <a
+                        href="https://forms.gle/353CD1ZcB6iTP9Mr9"
+                        target="_blank"
+                      >
+                        Grades K - 5
+                      </a>{" "}
+                      <br />
+                      <a
+                        href="https://forms.gle/SMnXFe9jkBhiBGeWA"
+                        target="_blank"
+                      >
+                        Grades 6 - 8
+                      </a>
                     </td>
                   </tr>
                 </tbody>

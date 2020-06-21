@@ -46,6 +46,7 @@ const dashboardRoutes = [
     component: AboutPage,
     layout: "/admin",
   },
+  /*
   {
     path: "/mathk5",
     name: "Math K-5",
@@ -54,8 +55,6 @@ const dashboardRoutes = [
     component: MathK5Page,
     layout: "/admin",
   },
-
-  /*
   {
     path: "/table",
     name: "Table List",
