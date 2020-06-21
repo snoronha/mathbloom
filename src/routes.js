@@ -49,12 +49,13 @@ const dashboardRoutes = [
   /*
   {
     path: "/mathk5",
-    name: "Math K-5",
+    name: "Math Lessons",
     rtlName: "إخطارات",
     icon: Notifications,
     component: MathK5Page,
     layout: "/admin",
   },
+
   {
     path: "/table",
     name: "Table List",

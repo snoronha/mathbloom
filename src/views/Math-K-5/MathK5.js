@@ -1,6 +1,6 @@
 /*eslint-disable*/
 import React, { useState } from "react";
-import { addStyles, EditableMathField } from "react-mathquill";
+import { EditableMathField } from "react-mathquill";
 // nodejs library to set properties for components
 import PropTypes from "prop-types";
 // @material-ui/core components
@@ -9,6 +9,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
+import Addition from "./Addition";
 
 const styles = {
   cardCategoryWhite: {
@@ -41,42 +42,20 @@ const styles = {
 };
 
 const useStyles = makeStyles(styles);
-addStyles();
 
 export default function MathK5() {
   const classes = useStyles();
-  const [tl, setTL] = useState(false);
-  const [tc, setTC] = useState(false);
-  const [tr, setTR] = useState(false);
-  const [bl, setBL] = useState(false);
-  const [bc, setBC] = useState(false);
-  const [br, setBR] = useState(false);
   const [latex, setLatex] = useState("\\frac{1}{\\sqrt{2}}\\cdot 2");
 
   return (
-    <>
-      <Card>
-        <CardHeader color="primary">
-          <h4 className={classes.cardTitleWhite}>Math Grades K - 5</h4>
-        </CardHeader>
-        <CardBody>
-          <EditableMathField
-            latex={latex} // latex value for the input field
-            onChange={(mathField) => {
-              // called everytime the input changes
-              setLatex(mathField.latex());
-            }}
-          />
-          <br />
-          <EditableMathField
-            latex={latex} // latex value for the input field
-            onChange={(mathField) => {
-              // called everytime the input changes
-              setLatex(mathField.latex());
-            }}
-          />
-        </CardBody>
-      </Card>
-    </>
+    <Card>
+      <CardHeader color="primary">
+        <h4 className={classes.cardTitleWhite}>Math Grades K - 5</h4>
+      </CardHeader>
+      <CardBody>
+        <br />
+        <Addition problem={"53+25=78"} />
+      </CardBody>
+    </Card>
   );
 }
