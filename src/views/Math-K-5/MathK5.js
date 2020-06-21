@@ -1,8 +1,8 @@
 /*eslint-disable*/
 import React, { useState } from "react";
-import { EditableMathField } from "react-mathquill";
 // nodejs library to set properties for components
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
+import { Motion, spring } from "react-motion";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -45,7 +45,17 @@ const useStyles = makeStyles(styles);
 
 export default function MathK5() {
   const classes = useStyles();
-  const [latex, setLatex] = useState("\\frac{1}{\\sqrt{2}}\\cdot 2");
+  // const [latex, setLatex] = useState("\\frac{1}{\\sqrt{2}}\\cdot 2");
+  const [open, setOpen] = useState(false);
+
+  const handleMouseDown = () => {
+    setOpen(!opener);
+  };
+
+  const handleTouchStart = (e) => {
+    e.preventDefault();
+    handleMouseDown();
+  };
 
   return (
     <Card>
@@ -54,7 +64,21 @@ export default function MathK5() {
       </CardHeader>
       <CardBody>
         <br />
-        <Addition problem={"53+25=78"} />
+        <Motion style={{ x: spring(open ? 400 : 0) }}>
+          {({ x }) => (
+            <Addition
+              style={{
+                WebkitTransform: `translate3d(${x}px, 0, 0)`,
+                transform: `translate3d(${x}px, 0, 0)`,
+              }}
+              problem={"53+25=78"}
+            />
+          )}
+        </Motion>
+        <br />
+        <button onMouseDown={handleMouseDown} onTouchStart={handleTouchStart}>
+          Toggle
+        </button>
       </CardBody>
     </Card>
   );

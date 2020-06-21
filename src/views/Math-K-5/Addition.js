@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StaticMathField, EditableMathField } from "react-mathquill";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -32,15 +32,30 @@ const styles = {
       lineHeight: "1",
     },
   },
+  staticDigitInstance: {
+    textAlign: "center",
+    width: 42,
+    height: 42,
+    fontSize: 24,
+  },
+  editableDigitInstance: {
+    textAlign: "center",
+    width: 40,
+    height: 40,
+    fontSize: 24,
+  },
 };
 
 const useStyles = makeStyles(styles);
 
 export default function Addition(props) {
+  const classes = useStyles();
+  const [problem, setProblem] = useState({ op1: [], op2: [], result: [] });
+
   // getOperands "53+25=78" => {op1: [5, 3], op2: [2, 5], result: [7, 8]}
   const generateProblem = (numDigits) => {
-    const min = Math.pow(10, numDigits - 1);
-    const max = Math.pow(10, numDigits) - 1;
+    const min = Math.pow(10, numDigits - 1); // e.g. min = 100
+    const max = Math.pow(10, numDigits) - min; // e.g. max = 900
     const op1 = Math.floor(Math.random() * max) + min;
     const op2 = Math.floor(Math.random() * max) + min;
     const res = op1 + op2;
@@ -60,36 +75,51 @@ export default function Addition(props) {
       .split("")
       .map((s) => parseInt(s));
     const resArr = R.split("").map((s) => parseInt(s));
+    if (resArr.length > op1Arr.length) {
+      for (let i = 0; i < resArr.length - op1Arr.length; i++) {
+        op1Arr.unshift("");
+      }
+    }
+    if (resArr.length > op2Arr.length) {
+      for (let i = 0; i < resArr.length - op2Arr.length; i++) {
+        op2Arr.unshift("");
+      }
+    }
     return { op1: op1Arr, op2: op2Arr, result: resArr };
   };
-  const [latex, setLatex] = useState("\\frac{1}{\\sqrt{2}}\\cdot 2");
-  // const problemStr = props?.problem;
-  const problemStr = generateProblem(3);
-  const problem = getOperands(problemStr);
-  console.log("PROBLEM: ", problem);
+  useEffect(() => {
+    // const [latex, setLatex] = useState("\\frac{1}{\\sqrt{2}}\\cdot 2");
+    // const problemStr = props?.problem;
+    const problemStr = generateProblem(4);
+    setProblem(getOperands(problemStr));
+    console.log("PROBLEM: ", problem);
+  }, []);
 
   const onChange = (mathField) => {
     // setLatex(mathField.latex())
-    console.log("latex: ", mathField);
   };
 
   return (
-    <>
+    <div style={props.style}>
       {problem.op1.map((digit, digIdx) => (
         <span key={"op1" + digIdx}>
-          <StaticMathField style={{ width: 40 }}>{digit}</StaticMathField>
+          <StaticMathField className={classes.staticDigitInstance}>
+            {digit}
+          </StaticMathField>
         </span>
       ))}
       <br />
       {problem.op2.map((digit, digIdx) => (
         <span key={"op2" + digIdx}>
-          <StaticMathField style={{ width: 40 }}>{digit}</StaticMathField>
+          <StaticMathField className={classes.staticDigitInstance}>
+            {digit}
+          </StaticMathField>
         </span>
       ))}
       <br />
       {problem.result.map((digit, digIdx) => (
         <EditableMathField
-          style={{ width: 40 }}
+          className={classes.editableDigitInstance}
           key={"result" + digIdx}
           latex={digit} // latex value for the input field
           onChange={(mathField) => {
@@ -97,6 +127,6 @@ export default function Addition(props) {
           }}
         />
       ))}
-    </>
+    </div>
   );
 }
