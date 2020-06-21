@@ -1,9 +1,7 @@
 /*eslint-disable*/
 import React, { useState } from "react";
-// nodejs library to set properties for components
 // import PropTypes from "prop-types";
 import { Motion, spring } from "react-motion";
-// @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
 import Card from "components/Card/Card.js";
@@ -49,7 +47,7 @@ export default function MathK5() {
   const [open, setOpen] = useState(false);
 
   const handleMouseDown = () => {
-    setOpen(!opener);
+    setOpen(!open);
   };
 
   const handleTouchStart = (e) => {
@@ -64,7 +62,7 @@ export default function MathK5() {
       </CardHeader>
       <CardBody>
         <br />
-        <Motion style={{ x: spring(open ? 400 : 0) }}>
+        <Motion style={{ x: spring(open ? 1000 : 400) }}>
           {({ x }) => (
             <Addition
               style={{

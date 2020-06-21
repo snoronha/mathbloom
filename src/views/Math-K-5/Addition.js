@@ -91,8 +91,9 @@ export default function Addition(props) {
     // const [latex, setLatex] = useState("\\frac{1}{\\sqrt{2}}\\cdot 2");
     // const problemStr = props?.problem;
     const problemStr = generateProblem(4);
-    setProblem(getOperands(problemStr));
-    console.log("PROBLEM: ", problem);
+    const newProb = getOperands(problemStr);
+    setProblem(newProb);
+    console.log("PROBLEM: ", newProb);
   }, []);
 
   const onChange = (mathField) => {
@@ -121,7 +122,7 @@ export default function Addition(props) {
         <EditableMathField
           className={classes.editableDigitInstance}
           key={"result" + digIdx}
-          latex={digit} // latex value for the input field
+          latex={digit.toString()} // latex value for the input field
           onChange={(mathField) => {
             onChange(matchMedia);
           }}
