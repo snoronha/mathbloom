@@ -20,6 +20,7 @@ import MathK5Page from "views/Math-K-5/MathK5.js";
 import AboutPage from "views/About/About.js";
 
 const dashboardRoutes = [
+  /*
   {
     path: "/dashboard",
     name: "Dashboard",
@@ -36,6 +37,7 @@ const dashboardRoutes = [
     component: UserProfile,
     layout: "/admin",
   },
+  */
   {
     path: "/about",
     name: "About Us",
