@@ -50,7 +50,6 @@ const MathK5 = ({ size }) => {
   const handleMouseDown = () => {
     if (open === 0) setOpen(1);
     else if (open === 1) setOpen(2);
-    else setOpen(0);
   };
 
   const handleTouchStart = (e) => {

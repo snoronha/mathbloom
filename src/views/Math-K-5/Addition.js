@@ -124,7 +124,7 @@ export default function Addition(props) {
           key={"result" + digIdx}
           latex={digit.toString()} // latex value for the input field
           onChange={(mathField) => {
-            onChange(matchMedia);
+            onChange(mathField);
           }}
         />
       ))}
