@@ -45,11 +45,22 @@ const useStyles = makeStyles(styles);
 const MathK5 = ({ size }) => {
   const classes = useStyles();
   // const [latex, setLatex] = useState("\\frac{1}{\\sqrt{2}}\\cdot 2");
-  const [open, setOpen] = useState(0);
+  const [open, setOpen] = useState(new Array(10).fill(0));
+  const [count, setCount] = useState(0);
 
   const handleMouseDown = () => {
-    if (open === 0) setOpen(1);
-    else if (open === 1) setOpen(2);
+    if (count < open.length) {
+      if (open[count] === 0) {
+        let tmpOpen = open.slice();
+        tmpOpen[count] = 1;
+        setOpen(tmpOpen);
+      } else if (open[count] === 1) {
+        let tmpOpen = open.slice();
+        tmpOpen[count] = 2;
+        setOpen(tmpOpen);
+        setCount(count + 1);
+      }
+    }
   };
 
   const handleTouchStart = (e) => {
@@ -62,26 +73,32 @@ const MathK5 = ({ size }) => {
       <CardHeader color="primary">
         <h4 className={classes.cardTitleWhite}>Math Grades K - 5</h4>
       </CardHeader>
-      <CardBody>
+      <CardBody style={{ height: 150 }}>
+        {open.map((val, idx) => (
+          <Motion
+            style={{
+              x: spring(
+                open[idx] === 0
+                  ? size.width
+                  : open[idx] === 1
+                  ? size.width / 2 - 120
+                  : -240
+              ),
+            }}
+          >
+            {({ x }) => (
+              <Addition
+                style={{
+                  position: "absolute",
+                  WebkitTransform: `translate3d(${x}px, 0, 0)`,
+                  transform: `translate3d(${x}px, 0, 0)`,
+                }}
+              />
+            )}
+          </Motion>
+        ))}
         <br />
-        <Motion
-          style={{
-            x: spring(
-              open === 0 ? size.width : open === 1 ? size.width / 2 - 120 : -240
-            ),
-          }}
-        >
-          {({ x }) => (
-            <Addition
-              style={{
-                WebkitTransform: `translate3d(${x}px, 0, 0)`,
-                transform: `translate3d(${x}px, 0, 0)`,
-              }}
-              problem={"53+25=78"}
-            />
-          )}
-        </Motion>
-        <br />
+
         <button onMouseDown={handleMouseDown} onTouchStart={handleTouchStart}>
           Toggle
         </button>
