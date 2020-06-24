@@ -76,13 +76,14 @@ const MathK5 = ({ size }) => {
       <CardBody style={{ height: 150 }}>
         {open.map((val, idx) => (
           <Motion
+            key={idx.toString()}
             style={{
               x: spring(
                 open[idx] === 0
                   ? size.width
                   : open[idx] === 1
                   ? size.width / 2 - 120
-                  : -240
+                  : -300
               ),
             }}
           >
@@ -92,6 +93,9 @@ const MathK5 = ({ size }) => {
                   position: "absolute",
                   WebkitTransform: `translate3d(${x}px, 0, 0)`,
                   transform: `translate3d(${x}px, 0, 0)`,
+                  border: "4px solid #eee",
+                  borderRadius: "10px",
+                  padding: "10px",
                 }}
               />
             )}

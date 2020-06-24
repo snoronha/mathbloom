@@ -51,6 +51,7 @@ const useStyles = makeStyles(styles);
 export default function Addition(props) {
   const classes = useStyles();
   const [problem, setProblem] = useState({ op1: [], op2: [], result: [] });
+  const [resultColor, setResultColor] = useState([]);
 
   // getOperands "53+25=78" => {op1: [5, 3], op2: [2, 5], result: [7, 8]}
   const generateProblem = (numDigits) => {
@@ -75,6 +76,7 @@ export default function Addition(props) {
       .split("")
       .map((s) => parseInt(s));
     const resArr = R.split("").map((s) => parseInt(s));
+    let resColor = [];
     if (resArr.length > op1Arr.length) {
       for (let i = 0; i < resArr.length - op1Arr.length; i++) {
         op1Arr.unshift("");
@@ -85,19 +87,29 @@ export default function Addition(props) {
         op2Arr.unshift("");
       }
     }
+    for (let i = 0; i < resArr.length; i++) {
+      resColor.push("#fff");
+    }
+    setResultColor(resColor);
     return { op1: op1Arr, op2: op2Arr, result: resArr };
   };
   useEffect(() => {
-    // const [latex, setLatex] = useState("\\frac{1}{\\sqrt{2}}\\cdot 2");
     // const problemStr = props?.problem;
     const problemStr = generateProblem(4);
     const newProb = getOperands(problemStr);
     setProblem(newProb);
-    console.log("PROBLEM: ", newProb);
+    // console.log("PROBLEM: ", newProb);
   }, []);
 
-  const onChange = (mathField) => {
-    // setLatex(mathField.latex())
+  const onChange = (mathField, idx) => {
+    let tmpResColor = resultColor.slice();
+    const fieldVal = mathField.latex();
+    if (problem.result[idx].toString() == fieldVal) {
+      tmpResColor[idx] = "#8f8";
+    } else {
+      tmpResColor[idx] = "#f88";
+    }
+    setResultColor(tmpResColor);
   };
 
   return (
@@ -120,11 +132,12 @@ export default function Addition(props) {
       <br />
       {problem.result.map((digit, digIdx) => (
         <EditableMathField
+          style={{ backgroundColor: resultColor[digIdx] }}
           className={classes.editableDigitInstance}
           key={"result" + digIdx}
-          latex={digit.toString()} // latex value for the input field
+          latex={""} // latex value for the input field
           onChange={(mathField) => {
-            onChange(mathField);
+            onChange(mathField, digIdx);
           }}
         />
       ))}
