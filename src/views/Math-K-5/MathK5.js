@@ -32,25 +32,30 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 const MathK5 = ({ size }) => {
+  const NUMPROBLEMS = 10;
   const classes = useStyles();
-  const [open, setOpen] = useState(new Array(10).fill(0));
+  const [open, setOpen] = useState(new Array(NUMPROBLEMS).fill(0));
   const [count, setCount] = useState(0);
   const [problems, setProblems] = useState([]);
 
-  useEffect(() => {
+  const createNewProblems = () => {
     let tmpProblems = [];
-
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < open.length; i++) {
       const numDigits = Math.floor(Math.random() * 3) + 2;
       const problemStr = MathUtil.generateAdditionProblemString(numDigits);
       const newProb = MathUtil.getOperands(problemStr);
       tmpProblems.push(newProb);
     }
+    console.log("Problem: ", tmpProblems[0]);
     setProblems(tmpProblems);
-    // console.log("PROBLEM: ", newProb);
+  };
+
+  useEffect(() => {
+    createNewProblems();
   }, []);
 
   const handleMouseDown = () => {
+    console.log("open: ", open);
     if (count < open.length) {
       if (open[count] === 0) {
         let tmpOpen = open.slice();
@@ -84,7 +89,7 @@ const MathK5 = ({ size }) => {
       <CardBody style={{ height: 150 }}>
         {problems.map((problem, idx) => (
           <Motion
-            key={idx.toString()}
+            key={problem.id}
             style={{
               x: spring(
                 open[idx] === 0
