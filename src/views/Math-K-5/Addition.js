@@ -1,9 +1,7 @@
 /*eslint-disable*/
 import React, { useState, useEffect } from "react";
 import { StaticMathField, EditableMathField } from "react-mathquill";
-// @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import MathUtil from "./MathUtil";
 
 const styles = {
   staticDigitInstance: {
@@ -24,24 +22,16 @@ const useStyles = makeStyles(styles);
 
 export default function Addition(props) {
   const classes = useStyles();
-  const [problem, setProblem] = useState({ op1: [], op2: [], result: [] });
-  const [solve, setSolve] = useState([]);
+  const [problem, setProblem] = useState(props.problem);
+  const [soln, setSoln] = useState([]);
   const [resultColor, setResultColor] = useState([]);
   const COLORS = { NOT_TRIED: "#fff", RIGHT: "#8f8", WRONG: "#f88" };
 
-  useEffect(() => {
-    // const problemStr = props?.problem;
-    const problemStr = MathUtil.generateAdditionProblem(4);
-    const newProb = MathUtil.getOperands(problemStr);
-    setProblem(newProb);
-    // console.log("PROBLEM: ", newProb);
-  }, []);
-
   const onChange = (mathField, idx) => {
     let tmpResColor = resultColor.slice();
-    let tmpSolve = solve.slice();
+    let tmpSoln = soln.slice();
     const fieldVal = mathField.latex();
-    tmpSolve[idx] = fieldVal;
+    tmpSoln[idx] = fieldVal;
     if (problem.result[idx].toString() == fieldVal) {
       tmpResColor[idx] = COLORS.RIGHT;
     } else if (fieldVal) {
@@ -51,7 +41,7 @@ export default function Addition(props) {
       tmpResColor[idx] = COLORS.NOT_TRIED;
     }
     setResultColor(tmpResColor);
-    setSolve(tmpSolve);
+    setSoln(tmpSoln);
   };
 
   return (

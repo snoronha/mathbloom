@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import PropTypes from "prop-types";
 import { Motion, spring } from "react-motion";
 import { withSize } from "react-sizeme";
@@ -9,20 +9,9 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import Addition from "./Addition";
+import MathUtil from "./MathUtil";
 
 const styles = {
-  cardCategoryWhite: {
-    "&,& a,& a:hover,& a:focus": {
-      color: "rgba(255,255,255,.62)",
-      margin: "0",
-      fontSize: "14px",
-      marginTop: "0",
-      marginBottom: "0",
-    },
-    "& a,& a:hover,& a:focus": {
-      color: "#FFFFFF",
-    },
-  },
   cardTitleWhite: {
     color: "#FFFFFF",
     marginTop: "0px",
@@ -44,9 +33,22 @@ const useStyles = makeStyles(styles);
 
 const MathK5 = ({ size }) => {
   const classes = useStyles();
-  // const [latex, setLatex] = useState("\\frac{1}{\\sqrt{2}}\\cdot 2");
   const [open, setOpen] = useState(new Array(10).fill(0));
   const [count, setCount] = useState(0);
+  const [problems, setProblems] = useState([]);
+
+  useEffect(() => {
+    let tmpProblems = [];
+
+    for (let i = 0; i < 10; i++) {
+      const numDigits = Math.floor(Math.random() * 3) + 2;
+      const problemStr = MathUtil.generateAdditionProblemString(numDigits);
+      const newProb = MathUtil.getOperands(problemStr);
+      tmpProblems.push(newProb);
+    }
+    setProblems(tmpProblems);
+    // console.log("PROBLEM: ", newProb);
+  }, []);
 
   const handleMouseDown = () => {
     if (count < open.length) {
@@ -80,7 +82,7 @@ const MathK5 = ({ size }) => {
         <h4 className={classes.cardTitleWhite}>Math Grades K - 5</h4>
       </CardHeader>
       <CardBody style={{ height: 150 }}>
-        {open.map((val, idx) => (
+        {problems.map((problem, idx) => (
           <Motion
             key={idx.toString()}
             style={{
@@ -103,6 +105,7 @@ const MathK5 = ({ size }) => {
                   borderRadius: "10px",
                   padding: "10px",
                 }}
+                problem={problem}
               />
             )}
           </Motion>

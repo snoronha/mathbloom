@@ -1,6 +1,6 @@
 const MathUtil = {
   // getOperands "53+25=78" => {op1: [5, 3], op2: [2, 5], result: [7, 8]}
-  generateAdditionProblem: (numDigits) => {
+  generateAdditionProblemString: (numDigits) => {
     const min = Math.pow(10, numDigits - 1); // e.g. min = 100
     const max = Math.pow(10, numDigits) - min; // e.g. max = 900
     const op1 = Math.floor(Math.random() * max) + min;
