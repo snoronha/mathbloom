@@ -57,9 +57,15 @@ const MathK5 = ({ size }) => {
       } else if (open[count] === 1) {
         let tmpOpen = open.slice();
         tmpOpen[count] = 2;
+        if (count < tmpOpen.length - 1) {
+          tmpOpen[count + 1] = 1;
+        }
         setOpen(tmpOpen);
         setCount(count + 1);
       }
+    } else {
+      setCount(0);
+      setOpen(new Array(10).fill(0));
     }
   };
 

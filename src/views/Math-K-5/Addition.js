@@ -3,35 +3,9 @@ import React, { useState, useEffect } from "react";
 import { StaticMathField, EditableMathField } from "react-mathquill";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
+import MathUtil from "./MathUtil";
 
 const styles = {
-  cardCategoryWhite: {
-    "&,& a,& a:hover,& a:focus": {
-      color: "rgba(255,255,255,.62)",
-      margin: "0",
-      fontSize: "14px",
-      marginTop: "0",
-      marginBottom: "0",
-    },
-    "& a,& a:hover,& a:focus": {
-      color: "#FFFFFF",
-    },
-  },
-  cardTitleWhite: {
-    color: "#FFFFFF",
-    marginTop: "0px",
-    minHeight: "auto",
-    fontWeight: "300",
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: "3px",
-    textDecoration: "none",
-    "& small": {
-      color: "#777",
-      fontSize: "65%",
-      fontWeight: "400",
-      lineHeight: "1",
-    },
-  },
   staticDigitInstance: {
     textAlign: "center",
     width: 42,
@@ -51,65 +25,33 @@ const useStyles = makeStyles(styles);
 export default function Addition(props) {
   const classes = useStyles();
   const [problem, setProblem] = useState({ op1: [], op2: [], result: [] });
+  const [solve, setSolve] = useState([]);
   const [resultColor, setResultColor] = useState([]);
+  const COLORS = { NOT_TRIED: "#fff", RIGHT: "#8f8", WRONG: "#f88" };
 
-  // getOperands "53+25=78" => {op1: [5, 3], op2: [2, 5], result: [7, 8]}
-  const generateProblem = (numDigits) => {
-    const min = Math.pow(10, numDigits - 1); // e.g. min = 100
-    const max = Math.pow(10, numDigits) - min; // e.g. max = 900
-    const op1 = Math.floor(Math.random() * max) + min;
-    const op2 = Math.floor(Math.random() * max) + min;
-    const res = op1 + op2;
-    return `${op1.toString()} + ${op2.toString()} = ${res.toString()}`;
-  };
-  const getOperands = (str) => {
-    const equationParts = str.split("=");
-    const L = equationParts[0].trim();
-    const R = equationParts[1].trim();
-    const operands = L.split("+");
-    const op1Arr = operands[0]
-      .trim()
-      .split("")
-      .map((s) => parseInt(s));
-    const op2Arr = operands[1]
-      .trim()
-      .split("")
-      .map((s) => parseInt(s));
-    const resArr = R.split("").map((s) => parseInt(s));
-    let resColor = [];
-    if (resArr.length > op1Arr.length) {
-      for (let i = 0; i < resArr.length - op1Arr.length; i++) {
-        op1Arr.unshift("");
-      }
-    }
-    if (resArr.length > op2Arr.length) {
-      for (let i = 0; i < resArr.length - op2Arr.length; i++) {
-        op2Arr.unshift("");
-      }
-    }
-    for (let i = 0; i < resArr.length; i++) {
-      resColor.push("#fff");
-    }
-    setResultColor(resColor);
-    return { op1: op1Arr, op2: op2Arr, result: resArr };
-  };
   useEffect(() => {
     // const problemStr = props?.problem;
-    const problemStr = generateProblem(4);
-    const newProb = getOperands(problemStr);
+    const problemStr = MathUtil.generateAdditionProblem(4);
+    const newProb = MathUtil.getOperands(problemStr);
     setProblem(newProb);
     // console.log("PROBLEM: ", newProb);
   }, []);
 
   const onChange = (mathField, idx) => {
     let tmpResColor = resultColor.slice();
+    let tmpSolve = solve.slice();
     const fieldVal = mathField.latex();
+    tmpSolve[idx] = fieldVal;
     if (problem.result[idx].toString() == fieldVal) {
-      tmpResColor[idx] = "#8f8";
+      tmpResColor[idx] = COLORS.RIGHT;
+    } else if (fieldVal) {
+      // fieldVal exists
+      tmpResColor[idx] = COLORS.WRONG;
     } else {
-      tmpResColor[idx] = "#f88";
+      tmpResColor[idx] = COLORS.NOT_TRIED;
     }
     setResultColor(tmpResColor);
+    setSolve(tmpSolve);
   };
 
   return (
