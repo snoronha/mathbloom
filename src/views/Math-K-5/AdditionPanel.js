@@ -84,9 +84,11 @@ const AdditionPanel = (props) => {
         </Motion>
       ))}
       <br />
-      <Button variant="contained" color="primary" onMouseDown={handleMouseDown}>
-        Next
-      </Button>
+      <div style={{ position: "absolute", bottom: "10px", right: "10px" }}>
+        <Button variant="contained" color="info" onMouseDown={handleMouseDown}>
+          Next
+        </Button>
+      </div>
     </div>
   );
 };

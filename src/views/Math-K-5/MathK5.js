@@ -74,7 +74,7 @@ const MathK5 = ({ size }) => {
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Addition</h4>
           </CardHeader>
-          <CardBody style={{ height: 200 }}>
+          <CardBody style={{ height: 300 }}>
             <AdditionPanel size={size} />
           </CardBody>
         </Card>
@@ -84,7 +84,7 @@ const MathK5 = ({ size }) => {
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Subtraction</h4>
           </CardHeader>
-          <CardBody style={{ height: 200 }}>
+          <CardBody style={{ height: 300 }}>
             <SubtractionPanel size={size} />
           </CardBody>
         </Card>
