@@ -8,8 +8,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import Addition from "./Addition";
-import Subtraction from "./Subtraction";
+import AdditionPanel from "./AdditionPanel";
+import SubtractionPanel from "./SubtractionPanel";
 import MathUtil from "./MathUtil";
 
 const styles = {
@@ -21,12 +21,6 @@ const styles = {
     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
     marginBottom: "3px",
     textDecoration: "none",
-    "& small": {
-      color: "#777",
-      fontSize: "65%",
-      fontWeight: "400",
-      lineHeight: "1",
-    },
   },
 };
 
@@ -36,20 +30,29 @@ const MathK5 = ({ size }) => {
   const NUMPROBLEMS = 10;
   const classes = useStyles();
   const [open, setOpen] = useState(new Array(NUMPROBLEMS).fill(0));
+  const [addOpen, setAddOpen] = useState(new Array(NUMPROBLEMS).fill(0));
   const [count, setCount] = useState(0);
+  const [addCount, setAddCount] = useState(0);
   const [problems, setProblems] = useState([]);
+  const [addProblems, setAddProblems] = useState([]);
 
   const createNewProblems = () => {
     let tmpProblems = [];
+    let tmpAddProblems = [];
     for (let i = 0; i < open.length; i++) {
       const numDigits = Math.floor(Math.random() * 3) + 2;
-      // const problemStr = MathUtil.generateAdditionProblemString(numDigits);
-      // const newProb = MathUtil.getAdditionOperands(problemStr);
       const problemStr = MathUtil.generateSubtractionProblemString(numDigits);
       const newProb = MathUtil.getSubtractionOperands(problemStr);
       tmpProblems.push(newProb);
     }
     setProblems(tmpProblems);
+    for (let i = 0; i < addOpen.length; i++) {
+      const numDigits = Math.floor(Math.random() * 3) + 2;
+      const addProblemStr = MathUtil.generateAdditionProblemString(numDigits);
+      const newAddProb = MathUtil.getAdditionOperands(addProblemStr);
+      tmpAddProblems.push(newAddProb);
+    }
+    setAddProblems(tmpAddProblems);
   };
 
   useEffect(() => {
@@ -83,46 +86,24 @@ const MathK5 = ({ size }) => {
   };
 
   return (
-    <Card>
-      <CardHeader color="primary">
-        <h4 className={classes.cardTitleWhite}>Math Grades K - 5</h4>
-      </CardHeader>
-      <CardBody style={{ height: 150 }}>
-        {problems.map((problem, idx) => (
-          <Motion
-            key={problem.id}
-            style={{
-              x: spring(
-                open[idx] === 0
-                  ? size.width
-                  : open[idx] === 1
-                  ? size.width / 2 - 120
-                  : -300
-              ),
-            }}
-          >
-            {({ x }) => (
-              <Subtraction
-                style={{
-                  position: "absolute",
-                  WebkitTransform: `translate3d(${x}px, 0, 0)`,
-                  transform: `translate3d(${x}px, 0, 0)`,
-                  border: "4px solid #eee",
-                  borderRadius: "10px",
-                  padding: "10px",
-                }}
-                problem={problem}
-              />
-            )}
-          </Motion>
-        ))}
-        <br />
-
-        <button onMouseDown={handleMouseDown} onTouchStart={handleTouchStart}>
-          Toggle
-        </button>
-      </CardBody>
-    </Card>
+    <div>
+      <Card>
+        <CardHeader color="primary">
+          <h4 className={classes.cardTitleWhite}>Addition</h4>
+        </CardHeader>
+        <CardBody style={{ height: 200 }}>
+          <AdditionPanel size={size} />
+        </CardBody>
+      </Card>
+      <Card>
+        <CardHeader color="primary">
+          <h4 className={classes.cardTitleWhite}>Subtraction</h4>
+        </CardHeader>
+        <CardBody style={{ height: 200 }}>
+          <SubtractionPanel size={size} />
+        </CardBody>
+      </Card>
+    </div>
   );
 };
 

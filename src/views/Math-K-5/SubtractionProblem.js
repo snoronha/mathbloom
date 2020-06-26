@@ -22,7 +22,7 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function Subtraction(props) {
+export default function SubtractionProblem(props) {
   const classes = useStyles();
   const [problem, setProblem] = useState(props.problem);
   const [soln, setSoln] = useState([]);
