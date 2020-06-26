@@ -8,7 +8,7 @@ const MathUtil = {
     const res = op1 + op2;
     return `${op1.toString()} + ${op2.toString()} = ${res.toString()}`;
   },
-  getOperands: (str) => {
+  getAdditionOperands: (str) => {
     const equationParts = str.split("=");
     const L = equationParts[0].trim();
     const R = equationParts[1].trim();
@@ -27,18 +27,46 @@ const MathUtil = {
     if (resArr.length < op1Arr.length || resArr.length < op2Arr.length) {
       resArr.unshift("");
     }
-    /*
-    if (resArr.length > op1Arr.length) {
-      for (let i = 0; i < resArr.length - op1Arr.length; i++) {
-        op1Arr.unshift("");
+    return { id: MathUtil.uuidv4(), op1: op1Arr, op2: op2Arr, result: resArr };
+  },
+  generateSubtractionProblemString: (numDigits) => {
+    const min = Math.pow(10, numDigits - 1); // e.g. min = 100
+    const max = Math.pow(10, numDigits) - min; // e.g. max = 900
+    const op1 = Math.floor(Math.random() * max) + min;
+    const op2 = Math.floor(Math.random() * max) + min;
+    if (op1 >= op2) {
+      const res = op1 - op2;
+      return `${op1.toString()} - ${op2.toString()} = ${res.toString()}`;
+    } else {
+      const res = op2 - op1;
+      return `${op2.toString()} - ${op1.toString()} = ${res.toString()}`;
+    }
+  },
+  getSubtractionOperands: (str) => {
+    const equationParts = str.split("=");
+    const L = equationParts[0].trim();
+    const R = equationParts[1].trim();
+    const operands = L.split("-");
+    const op1Arr = operands[0]
+      .trim()
+      .split("")
+      .map((s) => parseInt(s));
+    const op2Arr = operands[1]
+      .trim()
+      .split("")
+      .map((s) => parseInt(s));
+    const resArr = R.split("").map((s) => parseInt(s));
+    op1Arr.unshift("");
+    op2Arr.unshift("-");
+    if (resArr.length < op1Arr.length || resArr.length < op2Arr.length) {
+      for (
+        let i = 0;
+        i < Math.max(op1Arr.length, op2Arr.length) - resArr.length;
+        i++
+      ) {
+        resArr.unshift("");
       }
     }
-    if (resArr.length > op2Arr.length) {
-      for (let i = 0; i < resArr.length - op2Arr.length; i++) {
-        op2Arr.unshift("");
-      }
-    }
-    */
     return { id: MathUtil.uuidv4(), op1: op1Arr, op2: op2Arr, result: resArr };
   },
   uuidv4: () => {

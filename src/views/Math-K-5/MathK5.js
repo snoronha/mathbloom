@@ -9,6 +9,7 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import Addition from "./Addition";
+import Subtraction from "./Subtraction";
 import MathUtil from "./MathUtil";
 
 const styles = {
@@ -42,11 +43,12 @@ const MathK5 = ({ size }) => {
     let tmpProblems = [];
     for (let i = 0; i < open.length; i++) {
       const numDigits = Math.floor(Math.random() * 3) + 2;
-      const problemStr = MathUtil.generateAdditionProblemString(numDigits);
-      const newProb = MathUtil.getOperands(problemStr);
+      // const problemStr = MathUtil.generateAdditionProblemString(numDigits);
+      // const newProb = MathUtil.getAdditionOperands(problemStr);
+      const problemStr = MathUtil.generateSubtractionProblemString(numDigits);
+      const newProb = MathUtil.getSubtractionOperands(problemStr);
       tmpProblems.push(newProb);
     }
-    console.log("Problem: ", tmpProblems[0]);
     setProblems(tmpProblems);
   };
 
@@ -55,7 +57,6 @@ const MathK5 = ({ size }) => {
   }, []);
 
   const handleMouseDown = () => {
-    console.log("open: ", open);
     if (count < open.length) {
       if (open[count] === 0) {
         let tmpOpen = open.slice();
@@ -101,7 +102,7 @@ const MathK5 = ({ size }) => {
             }}
           >
             {({ x }) => (
-              <Addition
+              <Subtraction
                 style={{
                   position: "absolute",
                   WebkitTransform: `translate3d(${x}px, 0, 0)`,
