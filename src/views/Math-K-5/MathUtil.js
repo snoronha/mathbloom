@@ -59,11 +59,8 @@ const MathUtil = {
     op1Arr.unshift("");
     op2Arr.unshift("-");
     if (resArr.length < op1Arr.length || resArr.length < op2Arr.length) {
-      for (
-        let i = 0;
-        i < Math.max(op1Arr.length, op2Arr.length) - resArr.length;
-        i++
-      ) {
+      const diff = Math.max(op1Arr.length, op2Arr.length) - resArr.length;
+      for (let i = 0; i < diff; i++) {
         resArr.unshift("");
       }
     }
