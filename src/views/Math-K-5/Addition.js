@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const styles = {
   staticDigitInstance: {
+    "line-height": "35px",
     textAlign: "center",
     width: 42,
     height: 42,
@@ -14,6 +15,7 @@ const styles = {
     textAlign: "center",
     width: 40,
     height: 40,
+    "line-height": "35px",
     fontSize: 24,
   },
 };
@@ -26,6 +28,7 @@ export default function Addition(props) {
   const [soln, setSoln] = useState([]);
   const [resultColor, setResultColor] = useState([]);
   const COLORS = { NOT_TRIED: "#fff", RIGHT: "#8f8", WRONG: "#f88" };
+  console.log("PROBLEM: ", problem);
 
   const onChange = (mathField, idx) => {
     let tmpResColor = resultColor.slice();
@@ -63,15 +66,23 @@ export default function Addition(props) {
       ))}
       <br />
       {problem.result.map((digit, digIdx) => (
-        <EditableMathField
-          style={{ backgroundColor: resultColor[digIdx] }}
-          className={classes.editableDigitInstance}
-          key={"result" + digIdx}
-          latex={""} // latex value for the input field
-          onChange={(mathField) => {
-            onChange(mathField, digIdx);
-          }}
-        />
+        <span key={"res" + digIdx}>
+          {parseInt(digit) >= 0 ? (
+            <EditableMathField
+              style={{ backgroundColor: resultColor[digIdx] }}
+              className={classes.editableDigitInstance}
+              key={"result" + digIdx}
+              latex={""} // latex value for the input field
+              onChange={(mathField) => {
+                onChange(mathField, digIdx);
+              }}
+            />
+          ) : (
+            <StaticMathField className={classes.staticDigitInstance}>
+              {""}
+            </StaticMathField>
+          )}
+        </span>
       ))}
     </div>
   );

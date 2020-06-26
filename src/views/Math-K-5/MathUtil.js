@@ -22,6 +22,12 @@ const MathUtil = {
       .split("")
       .map((s) => parseInt(s));
     const resArr = R.split("").map((s) => parseInt(s));
+    op1Arr.unshift("");
+    op2Arr.unshift("+");
+    if (resArr.length < op1Arr.length || resArr.length < op2Arr.length) {
+      resArr.unshift("");
+    }
+    /*
     if (resArr.length > op1Arr.length) {
       for (let i = 0; i < resArr.length - op1Arr.length; i++) {
         op1Arr.unshift("");
@@ -32,6 +38,7 @@ const MathUtil = {
         op2Arr.unshift("");
       }
     }
+    */
     return { id: MathUtil.uuidv4(), op1: op1Arr, op2: op2Arr, result: resArr };
   },
   uuidv4: () => {
