@@ -1,6 +1,7 @@
 /*eslint-disable*/
 import React, { useState, useEffect } from "react";
 import { Motion, spring } from "react-motion";
+import Button from "@material-ui/core/Button";
 import AdditionProblem from "./AdditionProblem";
 import MathUtil from "./MathUtil";
 
@@ -83,7 +84,9 @@ const AdditionPanel = (props) => {
         </Motion>
       ))}
       <br />
-      <button onMouseDown={handleMouseDown}>Next</button>
+      <Button variant="contained" color="primary" onMouseDown={handleMouseDown}>
+        Next
+      </Button>
     </div>
   );
 };
