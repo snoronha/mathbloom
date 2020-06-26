@@ -28,7 +28,6 @@ export default function AdditionProblem(props) {
   const [soln, setSoln] = useState([]);
   const [resultColor, setResultColor] = useState([]);
   const COLORS = { NOT_TRIED: "#fff", RIGHT: "#8f8", WRONG: "#f88" };
-  console.log("PROBLEM: ", problem);
 
   const onChange = (mathField, idx) => {
     let tmpResColor = resultColor.slice();
