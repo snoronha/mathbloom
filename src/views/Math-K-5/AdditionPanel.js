@@ -13,6 +13,7 @@ const AdditionPanel = (props) => {
   const [problems, setProblems] = useState([]);
 
   const createNewProblems = () => {
+    MathUtil.generateMultiplicationProblemString(3, 2);
     let tmpProblems = [];
     for (let i = 0; i < open.length; i++) {
       const numDigits = Math.floor(Math.random() * 3) + 2;
@@ -27,7 +28,8 @@ const AdditionPanel = (props) => {
     createNewProblems();
   }, []);
 
-  const handleMouseDown = () => {
+  const handleNext = () => {
+    console.log("NEXT: ", open);
     if (count < open.length) {
       if (open[count] === 0) {
         let tmpOpen = open.slice();
@@ -48,6 +50,28 @@ const AdditionPanel = (props) => {
     }
   };
 
+  const handlePrevious = () => {
+    console.log("COUNT: ", count, "PREV: ", open);
+    if (count < open.length) {
+      if (open[count] === 2) {
+        let tmpOpen = open.slice();
+        tmpOpen[count] = 1;
+        setOpen(tmpOpen);
+      } else if (open[count] === 1) {
+        let tmpOpen = open.slice();
+        tmpOpen[count] = 0;
+        if (count >= 1) {
+          tmpOpen[count - 1] = 1;
+          setCount(count - 1);
+        }
+        setOpen(tmpOpen);
+      }
+    } else {
+      // setCount(0);
+      // setOpen(new Array(10).fill(0));
+    }
+  };
+
   const handleTouchStart = (e) => {
     // e.preventDefault();
     handleMouseDown();
@@ -55,13 +79,19 @@ const AdditionPanel = (props) => {
 
   return (
     <div>
+      {open[0] === 0 && (
+        <div style={{ textAlign: "center", paddingTop: 40 }}>
+          <p style={{ fontSize: 36 }}>Starting Addition ...</p>
+          <p style={{ fontSize: 18 }}>Please press Next to start</p>
+        </div>
+      )}
       {problems.map((problem, idx) => (
         <Motion
           key={problem.id}
           style={{
             x: spring(
               open[idx] === 0
-                ? size.width
+                ? size.width + 50
                 : open[idx] === 1
                 ? size.width / 2 - 120
                 : -300
@@ -85,7 +115,14 @@ const AdditionPanel = (props) => {
       ))}
       <br />
       <div style={{ position: "absolute", bottom: "10px", right: "10px" }}>
-        <Button variant="contained" color="info" onMouseDown={handleMouseDown}>
+        <Button
+          variant="contained"
+          color="default"
+          onMouseDown={handlePrevious}
+        >
+          Previous
+        </Button>
+        <Button variant="contained" color="default" onMouseDown={handleNext}>
           Next
         </Button>
       </div>

@@ -63,7 +63,7 @@ export default function AdditionProblem(props) {
           </StaticMathField>
         </span>
       ))}
-      <br />
+      <hr style={{ marginBottom: 20 }} />
       {problem.result.map((digit, digIdx) => (
         <span key={"res" + digIdx}>
           {parseInt(digit) >= 0 ? (

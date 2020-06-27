@@ -55,6 +55,12 @@ const SubtractionPanel = (props) => {
 
   return (
     <div>
+      {open[0] === 0 && (
+        <div style={{ textAlign: "center", paddingTop: 40 }}>
+          <p style={{ fontSize: 36 }}>Starting Subtraction ...</p>
+          <p style={{ fontSize: 18 }}>Please press Next to start</p>
+        </div>
+      )}
       {problems.map((problem, idx) => (
         <Motion
           key={problem.id}
@@ -85,7 +91,11 @@ const SubtractionPanel = (props) => {
       ))}
       <br />
       <div style={{ position: "absolute", bottom: "10px", right: "10px" }}>
-        <Button variant="contained" color="info" onMouseDown={handleMouseDown}>
+        <Button
+          variant="contained"
+          color="default"
+          onMouseDown={handleMouseDown}
+        >
           Next
         </Button>
       </div>

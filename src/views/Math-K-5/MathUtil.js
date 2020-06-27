@@ -66,6 +66,24 @@ const MathUtil = {
     }
     return { id: MathUtil.uuidv4(), op1: op1Arr, op2: op2Arr, result: resArr };
   },
+  generateMultiplicationProblemString: (digits1, digits2) => {
+    const min1 = Math.pow(10, digits1 - 1); // e.g. min1 = 100
+    const max1 = Math.pow(10, digits1) - min1; // e.g. max1 = 900
+    const min2 = Math.pow(10, digits2 - 1); // e.g. min2 = 100
+    const max2 = Math.pow(10, digits2) - min2; // e.g. max2 = 900
+    const op1 = Math.floor(Math.random() * max1) + min1;
+    const op2 = Math.floor(Math.random() * max2) + min2;
+    let intermediate = [];
+    let tmp2 = op2;
+    while (tmp2 !== 0) {
+      const digit = tmp2 % 10;
+      intermediate.push(op1 * digit);
+      tmp2 = Math.floor(tmp2 / 10);
+    }
+    const res = op1 * op2;
+    console.log("MULT", op1, op2, res, intermediate);
+    return `${op1.toString()} + ${op2.toString()} = ${res.toString()}`;
+  },
   uuidv4: () => {
     return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
       (
