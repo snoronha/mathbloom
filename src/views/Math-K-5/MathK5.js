@@ -11,6 +11,7 @@ import CardBody from "components/Card/CardBody.js";
 import AdditionPanel from "./AdditionPanel";
 import SubtractionPanel from "./SubtractionPanel";
 import MultiplicationPanel from "./MultiplicationPanel";
+import GeometryPanel from "./GeometryPanel";
 
 const styles = {
   cardTitleWhite: {
@@ -91,6 +92,14 @@ const MathK5 = ({ size }) => {
               >
                 Multiplication
               </Button>
+              <Button
+                disabled={option == "geometry"}
+                onMouseDown={() => {
+                  selectOption("geometry");
+                }}
+              >
+                Geometry
+              </Button>
             </ButtonGroup>
           )}
         </CardBody>
@@ -122,6 +131,16 @@ const MathK5 = ({ size }) => {
           </CardHeader>
           <CardBody style={{ height: 300 }}>
             <MultiplicationPanel size={size} />
+          </CardBody>
+        </Card>
+      )}
+      {option == "geometry" && (
+        <Card>
+          <CardHeader color="primary">
+            <h4 className={classes.cardTitleWhite}>Geometry</h4>
+          </CardHeader>
+          <CardBody style={{ height: 300 }}>
+            <GeometryPanel size={size} />
           </CardBody>
         </Card>
       )}
