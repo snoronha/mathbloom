@@ -50,8 +50,8 @@ export default function GeometryPythagorasProblem(props) {
     <div style={props.style}>
       <svg height={150} width={150}>
         <polygon
-          points={"0,130 130,130 0,0"}
-          fill={"#eee"}
+          points={"20,130 130,130 20,0"}
+          fill={"#ffa"}
           stroke={"#888"}
           strokeWidth={1}
         />
@@ -64,6 +64,15 @@ export default function GeometryPythagorasProblem(props) {
           stroke={"#a00"}
           strokeWidth={1}
         />
+        <text x={10} y={65}>
+          4
+        </text>
+        <text x={65} y={145}>
+          3
+        </text>
+        <text x={0} y={0} transform={"translate(80, 65) rotate(50)"}>
+          c = ?
+        </text>
       </svg>
     </div>
   );

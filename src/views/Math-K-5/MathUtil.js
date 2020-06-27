@@ -116,6 +116,22 @@ const MathUtil = {
     op2Arr.unshift("\\times");
     return { id: MathUtil.uuidv4(), op1: op1Arr, op2: op2Arr, result: resArr };
   },
+  getPythagoreanTriples: (min, max) => {
+    let m = Math.floor(Math.random() * max);
+    let n = Math.floor(Math.random() * max);
+    if (m < min) m += min;
+    if (n < min) n += min;
+    if (m < n) {
+      const tmp = n;
+      n = m;
+      m = tmp;
+    }
+    if (m === n) m++;
+    const a = m * m - n * n;
+    const b = 2 * m * n;
+    const c = m * m + n * n;
+    return { a: a, b: b, c: c };
+  },
   uuidv4: () => {
     return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
       (
