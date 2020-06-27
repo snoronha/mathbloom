@@ -50,10 +50,19 @@ export default function GeometryPythagorasProblem(props) {
     <div style={props.style}>
       <svg height={150} width={150}>
         <polygon
-          points={"130,0 130,130 0,130"}
+          points={"0,130 130,130 0,0"}
           fill={"#eee"}
           stroke={"#888"}
-          strokeWidth={2}
+          strokeWidth={1}
+        />
+        <circle
+          cx={60}
+          cy={60}
+          r={50}
+          fill={"#fcc"}
+          opacity={0.3}
+          stroke={"#a00"}
+          strokeWidth={1}
         />
       </svg>
     </div>
