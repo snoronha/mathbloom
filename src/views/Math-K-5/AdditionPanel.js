@@ -29,7 +29,6 @@ const AdditionPanel = (props) => {
   }, []);
 
   const handleNext = () => {
-    console.log("NEXT: ", open);
     if (count < open.length) {
       if (open[count] === 0) {
         let tmpOpen = open.slice();
@@ -51,7 +50,6 @@ const AdditionPanel = (props) => {
   };
 
   const handlePrevious = () => {
-    console.log("COUNT: ", count, "PREV: ", open);
     if (count < open.length) {
       if (open[count] === 2) {
         let tmpOpen = open.slice();
@@ -79,12 +77,6 @@ const AdditionPanel = (props) => {
 
   return (
     <div>
-      {open[0] === 0 && (
-        <div style={{ textAlign: "center", paddingTop: 40 }}>
-          <p style={{ fontSize: 36 }}>Starting Addition ...</p>
-          <p style={{ fontSize: 18 }}>Please press Next to start</p>
-        </div>
-      )}
       {problems.map((problem, idx) => (
         <Motion
           key={problem.id}
@@ -113,8 +105,13 @@ const AdditionPanel = (props) => {
           )}
         </Motion>
       ))}
-      <br />
-      <div style={{ position: "absolute", bottom: "10px", right: "10px" }}>
+      {open[0] === 0 && (
+        <div style={{ textAlign: "center", paddingTop: 40 }}>
+          <p style={{ fontSize: 36 }}>Starting Addition ...</p>
+          <p style={{ fontSize: 18 }}>Please press Next to start</p>
+        </div>
+      )}
+      <div style={{ position: "absolute", bottom: "10px", left: "10px" }}>
         <Button
           variant="contained"
           color="default"
@@ -122,6 +119,8 @@ const AdditionPanel = (props) => {
         >
           Previous
         </Button>
+      </div>
+      <div style={{ position: "absolute", bottom: "10px", right: "10px" }}>
         <Button variant="contained" color="default" onMouseDown={handleNext}>
           Next
         </Button>
