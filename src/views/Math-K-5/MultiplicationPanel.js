@@ -2,10 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { Motion, spring } from "react-motion";
 import Button from "@material-ui/core/Button";
-import AdditionProblem from "./AdditionProblem";
+import MultiplicationProblem from "./MultiplicationProblem";
 import MathUtil from "./MathUtil";
 
-const AdditionPanel = (props) => {
+const MultiplicationPanel = (props) => {
   const size = props.size;
   const NUMPROBLEMS = 10;
   const [open, setOpen] = useState(new Array(NUMPROBLEMS).fill(0));
@@ -15,9 +15,13 @@ const AdditionPanel = (props) => {
   const createNewProblems = () => {
     let tmpProblems = [];
     for (let i = 0; i < open.length; i++) {
-      const numDigits = Math.floor(Math.random() * 3) + 2;
-      const problemStr = MathUtil.generateAdditionProblemString(numDigits);
-      const newProb = MathUtil.getAdditionOperands(problemStr);
+      const digits1 = Math.floor(Math.random() * 3) + 2;
+      const digits2 = Math.floor(Math.random() * 3) + 1;
+      const problemStr = MathUtil.generateMultiplicationProblemString(
+        digits1,
+        digits2
+      );
+      const newProb = MathUtil.getMultiplicationOperands(problemStr);
       tmpProblems.push(newProb);
     }
     setProblems(tmpProblems);
@@ -90,7 +94,7 @@ const AdditionPanel = (props) => {
           }}
         >
           {({ x }) => (
-            <AdditionProblem
+            <MultiplicationProblem
               style={{
                 position: "absolute",
                 WebkitTransform: `translate3d(${x}px, 0, 0)`,
@@ -106,7 +110,7 @@ const AdditionPanel = (props) => {
       ))}
       {open[0] === 0 && (
         <div style={{ textAlign: "center", paddingTop: 40 }}>
-          <p style={{ fontSize: 36 }}>Starting Addition ...</p>
+          <p style={{ fontSize: 36 }}>Starting Multiplication ...</p>
           <p style={{ fontSize: 18 }}>Please press Next to start</p>
         </div>
       )}
@@ -128,4 +132,4 @@ const AdditionPanel = (props) => {
   );
 };
 
-export default AdditionPanel;
+export default MultiplicationPanel;

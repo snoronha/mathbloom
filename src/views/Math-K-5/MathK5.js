@@ -10,6 +10,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import AdditionPanel from "./AdditionPanel";
 import SubtractionPanel from "./SubtractionPanel";
+import MultiplicationPanel from "./MultiplicationPanel";
 
 const styles = {
   cardTitleWhite: {
@@ -26,9 +27,13 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 const MathK5 = ({ size }) => {
+  const [grade, setGrade] = useState(0);
   const [option, setOption] = useState("");
   const classes = useStyles();
 
+  const selectGrade = (grd) => {
+    setGrade(grd);
+  };
   const selectOption = (opt) => {
     setOption(opt);
   };
@@ -36,37 +41,58 @@ const MathK5 = ({ size }) => {
   return (
     <div>
       <Card>
-        <CardBody style={{ height: 50, textAlign: "center" }}>
+        <CardBody style={{ height: 100, textAlign: "center" }}>
           <ButtonGroup
             variant="contained"
             color="primary"
             aria-label="contained primary button group"
           >
-            <Button
-              disabled={option == "add"}
-              onMouseDown={() => {
-                selectOption("add");
-              }}
-            >
-              Addition
-            </Button>
-            <Button
-              disabled={option == "subtract"}
-              onMouseDown={() => {
-                selectOption("subtract");
-              }}
-            >
-              Subtraction
-            </Button>
-            <Button
-              disabled={option == "multiply"}
-              onMouseDown={() => {
-                selectOption("multiply");
-              }}
-            >
-              Multiplication
-            </Button>
+            {[0, 1, 2, 3, 4, 5].map((grd, grdIdx) => (
+              <Button
+                key={grd.toString()}
+                disabled={grade == grd}
+                onMouseDown={() => {
+                  selectGrade(grd);
+                }}
+              >
+                Grade {grd}
+              </Button>
+            ))}
           </ButtonGroup>
+          <br />
+          <br />
+          {(grade === 0 || grade === 1 || grade === 2) && (
+            <ButtonGroup
+              variant="contained"
+              color="primary"
+              aria-label="contained primary button group"
+            >
+              <Button
+                disabled={option == "add"}
+                onMouseDown={() => {
+                  selectOption("add");
+                }}
+              >
+                Addition
+              </Button>
+              <Button
+                disabled={option == "subtract"}
+                onMouseDown={() => {
+                  selectOption("subtract");
+                }}
+              >
+                Subtraction
+              </Button>
+              <Button
+                disabled={option == "multiply"}
+                onMouseDown={() => {
+                  selectOption("multiply");
+                }}
+              >
+                Multiplication
+              </Button>
+            </ButtonGroup>
+          )}
         </CardBody>
       </Card>
       {option == "add" && (
@@ -86,6 +112,16 @@ const MathK5 = ({ size }) => {
           </CardHeader>
           <CardBody style={{ height: 300 }}>
             <SubtractionPanel size={size} />
+          </CardBody>
+        </Card>
+      )}
+      {option == "multiply" && (
+        <Card>
+          <CardHeader color="primary">
+            <h4 className={classes.cardTitleWhite}>Multiplication</h4>
+          </CardHeader>
+          <CardBody style={{ height: 300 }}>
+            <MultiplicationPanel size={size} />
           </CardBody>
         </Card>
       )}

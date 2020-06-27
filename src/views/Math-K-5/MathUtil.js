@@ -81,8 +81,40 @@ const MathUtil = {
       tmp2 = Math.floor(tmp2 / 10);
     }
     const res = op1 * op2;
-    console.log("MULT", op1, op2, res, intermediate);
-    return `${op1.toString()} + ${op2.toString()} = ${res.toString()}`;
+    const intermedStr = intermediate.join("|");
+    return `${op1.toString()} * ${op2.toString()} = ${intermedStr},${res.toString()}`;
+  },
+  getMultiplicationOperands: (str) => {
+    const equationParts = str.split("=");
+    const L = equationParts[0].trim();
+    const R = equationParts[1].trim();
+    const operands = L.split("*");
+    const op1Arr = operands[0]
+      .trim()
+      .split("")
+      .map((s) => parseInt(s));
+    const op2Arr = operands[1]
+      .trim()
+      .split("")
+      .map((s) => parseInt(s));
+    const rhs = R.split(",");
+    // const intermedStrs = rhs[0].split("|");
+
+    const resArr = rhs[1].split("").map((s) => parseInt(s));
+    if (op1Arr.length < resArr.length) {
+      const diff = resArr.length - op1Arr.length;
+      for (let i = 0; i < diff; i++) {
+        op1Arr.unshift("");
+      }
+    }
+    if (op2Arr.length < resArr.length) {
+      const diff = resArr.length - op2Arr.length;
+      for (let i = 0; i < diff - 1; i++) {
+        op2Arr.unshift("");
+      }
+    }
+    op2Arr.unshift("\\times");
+    return { id: MathUtil.uuidv4(), op1: op1Arr, op2: op2Arr, result: resArr };
   },
   uuidv4: () => {
     return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
