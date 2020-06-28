@@ -25,7 +25,7 @@ const appStyle = (theme) => ({
     "background-image": `url(${mathbloom_bg})`,
   },
   content: {
-    marginTop: "70px",
+    marginTop: "20px",
     padding: "30px 15px",
     minHeight: "calc(100vh - 123px)",
   },

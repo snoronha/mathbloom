@@ -107,7 +107,7 @@ const MathK5 = ({ size }) => {
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Addition</h4>
           </CardHeader>
-          <CardBody style={{ height: 300 }}>
+          <CardBody style={{ height: 400 }}>
             <ProblemPanel size={size} category={"addition"} />
           </CardBody>
         </Card>
@@ -117,7 +117,7 @@ const MathK5 = ({ size }) => {
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Subtraction</h4>
           </CardHeader>
-          <CardBody style={{ height: 300 }}>
+          <CardBody style={{ height: 400 }}>
             <ProblemPanel size={size} category={"subtraction"} />
           </CardBody>
         </Card>
@@ -127,7 +127,7 @@ const MathK5 = ({ size }) => {
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Multiplication</h4>
           </CardHeader>
-          <CardBody style={{ height: 300 }}>
+          <CardBody style={{ height: 400 }}>
             <ProblemPanel size={size} category={"multiplication"} />
           </CardBody>
         </Card>
@@ -137,7 +137,7 @@ const MathK5 = ({ size }) => {
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Geometry</h4>
           </CardHeader>
-          <CardBody style={{ height: 300 }}>
+          <CardBody style={{ height: 400 }}>
             <GeometryPanel size={size} />
           </CardBody>
         </Card>

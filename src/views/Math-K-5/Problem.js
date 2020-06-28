@@ -27,6 +27,8 @@ export default function Problem(props) {
   const [problem, setProblem] = useState(props.problem);
   const [soln, setSoln] = useState([]);
   const [resultColor, setResultColor] = useState([]);
+  // single array is for resultColor insufficient.
+  // Multiplication has several rows fillable by user
   const COLORS = { NOT_TRIED: "#fff", RIGHT: "#8f8", WRONG: "#f88" };
 
   const onChange = (mathField, specIdx, idx) => {
@@ -66,7 +68,7 @@ export default function Problem(props) {
           {spec.type === "editable" && (
             <span>
               {spec.data.map((digit, digIdx) => (
-                <span key={"res" + digIdx}>
+                <span key={`res-${specIdx}-${digIdx}`}>
                   {parseInt(digit) >= 0 ? (
                     <EditableMathField
                       style={{ backgroundColor: resultColor[digIdx] }}

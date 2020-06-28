@@ -114,6 +114,32 @@ const MathUtil = {
       }
     }
     op2Arr.unshift("\\times");
+    let specs = [];
+    specs.push({ type: "static", data: op1Arr });
+    specs.push({ type: "static", data: op2Arr });
+    specs.push({ type: "hr" });
+    if (intermediate.length > 1) {
+      for (let i = 0; i < intermediate.length; i++) {
+        let opArr = intermediate[i]
+          .toString()
+          .split("")
+          .map((s) => parseInt(s));
+        for (let k = 0; k < i; k++) {
+          opArr.push("");
+        }
+        if (opArr.length < resArr.length) {
+          const diff = resArr.length - opArr.length;
+          for (let k = 0; k < diff; k++) {
+            opArr.unshift("");
+          }
+        }
+        specs.push({ type: "editable", data: opArr });
+      }
+      specs.push({ type: "hr" });
+    }
+
+    specs.push({ type: "editable", data: resArr });
+    /*
     return {
       id: MathUtil.uuidv4(),
       specs: [
@@ -123,6 +149,8 @@ const MathUtil = {
         { type: "editable", data: resArr },
       ],
     };
+    */
+    return { id: MathUtil.uuidv4(), specs: specs };
   },
   getPythagoreanTriples: (min, max) => {
     let m = Math.floor(Math.random() * max);
