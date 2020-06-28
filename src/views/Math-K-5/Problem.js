@@ -29,12 +29,13 @@ export default function Problem(props) {
   const [resultColor, setResultColor] = useState([]);
   const COLORS = { NOT_TRIED: "#fff", RIGHT: "#8f8", WRONG: "#f88" };
 
-  const onChange = (mathField, idx) => {
+  const onChange = (mathField, specIdx, idx) => {
     let tmpResColor = resultColor.slice();
     let tmpSoln = soln.slice();
     const fieldVal = mathField.latex();
     tmpSoln[idx] = fieldVal;
-    if (problem.result[idx].toString() == fieldVal) {
+    const data = problem.specs[specIdx].data;
+    if (data[idx].toString() == fieldVal) {
       tmpResColor[idx] = COLORS.RIGHT;
     } else if (fieldVal) {
       // fieldVal exists
@@ -48,40 +49,44 @@ export default function Problem(props) {
 
   return (
     <div style={props.style}>
-      {problem.op1.map((digit, digIdx) => (
-        <span key={"op1" + digIdx}>
-          <StaticMathField className={classes.staticDigitInstance}>
-            {digit}
-          </StaticMathField>
-        </span>
-      ))}
-      <br />
-      {problem.op2.map((digit, digIdx) => (
-        <span key={"op2" + digIdx}>
-          <StaticMathField className={classes.staticDigitInstance}>
-            {digit}
-          </StaticMathField>
-        </span>
-      ))}
-      <hr style={{ marginBottom: 20 }} />
-      {problem.result.map((digit, digIdx) => (
-        <span key={"res" + digIdx}>
-          {parseInt(digit) >= 0 ? (
-            <EditableMathField
-              style={{ backgroundColor: resultColor[digIdx] }}
-              className={classes.editableDigitInstance}
-              key={"result" + digIdx}
-              latex={""} // latex value for the input field
-              onChange={(mathField) => {
-                onChange(mathField, digIdx);
-              }}
-            />
-          ) : (
-            <StaticMathField className={classes.staticDigitInstance}>
-              {""}
-            </StaticMathField>
+      {problem.specs.map((spec, specIdx) => (
+        <div key={specIdx.toString()}>
+          {spec.type === "static" && (
+            <span>
+              {spec.data.map((digit, digIdx) => (
+                <span key={"op1" + digIdx}>
+                  <StaticMathField className={classes.staticDigitInstance}>
+                    {digit}
+                  </StaticMathField>
+                </span>
+              ))}
+            </span>
           )}
-        </span>
+          {spec.type === "hr" && <hr style={{ marginBottom: 20 }} />}
+          {spec.type === "editable" && (
+            <span>
+              {spec.data.map((digit, digIdx) => (
+                <span key={"res" + digIdx}>
+                  {parseInt(digit) >= 0 ? (
+                    <EditableMathField
+                      style={{ backgroundColor: resultColor[digIdx] }}
+                      className={classes.editableDigitInstance}
+                      key={"result" + digIdx}
+                      latex={""} // latex value for the input field
+                      onChange={(mathField) => {
+                        onChange(mathField, specIdx, digIdx);
+                      }}
+                    />
+                  ) : (
+                    <StaticMathField className={classes.staticDigitInstance}>
+                      {digit}
+                    </StaticMathField>
+                  )}
+                </span>
+              ))}
+            </span>
+          )}
+        </div>
       ))}
     </div>
   );

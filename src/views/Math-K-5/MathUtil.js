@@ -23,7 +23,15 @@ const MathUtil = {
     if (resArr.length < op1Arr.length || resArr.length < op2Arr.length) {
       resArr.unshift("");
     }
-    return { id: MathUtil.uuidv4(), op1: op1Arr, op2: op2Arr, result: resArr };
+    return {
+      id: MathUtil.uuidv4(),
+      specs: [
+        { type: "static", data: op1Arr },
+        { type: "static", data: op2Arr },
+        { type: "hr" },
+        { type: "editable", data: resArr },
+      ],
+    };
   },
   getSubtractionOperands: (numDigits) => {
     const min = Math.pow(10, numDigits - 1); // e.g. min = 100
@@ -56,7 +64,15 @@ const MathUtil = {
         resArr.unshift("");
       }
     }
-    return { id: MathUtil.uuidv4(), op1: op1Arr, op2: op2Arr, result: resArr };
+    return {
+      id: MathUtil.uuidv4(),
+      specs: [
+        { type: "static", data: op1Arr },
+        { type: "static", data: op2Arr },
+        { type: "hr" },
+        { type: "editable", data: resArr },
+      ],
+    };
   },
   getMultiplicationOperands: (digits1, digits2) => {
     const min1 = Math.pow(10, digits1 - 1); // e.g. min1 = 100
@@ -73,7 +89,6 @@ const MathUtil = {
       tmp2 = Math.floor(tmp2 / 10);
     }
     const res = op1 * op2;
-    const intermedStr = intermediate.join("|");
     const op1Arr = op1
       .toString()
       .split("")
@@ -99,7 +114,15 @@ const MathUtil = {
       }
     }
     op2Arr.unshift("\\times");
-    return { id: MathUtil.uuidv4(), op1: op1Arr, op2: op2Arr, result: resArr };
+    return {
+      id: MathUtil.uuidv4(),
+      specs: [
+        { type: "static", data: op1Arr },
+        { type: "static", data: op2Arr },
+        { type: "hr" },
+        { type: "editable", data: resArr },
+      ],
+    };
   },
   getPythagoreanTriples: (min, max) => {
     let m = Math.floor(Math.random() * max);

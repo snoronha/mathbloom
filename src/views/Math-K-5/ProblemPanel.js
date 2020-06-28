@@ -15,7 +15,7 @@ const ProblemPanel = (props) => {
 
   const createNewProblems = (category) => {
     let tmpProblems = [];
-    let numDigits, problemStr, newProb;
+    let numDigits, newProb;
     for (let i = 0; i < open.length; i++) {
       switch (category) {
         case "addition":
@@ -34,6 +34,13 @@ const ProblemPanel = (props) => {
           newProb = MathUtil.getMultiplicationOperands(digits1, digits2);
           tmpProblems.push(newProb);
           break;
+        /*
+        case "geometry":
+          numDigits = Math.floor(Math.random() * 3) + 2;
+          newProb = MathUtil.getAdditionOperands(numDigits);
+          tmpProblems.push(newProb);
+          break;
+          */
       }
     }
     setProblems(tmpProblems);
