@@ -63,6 +63,8 @@ export default function GeometryPythagorasProblem(props) {
     const a = Math.sqrt(b * b + c * c - 2 * b * c * Math.cos(Arad));
     const Brad = Math.asin((Math.sin(Arad) * b) / a);
     const Crad = Math.PI - (Arad + Brad);
+    const B = (Brad * 180) / Math.PI;
+    const C = (Crad * 180) / Math.PI;
     const pathA = `M ${r} 0 A ${r} ${r} 0 0 1 ${Math.cos(Arad) * r} ${
       Math.sin(Arad) * r
     }`;
@@ -75,20 +77,23 @@ export default function GeometryPythagorasProblem(props) {
     const transformA = `translate(0,${cy}) rotate(${-A})`;
     const transformB = `translate(${props.c},${cy}) rotate(180)`;
     const transformC = `translate(${cx},0) rotate(${(Brad * 180) / Math.PI})`;
+    const textTransformA = `translate(${(c + cx) / 2},${cy / 2}) rotate(${B})`;
+    const textTransformB = `translate(${cx / 2},${cy / 2}) rotate(${-A})`;
+    const textTransformC = `translate(${c / 2 - 20},${cy + 12})`;
     return (
       <g stroke={"#888"} strokeWidth={1}>
         <polygon points={points} fill={"#ffa"} opacity={0.8} />
         <path fill={"none"} d={pathA} transform={transformA} />
         <path fill={"none"} d={pathB} transform={transformB} />
         <path fill={"none"} d={pathC} transform={transformC} />
-        <text x={(c + cx) / 2} y={cy / 2}>
+        <text x={0} y={0} transform={textTransformA}>
           {Math.floor(a)}
         </text>
-        <text x={c / 2} y={cy}>
-          {c}
-        </text>
-        <text x={cx / 2} y={cy / 2}>
+        <text x={0} y={0} transform={textTransformB}>
           {b}
+        </text>
+        <text x={0} y={0} transform={textTransformC}>
+          {c}
         </text>
       </g>
     );
@@ -121,12 +126,9 @@ export default function GeometryPythagorasProblem(props) {
 
   return (
     <div style={props.style}>
-      <svg height={150} width={250}>
+      <svg height={200} width={200}>
         <g transform={"translate(25, 25) rotate(0)"}>
-          <TriangleSidesAngle b={140} c={180} A={50} />
-          <text x={0} y={0} transform={"translate(80, 65) rotate(50)"}>
-            c
-          </text>
+          <TriangleSidesAngle b={160} c={150} A={80} />
         </g>
       </svg>
     </div>
