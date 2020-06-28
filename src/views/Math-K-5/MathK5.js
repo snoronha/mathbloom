@@ -27,7 +27,6 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 const MathK5 = ({ size }) => {
-  console.log("PYTH: ", MathUtil.getPythagoreanTriples(1, 6));
   const [grade, setGrade] = useState(0);
   const [option, setOption] = useState("");
   const classes = useStyles();

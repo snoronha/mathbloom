@@ -20,24 +20,18 @@ const ProblemPanel = (props) => {
       switch (category) {
         case "addition":
           numDigits = Math.floor(Math.random() * 3) + 2;
-          problemStr = MathUtil.generateAdditionProblemString(numDigits);
-          newProb = MathUtil.getAdditionOperands(problemStr);
+          newProb = MathUtil.getAdditionOperands(numDigits);
           tmpProblems.push(newProb);
           break;
         case "subtraction":
           numDigits = Math.floor(Math.random() * 3) + 2;
-          problemStr = MathUtil.generateSubtractionProblemString(numDigits);
-          newProb = MathUtil.getSubtractionOperands(problemStr);
+          newProb = MathUtil.getSubtractionOperands(numDigits);
           tmpProblems.push(newProb);
           break;
         case "multiplication":
           const digits1 = Math.floor(Math.random() * 3) + 2;
           const digits2 = Math.floor(Math.random() * 3) + 1;
-          problemStr = MathUtil.generateMultiplicationProblemString(
-            digits1,
-            digits2
-          );
-          newProb = MathUtil.getMultiplicationOperands(problemStr);
+          newProb = MathUtil.getMultiplicationOperands(digits1, digits2);
           tmpProblems.push(newProb);
           break;
       }

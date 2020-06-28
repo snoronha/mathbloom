@@ -16,8 +16,7 @@ const GeometryPanel = (props) => {
     let tmpProblems = [];
     for (let i = 0; i < open.length; i++) {
       const numDigits = Math.floor(Math.random() * 3) + 2;
-      const problemStr = MathUtil.generateAdditionProblemString(numDigits);
-      const newProb = MathUtil.getAdditionOperands(problemStr);
+      const newProb = MathUtil.getAdditionOperands(numDigits);
       tmpProblems.push(newProb);
     }
     setProblems(tmpProblems);
