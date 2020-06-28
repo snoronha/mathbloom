@@ -25,28 +25,44 @@ const useStyles = makeStyles(styles);
 export default function Problem(props) {
   const classes = useStyles();
   const [problem, setProblem] = useState(props.problem);
-  const [soln, setSoln] = useState([]);
+  // const [soln, setSoln] = useState([]);
   const [resultColor, setResultColor] = useState([]);
   // single array is for resultColor insufficient.
   // Multiplication has several rows fillable by user
   const COLORS = { NOT_TRIED: "#fff", RIGHT: "#8f8", WRONG: "#f88" };
 
-  const onChange = (mathField, specIdx, idx) => {
-    let tmpResColor = resultColor.slice();
-    let tmpSoln = soln.slice();
+  useEffect(() => {
+    // clone empty problem into resultColor
+    let tmpResColor = [];
+    problem.specs.forEach((spec) => {
+      if (spec.data) {
+        tmpResColor.push(new Array(spec.data.length).fill(COLORS.NOT_TRIED));
+      } else {
+        tmpResColor.push(new Array(1).fill(COLORS.NOT_TRIED));
+      }
+    });
+    setResultColor(tmpResColor);
+  }, []);
+
+  const onChange = (mathField, specIdx, digIdx) => {
+    let tmpResColor = [];
+    resultColor.forEach((row) => {
+      tmpResColor.push(row.slice());
+    });
+    // let tmpSoln = soln.slice();
     const fieldVal = mathField.latex();
-    tmpSoln[idx] = fieldVal;
+    // tmpSoln[digIdx] = fieldVal;
     const data = problem.specs[specIdx].data;
-    if (data[idx].toString() == fieldVal) {
-      tmpResColor[idx] = COLORS.RIGHT;
+    if (data[digIdx].toString() == fieldVal) {
+      tmpResColor[specIdx][digIdx] = COLORS.RIGHT;
     } else if (fieldVal) {
       // fieldVal exists
-      tmpResColor[idx] = COLORS.WRONG;
+      tmpResColor[specIdx][digIdx] = COLORS.WRONG;
     } else {
-      tmpResColor[idx] = COLORS.NOT_TRIED;
+      tmpResColor[specIdx][digIdx] = COLORS.NOT_TRIED;
     }
     setResultColor(tmpResColor);
-    setSoln(tmpSoln);
+    // setSoln(tmpSoln);
   };
 
   return (
@@ -65,13 +81,13 @@ export default function Problem(props) {
             </span>
           )}
           {spec.type === "hr" && <hr style={{ marginBottom: 20 }} />}
-          {spec.type === "editable" && (
+          {spec.type === "editable" && resultColor.length > 0 && (
             <span>
               {spec.data.map((digit, digIdx) => (
                 <span key={`res-${specIdx}-${digIdx}`}>
                   {parseInt(digit) >= 0 ? (
                     <EditableMathField
-                      style={{ backgroundColor: resultColor[digIdx] }}
+                      style={{ backgroundColor: resultColor[specIdx][digIdx] }}
                       className={classes.editableDigitInstance}
                       key={"result" + digIdx}
                       latex={""} // latex value for the input field

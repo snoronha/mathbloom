@@ -139,17 +139,6 @@ const MathUtil = {
     }
 
     specs.push({ type: "editable", data: resArr });
-    /*
-    return {
-      id: MathUtil.uuidv4(),
-      specs: [
-        { type: "static", data: op1Arr },
-        { type: "static", data: op2Arr },
-        { type: "hr" },
-        { type: "editable", data: resArr },
-      ],
-    };
-    */
     return { id: MathUtil.uuidv4(), specs: specs };
   },
   getPythagoreanTriples: (min, max) => {
