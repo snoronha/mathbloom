@@ -30,6 +30,16 @@ const ProblemPanel = (props) => {
           newProb = MathUtil.getSubtractionOperands(problemStr);
           tmpProblems.push(newProb);
           break;
+        case "multiplication":
+          const digits1 = Math.floor(Math.random() * 3) + 2;
+          const digits2 = Math.floor(Math.random() * 3) + 1;
+          problemStr = MathUtil.generateMultiplicationProblemString(
+            digits1,
+            digits2
+          );
+          newProb = MathUtil.getMultiplicationOperands(problemStr);
+          tmpProblems.push(newProb);
+          break;
       }
     }
     setProblems(tmpProblems);
@@ -124,7 +134,10 @@ const ProblemPanel = (props) => {
           {category === "subtraction" && (
             <p style={{ fontSize: 36 }}>Starting Subtraction ...</p>
           )}
-          <p style={{ fontSize: 18 }}>Please press Next to start</p>
+          {category === "multiplication" && (
+            <p style={{ fontSize: 36 }}>Starting Multiplication ...</p>
+          )}
+          <p style={{ fontSize: 18 }}>Please press Next to begin</p>
         </div>
       )}
       <div style={{ position: "absolute", bottom: "10px", left: "10px" }}>

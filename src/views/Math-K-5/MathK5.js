@@ -9,7 +9,6 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import ProblemPanel from "./ProblemPanel";
-import MultiplicationPanel from "./MultiplicationPanel";
 import GeometryPanel from "./GeometryPanel";
 import MathUtil from "./MathUtil";
 
@@ -131,7 +130,7 @@ const MathK5 = ({ size }) => {
             <h4 className={classes.cardTitleWhite}>Multiplication</h4>
           </CardHeader>
           <CardBody style={{ height: 300 }}>
-            <MultiplicationPanel size={size} />
+            <ProblemPanel size={size} category={"multiplication"} />
           </CardBody>
         </Card>
       )}
