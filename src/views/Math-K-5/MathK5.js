@@ -8,7 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import AdditionPanel from "./AdditionPanel";
+import ProblemPanel from "./ProblemPanel";
 import SubtractionPanel from "./SubtractionPanel";
 import MultiplicationPanel from "./MultiplicationPanel";
 import GeometryPanel from "./GeometryPanel";
@@ -112,7 +112,7 @@ const MathK5 = ({ size }) => {
             <h4 className={classes.cardTitleWhite}>Addition</h4>
           </CardHeader>
           <CardBody style={{ height: 300 }}>
-            <AdditionPanel size={size} />
+            <ProblemPanel size={size} category={"addition"} />
           </CardBody>
         </Card>
       )}

@@ -5,26 +5,33 @@ import Button from "@material-ui/core/Button";
 import Problem from "./Problem";
 import MathUtil from "./MathUtil";
 
-const AdditionPanel = (props) => {
+const ProblemPanel = (props) => {
   const size = props.size;
+  const category = props.category;
   const NUMPROBLEMS = 10;
   const [open, setOpen] = useState(new Array(NUMPROBLEMS).fill(0));
   const [count, setCount] = useState(0);
   const [problems, setProblems] = useState([]);
 
-  const createNewProblems = () => {
+  const createNewProblems = (category) => {
     let tmpProblems = [];
     for (let i = 0; i < open.length; i++) {
-      const numDigits = Math.floor(Math.random() * 3) + 2;
-      const problemStr = MathUtil.generateAdditionProblemString(numDigits);
-      const newProb = MathUtil.getAdditionOperands(problemStr);
-      tmpProblems.push(newProb);
+      switch (category) {
+        case "addition":
+          const numDigits = Math.floor(Math.random() * 3) + 2;
+          const problemStr = MathUtil.generateAdditionProblemString(numDigits);
+          const newProb = MathUtil.getAdditionOperands(problemStr);
+          tmpProblems.push(newProb);
+          break;
+        case "subtraction":
+          break;
+      }
     }
     setProblems(tmpProblems);
   };
 
   useEffect(() => {
-    createNewProblems();
+    createNewProblems(category);
   }, []);
 
   const handleNext = () => {
@@ -128,4 +135,4 @@ const AdditionPanel = (props) => {
   );
 };
 
-export default AdditionPanel;
+export default ProblemPanel;

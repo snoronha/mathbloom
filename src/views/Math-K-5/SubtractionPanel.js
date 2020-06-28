@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Motion, spring } from "react-motion";
 import Button from "@material-ui/core/Button";
-import SubtractionProblem from "./SubtractionProblem";
+import Problem from "./Problem";
 import MathUtil from "./MathUtil";
 
 const SubtractionPanel = (props) => {
@@ -75,7 +75,7 @@ const SubtractionPanel = (props) => {
           }}
         >
           {({ x }) => (
-            <SubtractionProblem
+            <Problem
               style={{
                 position: "absolute",
                 WebkitTransform: `translate3d(${x}px, 0, 0)`,
