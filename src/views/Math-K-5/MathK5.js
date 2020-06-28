@@ -30,6 +30,26 @@ const MathK5 = ({ size }) => {
   const [option, setOption] = useState("");
   const classes = useStyles();
 
+  const gradeSubjectMap = [
+    { name: "Kinder", grade: 0, subjects: ["addition", "number_line"] },
+    { name: "1st grade", grade: 1, subjects: ["addition", "subtraction"] },
+    { name: "2nd grade", grade: 2, subjects: ["addition", "subtraction"] },
+    {
+      name: "3rd grade",
+      grade: 3,
+      subjects: ["addition", "subtraction", "multiplication"],
+    },
+    {
+      name: "4th grade",
+      grade: 4,
+      subjects: ["addition", "subtraction", "multiplication"],
+    },
+    {
+      name: "5th grade",
+      grade: 5,
+      subjects: ["addition", "subtraction", "multiplication", "geometry"],
+    },
+  ];
   const selectGrade = (grd) => {
     setGrade(grd);
   };
@@ -46,26 +66,27 @@ const MathK5 = ({ size }) => {
             color="primary"
             aria-label="contained primary button group"
           >
-            {[0, 1, 2, 3, 4, 5].map((grd, grdIdx) => (
+            {gradeSubjectMap.map((grd, grdIdx) => (
               <Button
-                key={grd.toString()}
-                disabled={grade == grd}
+                key={grd.grade.toString()}
+                disabled={grade == grd.grade}
                 onMouseDown={() => {
-                  selectGrade(grd);
+                  selectGrade(grd.grade);
                 }}
               >
-                Grade {grd}
+                {grd.name}
               </Button>
             ))}
           </ButtonGroup>
           <br />
           <br />
-          {(grade === 0 || grade === 1 || grade === 2) && (
-            <ButtonGroup
-              variant="contained"
-              color="primary"
-              aria-label="contained primary button group"
-            >
+
+          <ButtonGroup
+            variant="contained"
+            color="primary"
+            aria-label="contained primary button group"
+          >
+            {gradeSubjectMap[grade].subjects.indexOf("addition") >= 0 && (
               <Button
                 disabled={option == "add"}
                 onMouseDown={() => {
@@ -74,6 +95,8 @@ const MathK5 = ({ size }) => {
               >
                 Addition
               </Button>
+            )}
+            {gradeSubjectMap[grade].subjects.indexOf("subtraction") >= 0 && (
               <Button
                 disabled={option == "subtract"}
                 onMouseDown={() => {
@@ -82,6 +105,8 @@ const MathK5 = ({ size }) => {
               >
                 Subtraction
               </Button>
+            )}
+            {gradeSubjectMap[grade].subjects.indexOf("multiplication") >= 0 && (
               <Button
                 disabled={option == "multiply"}
                 onMouseDown={() => {
@@ -90,6 +115,8 @@ const MathK5 = ({ size }) => {
               >
                 Multiplication
               </Button>
+            )}
+            {gradeSubjectMap[grade].subjects.indexOf("geometry") >= 0 && (
               <Button
                 disabled={option == "geometry"}
                 onMouseDown={() => {
@@ -98,8 +125,8 @@ const MathK5 = ({ size }) => {
               >
                 Geometry
               </Button>
-            </ButtonGroup>
-          )}
+            )}
+          </ButtonGroup>
         </CardBody>
       </Card>
       {option == "add" && (
