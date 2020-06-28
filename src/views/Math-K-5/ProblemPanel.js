@@ -15,15 +15,20 @@ const ProblemPanel = (props) => {
 
   const createNewProblems = (category) => {
     let tmpProblems = [];
+    let numDigits, problemStr, newProb;
     for (let i = 0; i < open.length; i++) {
       switch (category) {
         case "addition":
-          const numDigits = Math.floor(Math.random() * 3) + 2;
-          const problemStr = MathUtil.generateAdditionProblemString(numDigits);
-          const newProb = MathUtil.getAdditionOperands(problemStr);
+          numDigits = Math.floor(Math.random() * 3) + 2;
+          problemStr = MathUtil.generateAdditionProblemString(numDigits);
+          newProb = MathUtil.getAdditionOperands(problemStr);
           tmpProblems.push(newProb);
           break;
         case "subtraction":
+          numDigits = Math.floor(Math.random() * 3) + 2;
+          problemStr = MathUtil.generateSubtractionProblemString(numDigits);
+          newProb = MathUtil.getSubtractionOperands(problemStr);
+          tmpProblems.push(newProb);
           break;
       }
     }
@@ -113,7 +118,12 @@ const ProblemPanel = (props) => {
       ))}
       {open[0] === 0 && (
         <div style={{ textAlign: "center", paddingTop: 40 }}>
-          <p style={{ fontSize: 36 }}>Starting Addition ...</p>
+          {category === "addition" && (
+            <p style={{ fontSize: 36 }}>Starting Addition ...</p>
+          )}
+          {category === "subtraction" && (
+            <p style={{ fontSize: 36 }}>Starting Subtraction ...</p>
+          )}
           <p style={{ fontSize: 18 }}>Please press Next to start</p>
         </div>
       )}
