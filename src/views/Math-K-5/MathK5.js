@@ -1,7 +1,14 @@
 /*eslint-disable*/
 import React, { useState } from "react";
-// import PropTypes from "prop-types";
-import { ButtonGroup, Button } from "@material-ui/core";
+import {
+  ButtonGroup,
+  Button,
+  InputLabel,
+  MenuItem,
+  FormHelperText,
+  FormControl,
+  Select,
+} from "@material-ui/core";
 import { withSize } from "react-sizeme";
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -23,7 +30,16 @@ const styles = {
   },
 };
 
-const useStyles = makeStyles(styles);
+// const useStyles = makeStyles(styles);
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
 
 const MathK5 = ({ size }) => {
   const [grade, setGrade] = useState(0);
@@ -53,6 +69,9 @@ const MathK5 = ({ size }) => {
   const selectGrade = (grd) => {
     setGrade(grd);
   };
+  const selectGradeEvent = (evt) => {
+    setGrade(evt.target.value);
+  };
   const selectOption = (opt) => {
     setOption(opt);
   };
@@ -61,25 +80,21 @@ const MathK5 = ({ size }) => {
     <div>
       <Card>
         <CardBody style={{ height: 100, textAlign: "center" }}>
-          <ButtonGroup
-            variant="contained"
-            color="primary"
-            aria-label="contained primary button group"
-          >
-            {gradeSubjectMap.map((grd, grdIdx) => (
-              <Button
-                key={grd.grade.toString()}
-                disabled={grade == grd.grade}
-                onMouseDown={() => {
-                  selectGrade(grd.grade);
-                }}
-              >
-                {grd.name}
-              </Button>
-            ))}
-          </ButtonGroup>
-          <br />
-          <br />
+          <FormControl className={classes.formControl}>
+            <InputLabel id="demo-simple-select-label">Grade</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={grade}
+              onChange={selectGradeEvent}
+            >
+              {gradeSubjectMap.map((grd, grdIdx) => (
+                <MenuItem key={grd.grade.toString()} value={grd.grade}>
+                  {grd.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
           <ButtonGroup
             variant="contained"
