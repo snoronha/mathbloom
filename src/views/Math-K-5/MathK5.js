@@ -72,6 +72,9 @@ const MathK5 = ({ size }) => {
   const selectGradeEvent = (evt) => {
     setGrade(evt.target.value);
   };
+  const selectSubjectEvent = (evt) => {
+    setOption(evt.target.value);
+  };
   const selectOption = (opt) => {
     setOption(opt);
   };
@@ -81,10 +84,10 @@ const MathK5 = ({ size }) => {
       <Card>
         <CardBody style={{ height: 100, textAlign: "center" }}>
           <FormControl className={classes.formControl}>
-            <InputLabel id="demo-simple-select-label">Grade</InputLabel>
+            <InputLabel id="grade-select-label">Grade</InputLabel>
             <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              labelId="grade-select-label"
+              id="grade-simple-select"
               value={grade}
               onChange={selectGradeEvent}
             >
@@ -95,53 +98,27 @@ const MathK5 = ({ size }) => {
               ))}
             </Select>
           </FormControl>
-
-          <ButtonGroup
-            variant="contained"
-            color="primary"
-            aria-label="contained primary button group"
-          >
-            {gradeSubjectMap[grade].subjects.indexOf("addition") >= 0 && (
-              <Button
-                disabled={option == "add"}
-                onMouseDown={() => {
-                  selectOption("add");
-                }}
-              >
-                Addition
-              </Button>
-            )}
-            {gradeSubjectMap[grade].subjects.indexOf("subtraction") >= 0 && (
-              <Button
-                disabled={option == "subtract"}
-                onMouseDown={() => {
-                  selectOption("subtract");
-                }}
-              >
-                Subtraction
-              </Button>
-            )}
-            {gradeSubjectMap[grade].subjects.indexOf("multiplication") >= 0 && (
-              <Button
-                disabled={option == "multiply"}
-                onMouseDown={() => {
-                  selectOption("multiply");
-                }}
-              >
-                Multiplication
-              </Button>
-            )}
-            {gradeSubjectMap[grade].subjects.indexOf("geometry") >= 0 && (
-              <Button
-                disabled={option == "geometry"}
-                onMouseDown={() => {
-                  selectOption("geometry");
-                }}
-              >
-                Geometry
-              </Button>
-            )}
-          </ButtonGroup>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="subject-select-label">Subject</InputLabel>
+            <Select
+              labelId="subject-select-label"
+              id="subject-simple-select"
+              value={option}
+              onChange={selectSubjectEvent}
+            >
+              {gradeSubjectMap[grade].subjects.indexOf("addition") >= 0 && (
+                <MenuItem value={"add"}>Addition</MenuItem>
+              )}
+              {gradeSubjectMap[grade].subjects.indexOf("subtraction") >= 0 && (
+                <MenuItem value={"subtract"}>Subtraction</MenuItem>
+              )}
+              {gradeSubjectMap[grade].subjects.indexOf("multiplication") >=
+                0 && <MenuItem value={"multiply"}>Multiplication</MenuItem>}
+              {gradeSubjectMap[grade].subjects.indexOf("geometry") >= 0 && (
+                <MenuItem value={"geometry"}>Geometry</MenuItem>
+              )}
+            </Select>
+          </FormControl>
         </CardBody>
       </Card>
       {option == "add" && (
