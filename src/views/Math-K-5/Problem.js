@@ -12,10 +12,6 @@ const styles = {
     fontSize: 24,
   },
   staticStringInstance: {
-    "line-height": "35px",
-    textAlign: "center",
-    width: "auto",
-    height: 42,
     fontSize: 24,
   },
   editableDigitInstance: {
@@ -72,32 +68,90 @@ export default function Problem(props) {
     // setSoln(tmpSoln);
   };
 
+  const HorizontalRule = () => {
+    return (
+      <hr
+        style={{
+          justifyContent: "center",
+          width: "100%",
+        }}
+      />
+    );
+  };
+  const HtmlText = (props) => {
+    return <span dangerouslySetInnerHTML={{ __html: props.data }} />;
+  };
+  const StaticString = (props) => {
+    return (
+      <span style={props.style}>
+        <StaticMathField className={classes.staticStringInstance}>
+          {props.data}
+        </StaticMathField>
+      </span>
+    );
+  };
+  const StaticDigit = (props) => {
+    return (
+      <StaticMathField className={classes.staticDigitInstance}>
+        {props.digit}
+      </StaticMathField>
+    );
+  };
+  /*
+  const EditableDigit = (props) => {
+    return (
+      <EditableMathField
+        style={props.style}
+        className={classes.editableDigitInstance}
+        key={"result" + props.digIdx}
+        latex={""} // latex value for the input field
+        onChange={(mathField) => {
+          onChange(mathField, props.specIdx, props.digIdx);
+        }}
+      />
+    );
+  };
+  */
   return (
     <div style={props.style}>
       {problem.specs.map((spec, specIdx) => (
-        <div key={specIdx.toString()}>
-          {spec.type === "static" && (
-            <span>
-              {spec.data.map((digit, digIdx) => (
-                <span key={"op1" + digIdx}>
-                  <StaticMathField className={classes.staticDigitInstance}>
-                    {digit}
-                  </StaticMathField>
+        <div style={{ display: "flex" }} key={specIdx.toString()}>
+          {spec.type === "html" && <HtmlText data={spec.data} />}
+          {spec.type === "staticString" && (
+            <StaticString style={spec.style} data={spec.data} />
+          )}
+          {spec.type === "hr" && <HorizontalRule />}
+          {spec.type === "mixed" && (
+            <span style={spec.style}>
+              {spec.data.map((subspec, subspecIdx) => (
+                <span key={subspecIdx.toString()}>
+                  {subspec.type === "html" && <HtmlText data={subspec.data} />}
+                  {subspec.type === "staticString" && (
+                    <StaticString style={subspec.style} data={subspec.data} />
+                  )}
+                  {subspec.type === "editable" && (
+                    <EditableMathField
+                      className={classes.editableDigitInstance}
+                      key={"result" + subspecIdx}
+                      latex={""} // latex value for the input field
+                      onChange={(mathField) => {
+                        onChange(mathField, specIdx, subspecIdx);
+                      }}
+                    />
+                  )}
                 </span>
               ))}
             </span>
           )}
-          {spec.type === "text" && (
-            <div dangerouslySetInnerHTML={{ __html: spec.data }} />
-          )}
-          {spec.type === "staticString" && (
-            <span>
-              <StaticMathField className={classes.staticStringInstance}>
-                {spec.data}
-              </StaticMathField>
+          {spec.type === "static" && (
+            <span style={spec.style}>
+              {spec.data.map((digit, digIdx) => (
+                <span key={"op1" + digIdx}>
+                  <StaticDigit digit={digit} />
+                </span>
+              ))}
             </span>
           )}
-          {spec.type === "hr" && <hr style={{ marginBottom: 20 }} />}
           {spec.type === "editable" && resultColor.length > 0 && (
             <span>
               {spec.data.map((digit, digIdx) => (
@@ -113,9 +167,7 @@ export default function Problem(props) {
                       }}
                     />
                   ) : (
-                    <StaticMathField className={classes.staticDigitInstance}>
-                      {digit}
-                    </StaticMathField>
+                    <StaticDigit digit={digit} />
                   )}
                 </span>
               ))}

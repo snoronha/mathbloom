@@ -148,12 +148,23 @@ const MathUtil = {
     const q = m * n;
     let specs = [];
     specs.push({
-      type: "text",
+      type: "html",
       data: "Please solve the <b>following</b> <i>equation</i>:",
     });
     specs.push({
+      style: { flex: 1, textAlign: "center" },
       type: "staticString",
-      data: `x^2 + \\sqrt{${p}x} + ${q} = 0`,
+      data: `x^2 + ${p}x + ${q} = 0`,
+    });
+    specs.push({
+      style: { flex: 1, textAlign: "center" },
+      type: "mixed",
+      data: [
+        { type: "html", data: "x = " },
+        { type: "editable", data: [-m, -n] },
+        { type: "html", data: ", and x = " },
+        { type: "editable", data: [-m, -n] },
+      ],
     });
     return { id: MathUtil.uuidv4(), specs: specs };
   },
