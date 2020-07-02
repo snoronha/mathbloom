@@ -141,6 +141,22 @@ const MathUtil = {
     specs.push({ type: "editable", data: resArr });
     return { id: MathUtil.uuidv4(), specs: specs };
   },
+  getAlgebraFactorizationProblem: () => {
+    const m = Math.floor(Math.random() * 10) + 1;
+    const n = Math.floor(Math.random() * 10) + 1;
+    const p = m + n;
+    const q = m * n;
+    let specs = [];
+    specs.push({
+      type: "text",
+      data: "Please solve the <b>following</b> <i>equation</i>:",
+    });
+    specs.push({
+      type: "staticString",
+      data: `x^2 + \\sqrt{${p}x} + ${q} = 0`,
+    });
+    return { id: MathUtil.uuidv4(), specs: specs };
+  },
   getPythagoreanTriples: (min, max) => {
     let m = Math.floor(Math.random() * max);
     let n = Math.floor(Math.random() * max);

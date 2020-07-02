@@ -34,6 +34,10 @@ const ProblemPanel = (props) => {
           newProb = MathUtil.getMultiplicationOperands(digits1, digits2);
           tmpProblems.push(newProb);
           break;
+        case "algebra":
+          newProb = MathUtil.getAlgebraFactorizationProblem();
+          tmpProblems.push(newProb);
+          break;
         /*
         case "geometry":
           numDigits = Math.floor(Math.random() * 3) + 2;

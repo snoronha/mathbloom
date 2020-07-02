@@ -63,20 +63,20 @@ const MathK5 = ({ size }) => {
     {
       name: "5th grade",
       grade: 5,
-      subjects: ["addition", "subtraction", "multiplication", "geometry"],
+      subjects: [
+        "addition",
+        "subtraction",
+        "multiplication",
+        "geometry",
+        "algebra",
+      ],
     },
   ];
-  const selectGrade = (grd) => {
-    setGrade(grd);
-  };
   const selectGradeEvent = (evt) => {
     setGrade(evt.target.value);
   };
   const selectSubjectEvent = (evt) => {
     setOption(evt.target.value);
-  };
-  const selectOption = (opt) => {
-    setOption(opt);
   };
 
   return (
@@ -116,6 +116,9 @@ const MathK5 = ({ size }) => {
                 0 && <MenuItem value={"multiply"}>Multiplication</MenuItem>}
               {gradeSubjectMap[grade].subjects.indexOf("geometry") >= 0 && (
                 <MenuItem value={"geometry"}>Geometry</MenuItem>
+              )}
+              {gradeSubjectMap[grade].subjects.indexOf("algebra") >= 0 && (
+                <MenuItem value={"algebra"}>Algebra</MenuItem>
               )}
             </Select>
           </FormControl>
@@ -158,6 +161,16 @@ const MathK5 = ({ size }) => {
           </CardHeader>
           <CardBody style={{ height: 400 }}>
             <GeometryPanel size={size} />
+          </CardBody>
+        </Card>
+      )}
+      {option == "algebra" && (
+        <Card>
+          <CardHeader color="primary">
+            <h4 className={classes.cardTitleWhite}>Algebra</h4>
+          </CardHeader>
+          <CardBody style={{ height: 400 }}>
+            <ProblemPanel size={size} category={"algebra"} />
           </CardBody>
         </Card>
       )}

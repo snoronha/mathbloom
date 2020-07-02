@@ -11,6 +11,13 @@ const styles = {
     height: 42,
     fontSize: 24,
   },
+  staticStringInstance: {
+    "line-height": "35px",
+    textAlign: "center",
+    width: "auto",
+    height: 42,
+    fontSize: 24,
+  },
   editableDigitInstance: {
     textAlign: "center",
     width: 40,
@@ -78,6 +85,16 @@ export default function Problem(props) {
                   </StaticMathField>
                 </span>
               ))}
+            </span>
+          )}
+          {spec.type === "text" && (
+            <div dangerouslySetInnerHTML={{ __html: spec.data }} />
+          )}
+          {spec.type === "staticString" && (
+            <span>
+              <StaticMathField className={classes.staticStringInstance}>
+                {spec.data}
+              </StaticMathField>
             </span>
           )}
           {spec.type === "hr" && <hr style={{ marginBottom: 20 }} />}
