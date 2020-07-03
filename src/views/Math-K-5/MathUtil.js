@@ -166,10 +166,8 @@ const MathUtil = {
       style: { flex: 1, textAlign: "center", margin: 10 },
       type: "mixed",
       data: [
-        // { type: "html", data: "x = ", style: { fontSize: 20 } },
         { type: "staticString", data: "x = " },
         { type: "editable", data: [-m, -n] },
-        // { type: "html", data: " , and x = ", style: { fontSize: 20 } },
         { type: "staticString", data: "\\space,\\space and\\space x = " },
         { type: "editable", data: [-m, -n] },
       ],
@@ -187,7 +185,7 @@ const MathUtil = {
       data: [
         {
           type: "html",
-          data: "Please factor the following quadratic expression",
+          data: "Factor the quadratic expression",
           style: { fontSize: 20 },
         },
       ],
@@ -202,14 +200,15 @@ const MathUtil = {
     specs.push({
       style: { flex: 1, textAlign: "center", margin: 10 },
       type: "mixed",
-      data: [
-        { type: "staticString", data: "m = " },
-        { type: "editable", data: [-m, -n] },
-        { type: "staticString", data: "\\space,\\space and\\space n = " },
-        { type: "editable", data: [-m, -n] },
-      ],
+      data: [{ type: "staticString", data: "m,n = " }, { type: "editable" }],
     });
-    return { id: MathUtil.uuidv4(), specs: specs };
+    // Set up answer
+    const answer = [[m, n].join(","), [n, m].join(",")];
+    return {
+      id: MathUtil.uuidv4(),
+      answer: answer,
+      specs: specs,
+    };
   },
   getPythagoreanTriples: (min, max) => {
     let m = Math.floor(Math.random() * max);
@@ -234,6 +233,9 @@ const MathUtil = {
         (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
       ).toString(16)
     );
+  },
+  randomStr: () => {
+    return (Math.floor(Math.random() * 1000000) + 100).toString();
   },
 };
 

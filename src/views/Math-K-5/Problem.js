@@ -14,6 +14,13 @@ const styles = {
   staticStringInstance: {
     fontSize: 24,
   },
+  editableInstance: {
+    textAlign: "center",
+    width: "auto",
+    minWidth: 80,
+    height: "auto",
+    fontSize: 24,
+  },
   editableDigitInstance: {
     textAlign: "center",
     width: 40,
@@ -28,7 +35,7 @@ const useStyles = makeStyles(styles);
 export default function Problem(props) {
   const classes = useStyles();
   const [problem, setProblem] = useState(props.problem);
-  // const [soln, setSoln] = useState([]);
+  const [answerCorrect, setAnswerCorrect] = useState(null);
   const [resultColor, setResultColor] = useState([]);
   // single array is for resultColor insufficient.
   // Multiplication has several rows fillable by user
@@ -52,9 +59,7 @@ export default function Problem(props) {
     resultColor.forEach((row) => {
       tmpResColor.push(row.slice());
     });
-    // let tmpSoln = soln.slice();
     const fieldVal = mathField.latex();
-    // tmpSoln[digIdx] = fieldVal;
     const data = problem.specs[specIdx].data;
     if (data[digIdx].toString() == fieldVal) {
       tmpResColor[specIdx][digIdx] = COLORS.RIGHT;
@@ -68,6 +73,24 @@ export default function Problem(props) {
     // setSoln(tmpSoln);
   };
 
+  const onFieldChange = (mathField, problem, spec) => {
+    const fieldVal = mathField.latex().toString();
+    if (fieldVal) {
+      let matched = false;
+      for (let k in problem.answer) {
+        if (problem.answer[k] === fieldVal) {
+          matched = true;
+        }
+      }
+      if (problem.answer.indexOf(fieldVal) >= 0) {
+        setAnswerCorrect(true);
+      } else {
+        setAnswerCorrect(false);
+      }
+    } else {
+      setAnswerCorrect(null);
+    }
+  };
   const HorizontalRule = () => {
     return (
       <hr
@@ -134,11 +157,19 @@ export default function Problem(props) {
                   )}
                   {subspec.type === "editable" && (
                     <EditableMathField
-                      className={classes.editableDigitInstance}
+                      style={{
+                        backgroundColor:
+                          answerCorrect === null
+                            ? "#fff"
+                            : answerCorrect
+                            ? "#cfc"
+                            : "#fcc",
+                      }}
+                      className={classes.editableInstance}
                       key={"result" + subspecIdx}
                       latex={""} // latex value for the input field
                       onChange={(mathField) => {
-                        onChange(mathField, specIdx, subspecIdx);
+                        onFieldChange(mathField, problem, subspec);
                       }}
                     />
                   )}
