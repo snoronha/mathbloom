@@ -8,7 +8,7 @@ const styles = {
     "line-height": "35px",
     textAlign: "center",
     width: 42,
-    height: 42,
+    height: "auto",
     fontSize: 24,
   },
   staticStringInstance: {
@@ -79,7 +79,8 @@ export default function Problem(props) {
     );
   };
   const HtmlText = (props) => {
-    return <span dangerouslySetInnerHTML={{ __html: props.data }} />;
+    // return <span dangerouslySetInnerHTML={{ __html: props.data }} />;
+    return <span style={props.style}>{props.data}</span>;
   };
   const StaticString = (props) => {
     return (
@@ -125,7 +126,9 @@ export default function Problem(props) {
             <span style={spec.style}>
               {spec.data.map((subspec, subspecIdx) => (
                 <span key={subspecIdx.toString()}>
-                  {subspec.type === "html" && <HtmlText data={subspec.data} />}
+                  {subspec.type === "html" && (
+                    <HtmlText style={subspec.style} data={subspec.data} />
+                  )}
                   {subspec.type === "staticString" && (
                     <StaticString style={subspec.style} data={subspec.data} />
                   )}

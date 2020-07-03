@@ -141,15 +141,21 @@ const MathUtil = {
     specs.push({ type: "editable", data: resArr });
     return { id: MathUtil.uuidv4(), specs: specs };
   },
-  getAlgebraFactorizationProblem: () => {
+  getAlgebraQuadraticProblem: () => {
     const m = Math.floor(Math.random() * 10) + 1;
     const n = Math.floor(Math.random() * 10) + 1;
     const p = m + n;
     const q = m * n;
     let specs = [];
     specs.push({
-      type: "html",
-      data: "Please solve the <b>following</b> <i>equation</i>:",
+      type: "mixed",
+      data: [
+        {
+          type: "html",
+          data: "Please solve the following equation",
+          style: { fontSize: 20 },
+        },
+      ],
     });
     specs.push({
       style: { flex: 1, textAlign: "center" },
@@ -157,12 +163,49 @@ const MathUtil = {
       data: `x^2 + ${p}x + ${q} = 0`,
     });
     specs.push({
+      style: { flex: 1, textAlign: "center", margin: 10 },
+      type: "mixed",
+      data: [
+        // { type: "html", data: "x = ", style: { fontSize: 20 } },
+        { type: "staticString", data: "x = " },
+        { type: "editable", data: [-m, -n] },
+        // { type: "html", data: " , and x = ", style: { fontSize: 20 } },
+        { type: "staticString", data: "\\space,\\space and\\space x = " },
+        { type: "editable", data: [-m, -n] },
+      ],
+    });
+    return { id: MathUtil.uuidv4(), specs: specs };
+  },
+  getAlgebraFactorizationProblem: () => {
+    const m = Math.floor(Math.random() * 10) + 1;
+    const n = Math.floor(Math.random() * 10) + 1;
+    const p = m + n;
+    const q = m * n;
+    let specs = [];
+    specs.push({
+      type: "mixed",
+      data: [
+        {
+          type: "html",
+          data: "Please factor the following quadratic expression",
+          style: { fontSize: 20 },
+        },
+      ],
+    });
+    specs.push({
       style: { flex: 1, textAlign: "center" },
       type: "mixed",
       data: [
-        { type: "html", data: "x = " },
+        { type: "staticString", data: `x^2 + ${p}x + ${q} = (x + m)(x + n)` },
+      ],
+    });
+    specs.push({
+      style: { flex: 1, textAlign: "center", margin: 10 },
+      type: "mixed",
+      data: [
+        { type: "staticString", data: "m = " },
         { type: "editable", data: [-m, -n] },
-        { type: "html", data: ", and x = " },
+        { type: "staticString", data: "\\space,\\space and\\space n = " },
         { type: "editable", data: [-m, -n] },
       ],
     });
