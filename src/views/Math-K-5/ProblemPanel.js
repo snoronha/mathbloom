@@ -10,7 +10,6 @@ const ProblemPanel = (props) => {
   const category = props.category;
   const NUMPROBLEMS = 10;
   // const [open, setOpen] = useState(new Array(NUMPROBLEMS).fill(0));
-  // const [count, setCount] = useState(0);
   const [count, setCount] = useState(-1);
   const [problems, setProblems] = useState([]);
 
@@ -19,27 +18,27 @@ const ProblemPanel = (props) => {
     let numDigits, newProb;
     for (let i = 0; i < NUMPROBLEMS; i++) {
       switch (category) {
-        case "addition":
+        case "Addition":
           numDigits = Math.floor(Math.random() * 3) + 2;
           newProb = MathUtil.getAdditionOperands(numDigits);
           tmpProblems.push(newProb);
           break;
-        case "subtraction":
+        case "Subtraction":
           numDigits = Math.floor(Math.random() * 3) + 2;
           newProb = MathUtil.getSubtractionOperands(numDigits);
           tmpProblems.push(newProb);
           break;
-        case "multiplication":
+        case "Multiplication":
           const digits1 = Math.floor(Math.random() * 3) + 2;
           const digits2 = Math.floor(Math.random() * 3) + 1;
           newProb = MathUtil.getMultiplicationOperands(digits1, digits2);
           tmpProblems.push(newProb);
           break;
-        case "geometry":
+        case "Geometry":
           newProb = MathUtil.getGeometryProblem();
           tmpProblems.push(newProb);
           break;
-        case "algebra":
+        case "Algebra":
           newProb = MathUtil.getAlgebraFactorizationProblem();
           tmpProblems.push(newProb);
           break;
@@ -50,7 +49,8 @@ const ProblemPanel = (props) => {
 
   useEffect(() => {
     createNewProblems(category);
-  }, []);
+    setCount(-1);
+  }, [category]);
 
   /*
   const handleNext = () => {

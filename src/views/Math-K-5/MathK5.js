@@ -34,40 +34,52 @@ const useStyles = makeStyles((theme) => ({
 
 const MathK5 = ({ size }) => {
   const [grade, setGrade] = useState(0);
-  const [option, setOption] = useState("");
+  const [subject, setSubject] = useState("");
+  const [topic, setTopic] = useState("");
   const classes = useStyles();
 
   const gradeSubjectMap = [
-    { name: "Kinder", grade: 0, subjects: ["addition", "number_line"] },
-    { name: "1st grade", grade: 1, subjects: ["addition", "subtraction"] },
-    { name: "2nd grade", grade: 2, subjects: ["addition", "subtraction"] },
+    { name: "Kinder", grade: 0, subjects: ["Addition"] },
+    { name: "1st grade", grade: 1, subjects: ["Addition", "Subtraction"] },
+    { name: "2nd grade", grade: 2, subjects: ["Addition", "Subtraction"] },
     {
       name: "3rd grade",
       grade: 3,
-      subjects: ["addition", "subtraction", "multiplication"],
+      subjects: ["Addition", "Subtraction", "Multiplication"],
     },
     {
       name: "4th grade",
       grade: 4,
-      subjects: ["addition", "subtraction", "multiplication", "geometry"],
+      subjects: ["Addition", "Subtraction", "Multiplication", "Geometry"],
     },
     {
       name: "5th grade",
       grade: 5,
       subjects: [
-        "addition",
-        "subtraction",
-        "multiplication",
-        "geometry",
-        "algebra",
+        "Addition",
+        "Subtraction",
+        "Multiplication",
+        "Geometry",
+        "Algebra",
       ],
     },
   ];
+  const subjectTopicMap = {
+    "": [],
+    Addition: ["1 digit", "2 digit", "3 digit", "4 digit"],
+    Subtraction: ["1 digit", "2 digit", "3 digit", "4 digit"],
+    Multiplication: ["1 digit", "2 digit", "3 digit", "4 digit"],
+    Geometry: ["Triangles", "Circles", "Polygons"],
+    Algebra: ["Linear", "Quadratic", "Equations"],
+  };
   const selectGradeEvent = (evt) => {
     setGrade(evt.target.value);
   };
   const selectSubjectEvent = (evt) => {
-    setOption(evt.target.value);
+    setSubject(evt.target.value);
+  };
+  const selectTopicEvent = (evt) => {
+    setTopic(evt.target.value);
   };
 
   return (
@@ -94,74 +106,40 @@ const MathK5 = ({ size }) => {
             <Select
               labelId="subject-select-label"
               id="subject-simple-select"
-              value={option}
+              value={subject}
               onChange={selectSubjectEvent}
             >
-              {gradeSubjectMap[grade].subjects.indexOf("addition") >= 0 && (
-                <MenuItem value={"add"}>Addition</MenuItem>
-              )}
-              {gradeSubjectMap[grade].subjects.indexOf("subtraction") >= 0 && (
-                <MenuItem value={"subtract"}>Subtraction</MenuItem>
-              )}
-              {gradeSubjectMap[grade].subjects.indexOf("multiplication") >=
-                0 && <MenuItem value={"multiply"}>Multiplication</MenuItem>}
-              {gradeSubjectMap[grade].subjects.indexOf("geometry") >= 0 && (
-                <MenuItem value={"geometry"}>Geometry</MenuItem>
-              )}
-              {gradeSubjectMap[grade].subjects.indexOf("algebra") >= 0 && (
-                <MenuItem value={"algebra"}>Algebra</MenuItem>
-              )}
+              {gradeSubjectMap[grade].subjects.map((subj, subjIdx) => (
+                <MenuItem key={subjIdx.toString()} value={subj}>
+                  {subj}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="topic-select-label">Topic</InputLabel>
+            <Select
+              labelId="topic-select-label"
+              id="topic-simple-select"
+              value={topic}
+              onChange={selectTopicEvent}
+            >
+              {subjectTopicMap[subject].map((topic, topicIdx) => (
+                <MenuItem key={topicIdx.toString()} value={"topic"}>
+                  {topic}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </CardBody>
       </Card>
-      {option == "add" && (
+      {subject && (
         <Card>
           <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Addition</h4>
+            <h4 className={classes.cardTitleWhite}>{subject}</h4>
           </CardHeader>
-          <CardBody style={{ height: 400 }}>
-            <ProblemPanel size={size} category={"addition"} />
-          </CardBody>
-        </Card>
-      )}
-      {option == "subtract" && (
-        <Card>
-          <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Subtraction</h4>
-          </CardHeader>
-          <CardBody style={{ height: 400 }}>
-            <ProblemPanel size={size} category={"subtraction"} />
-          </CardBody>
-        </Card>
-      )}
-      {option == "multiply" && (
-        <Card>
-          <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Multiplication</h4>
-          </CardHeader>
-          <CardBody style={{ height: 400 }}>
-            <ProblemPanel size={size} category={"multiplication"} />
-          </CardBody>
-        </Card>
-      )}
-      {option == "geometry" && (
-        <Card>
-          <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Geometry</h4>
-          </CardHeader>
-          <CardBody style={{ height: 400 }}>
-            <ProblemPanel size={size} category={"geometry"} />
-          </CardBody>
-        </Card>
-      )}
-      {option == "algebra" && (
-        <Card>
-          <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Algebra</h4>
-          </CardHeader>
-          <CardBody style={{ height: 400 }}>
-            <ProblemPanel size={size} category={"algebra"} />
+          <CardBody style={{ height: 360 }}>
+            <ProblemPanel size={size} category={subject} />
           </CardBody>
         </Card>
       )}
