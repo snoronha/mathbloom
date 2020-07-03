@@ -1,14 +1,6 @@
 /*eslint-disable*/
 import React, { useState } from "react";
-import {
-  ButtonGroup,
-  Button,
-  InputLabel,
-  MenuItem,
-  FormHelperText,
-  FormControl,
-  Select,
-} from "@material-ui/core";
+import { InputLabel, MenuItem, FormControl, Select } from "@material-ui/core";
 import { withSize } from "react-sizeme";
 import { makeStyles } from "@material-ui/core/styles";
 // core components

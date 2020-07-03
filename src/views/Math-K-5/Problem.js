@@ -38,8 +38,6 @@ export default function Problem(props) {
   const [problem, setProblem] = useState(props.problem);
   const [answerCorrect, setAnswerCorrect] = useState(null);
   const [resultColor, setResultColor] = useState([]);
-  // single array is for resultColor insufficient.
-  // Multiplication has several rows fillable by user
   const COLORS = { NOT_TRIED: "#fff", RIGHT: "#8f8", WRONG: "#f88" };
 
   useEffect(() => {
@@ -123,7 +121,7 @@ export default function Problem(props) {
   };
   const Triangle = ({ props }) => {
     return (
-      <svg height={200} width={200}>
+      <svg height={200} width={300}>
         <g transform={"translate(25, 25) rotate(0)"}>
           <TriangleSidesAngle {...props} />
         </g>

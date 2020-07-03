@@ -1,6 +1,6 @@
 /*eslint-disable*/
 import React, { useState, useEffect } from "react";
-import { Motion, spring } from "react-motion";
+// import { Motion, spring } from "react-motion";
 import Button from "@material-ui/core/Button";
 import Problem from "./Problem";
 import MathUtil from "./MathUtil";
@@ -134,16 +134,14 @@ const ProblemPanel = (props) => {
       ))}
       {count < 0 && (
         <div style={{ textAlign: "center", paddingTop: 40 }}>
-          {category === "addition" && (
-            <p style={{ fontSize: 36 }}>Starting Addition ...</p>
-          )}
-          {category === "subtraction" && (
-            <p style={{ fontSize: 36 }}>Starting Subtraction ...</p>
-          )}
-          {category === "multiplication" && (
-            <p style={{ fontSize: 36 }}>Starting Multiplication ...</p>
-          )}
-          <p style={{ fontSize: 18 }}>Please press Next to begin</p>
+          <p style={{ fontSize: 24 }}>Start {category} ...</p>
+          <p style={{ fontSize: 18 }}>Press Next to begin</p>
+        </div>
+      )}
+      {count >= NUMPROBLEMS && (
+        <div style={{ textAlign: "center", paddingTop: 40 }}>
+          <p style={{ fontSize: 24 }}>Done {category} ...</p>
+          <p style={{ fontSize: 18 }}>Get more?</p>
         </div>
       )}
       <div style={{ position: "absolute", bottom: "10px", left: "10px" }}>
@@ -151,12 +149,18 @@ const ProblemPanel = (props) => {
           variant="contained"
           color="default"
           onMouseDown={handlePrevious}
+          disabled={count < 0}
         >
           Previous
         </Button>
       </div>
       <div style={{ position: "absolute", bottom: "10px", right: "10px" }}>
-        <Button variant="contained" color="default" onMouseDown={handleNext}>
+        <Button
+          variant="contained"
+          color="default"
+          onMouseDown={handleNext}
+          disabled={count >= NUMPROBLEMS}
+        >
           Next
         </Button>
       </div>

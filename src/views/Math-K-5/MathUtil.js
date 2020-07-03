@@ -18,6 +18,7 @@ const MathUtil = {
       .toString()
       .split("")
       .map((s) => parseInt(s));
+    const attempt = new Array(resArr.length).fill("");
     op1Arr.unshift("");
     op2Arr.unshift("+");
     if (resArr.length < op1Arr.length || resArr.length < op2Arr.length) {
@@ -29,7 +30,7 @@ const MathUtil = {
         { type: "static", data: op1Arr },
         { type: "static", data: op2Arr },
         { type: "hr" },
-        { type: "editable", data: resArr },
+        { type: "editable", data: resArr, attempt: attempt },
       ],
     };
   },
@@ -241,6 +242,36 @@ const MathUtil = {
       id: MathUtil.uuidv4(),
       answer: answer,
       specs: specs,
+    };
+  },
+  computeTriangleParams: (params) => {
+    const b = params.b;
+    const c = params.c;
+    const A = params.A;
+    const Arad = (A * Math.PI) / 180;
+    const cx = b * Math.cos(Arad);
+    const cy = b * Math.sin(Arad);
+    const points = [
+      [0, cy],
+      [c, cy],
+      [cx, 0],
+    ];
+    const a = Math.sqrt(b * b + c * c - 2 * b * c * Math.cos(Arad));
+    const Brad = Math.acos((a * a + c * c - b * b) / (2 * a * c));
+    const Crad = Math.PI - (Arad + Brad);
+    const B = (Brad * 180) / Math.PI;
+    const C = (Crad * 180) / Math.PI;
+    return {
+      a: a,
+      b: b,
+      c: c,
+      A: A,
+      B: B,
+      C: C,
+      Arad: Arad,
+      Brad: Brad,
+      Crad: Crad,
+      points: points,
     };
   },
   getPythagoreanTriples: (min, max) => {
