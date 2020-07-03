@@ -82,7 +82,7 @@ const MathK5 = ({ size }) => {
   return (
     <div>
       <Card>
-        <CardBody style={{ height: 100, textAlign: "center" }}>
+        <CardBody style={{ height: 75, textAlign: "center" }}>
           <FormControl className={classes.formControl}>
             <InputLabel id="grade-select-label">Grade</InputLabel>
             <Select

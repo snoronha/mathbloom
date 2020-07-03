@@ -9,14 +9,15 @@ const ProblemPanel = (props) => {
   const size = props.size;
   const category = props.category;
   const NUMPROBLEMS = 10;
-  const [open, setOpen] = useState(new Array(NUMPROBLEMS).fill(0));
-  const [count, setCount] = useState(0);
+  // const [open, setOpen] = useState(new Array(NUMPROBLEMS).fill(0));
+  // const [count, setCount] = useState(0);
+  const [count, setCount] = useState(-1);
   const [problems, setProblems] = useState([]);
 
   const createNewProblems = (category) => {
     let tmpProblems = [];
     let numDigits, newProb;
-    for (let i = 0; i < open.length; i++) {
+    for (let i = 0; i < NUMPROBLEMS; i++) {
       switch (category) {
         case "addition":
           numDigits = Math.floor(Math.random() * 3) + 2;
@@ -42,13 +43,6 @@ const ProblemPanel = (props) => {
           newProb = MathUtil.getAlgebraFactorizationProblem();
           tmpProblems.push(newProb);
           break;
-        /*
-        case "geometry":
-          numDigits = Math.floor(Math.random() * 3) + 2;
-          newProb = MathUtil.getAdditionOperands(numDigits);
-          tmpProblems.push(newProb);
-          break;
-          */
       }
     }
     setProblems(tmpProblems);
@@ -58,6 +52,7 @@ const ProblemPanel = (props) => {
     createNewProblems(category);
   }, []);
 
+  /*
   const handleNext = () => {
     if (count < open.length) {
       if (open[count] === 0) {
@@ -99,12 +94,76 @@ const ProblemPanel = (props) => {
       // setOpen(new Array(10).fill(0));
     }
   };
+  */
+
+  const handleNext = () => {
+    if (count < NUMPROBLEMS) {
+      setCount(count + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (count >= 0) {
+      setCount(count - 1);
+    }
+  };
 
   const handleTouchStart = (e) => {
     // e.preventDefault();
     handleMouseDown();
   };
 
+  return (
+    <div>
+      {problems.map((problem, idx) => (
+        <span
+          style={{ display: "flex", justifyContent: "center" }}
+          key={idx.toString()}
+        >
+          {count === idx && (
+            <Problem
+              style={{
+                border: "4px solid #eee",
+                borderRadius: "10px",
+                padding: "10px",
+              }}
+              problem={problem}
+            />
+          )}
+        </span>
+      ))}
+      {count < 0 && (
+        <div style={{ textAlign: "center", paddingTop: 40 }}>
+          {category === "addition" && (
+            <p style={{ fontSize: 36 }}>Starting Addition ...</p>
+          )}
+          {category === "subtraction" && (
+            <p style={{ fontSize: 36 }}>Starting Subtraction ...</p>
+          )}
+          {category === "multiplication" && (
+            <p style={{ fontSize: 36 }}>Starting Multiplication ...</p>
+          )}
+          <p style={{ fontSize: 18 }}>Please press Next to begin</p>
+        </div>
+      )}
+      <div style={{ position: "absolute", bottom: "10px", left: "10px" }}>
+        <Button
+          variant="contained"
+          color="default"
+          onMouseDown={handlePrevious}
+        >
+          Previous
+        </Button>
+      </div>
+      <div style={{ position: "absolute", bottom: "10px", right: "10px" }}>
+        <Button variant="contained" color="default" onMouseDown={handleNext}>
+          Next
+        </Button>
+      </div>
+    </div>
+  );
+
+  /*
   return (
     <div>
       {problems.map((problem, idx) => (
@@ -165,6 +224,7 @@ const ProblemPanel = (props) => {
       </div>
     </div>
   );
+  */
 };
 
 export default ProblemPanel;
