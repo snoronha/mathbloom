@@ -1,6 +1,7 @@
 /*eslint-disable*/
 import React, { useState, useEffect } from "react";
 import { StaticMathField, EditableMathField } from "react-mathquill";
+import TriangleSidesAngle from "./components/TriangleSidesAngle";
 import { makeStyles } from "@material-ui/core/styles";
 
 const styles = {
@@ -70,7 +71,6 @@ export default function Problem(props) {
       tmpResColor[specIdx][digIdx] = COLORS.NOT_TRIED;
     }
     setResultColor(tmpResColor);
-    // setSoln(tmpSoln);
   };
 
   const onFieldChange = (mathField, problem, spec) => {
@@ -121,6 +121,15 @@ export default function Problem(props) {
       </StaticMathField>
     );
   };
+  const Triangle = ({ props }) => {
+    return (
+      <svg height={200} width={200}>
+        <g transform={"translate(25, 25) rotate(0)"}>
+          <TriangleSidesAngle {...props} />
+        </g>
+      </svg>
+    );
+  };
   /*
   const EditableDigit = (props) => {
     return (
@@ -154,6 +163,9 @@ export default function Problem(props) {
                   )}
                   {subspec.type === "staticString" && (
                     <StaticString style={subspec.style} data={subspec.data} />
+                  )}
+                  {subspec.type === "triangle" && (
+                    <Triangle style={subspec.style} props={subspec.data} />
                   )}
                   {subspec.type === "editable" && (
                     <EditableMathField

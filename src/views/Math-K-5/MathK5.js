@@ -58,7 +58,7 @@ const MathK5 = ({ size }) => {
     {
       name: "4th grade",
       grade: 4,
-      subjects: ["addition", "subtraction", "multiplication"],
+      subjects: ["addition", "subtraction", "multiplication", "geometry"],
     },
     {
       name: "5th grade",
@@ -160,7 +160,7 @@ const MathK5 = ({ size }) => {
             <h4 className={classes.cardTitleWhite}>Geometry</h4>
           </CardHeader>
           <CardBody style={{ height: 400 }}>
-            <GeometryPanel size={size} />
+            <ProblemPanel size={size} category={"geometry"} />
           </CardBody>
         </Card>
       )}

@@ -210,6 +210,39 @@ const MathUtil = {
       specs: specs,
     };
   },
+  getGeometryProblem: () => {
+    const b = Math.floor(Math.random() * 100) + 50;
+    const c = Math.floor(Math.random() * 100) + 50;
+    const A = Math.floor(Math.random() * 120) + 20;
+    let specs = [];
+    specs.push({
+      type: "mixed",
+      data: [
+        {
+          type: "html",
+          data: "Compute Angle C",
+          style: { fontSize: 20 },
+        },
+      ],
+    });
+    specs.push({
+      style: { flex: 1, textAlign: "center" },
+      type: "mixed",
+      data: [{ type: "triangle", data: { b: b, c: c, A: A } }],
+    });
+    specs.push({
+      style: { flex: 1, textAlign: "center", margin: 10 },
+      type: "mixed",
+      data: [{ type: "staticString", data: "C = " }, { type: "editable" }],
+    });
+    // Set up answer
+    const answer = [57];
+    return {
+      id: MathUtil.uuidv4(),
+      answer: answer,
+      specs: specs,
+    };
+  },
   getPythagoreanTriples: (min, max) => {
     let m = Math.floor(Math.random() * max);
     let n = Math.floor(Math.random() * max);
