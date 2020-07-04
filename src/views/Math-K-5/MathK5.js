@@ -8,6 +8,7 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import ProblemPanel from "./ProblemPanel";
+import MathUtil from "./MathUtil";
 
 const styles = {
   cardTitleWhite: {
@@ -64,6 +65,7 @@ const MathK5 = ({ size }) => {
       ],
     },
   ];
+
   const subjectTopicMap = {
     "": [],
     Addition: ["1 digit", "2 digit", "3 digit", "4 digit"],
@@ -124,22 +126,22 @@ const MathK5 = ({ size }) => {
               value={topic}
               onChange={selectTopicEvent}
             >
-              {subjectTopicMap[subject].map((topic, topicIdx) => (
-                <MenuItem key={topicIdx.toString()} value={"topic"}>
-                  {topic}
+              {subjectTopicMap[subject].map((tpc, tpcIdx) => (
+                <MenuItem key={tpcIdx.toString()} value={tpc}>
+                  {tpc}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
         </CardBody>
       </Card>
-      {subject && (
+      {subject && topic && (
         <Card>
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>{subject}</h4>
           </CardHeader>
           <CardBody style={{ height: 360 }}>
-            <ProblemPanel size={size} category={subject} />
+            <ProblemPanel size={size} subject={subject} topic={topic} />
           </CardBody>
         </Card>
       )}

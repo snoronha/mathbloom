@@ -7,31 +7,85 @@ import MathUtil from "./MathUtil";
 
 const ProblemPanel = (props) => {
   const size = props.size;
-  const category = props.category;
+  const subject = props.subject;
+  const topic = props.topic;
   const NUMPROBLEMS = 10;
   // const [open, setOpen] = useState(new Array(NUMPROBLEMS).fill(0));
   const [count, setCount] = useState(-1);
   const [problems, setProblems] = useState([]);
 
-  const createNewProblems = (category) => {
+  const createNewProblems = (subject, topic) => {
     let tmpProblems = [];
     let numDigits, newProb;
     for (let i = 0; i < NUMPROBLEMS; i++) {
-      switch (category) {
+      switch (subject) {
         case "Addition":
-          numDigits = Math.floor(Math.random() * 3) + 2;
-          newProb = MathUtil.getAdditionOperands(numDigits);
+          switch (topic) {
+            case "1 digit":
+              newProb = MathUtil.getAdditionOperands(1);
+              break;
+            case "2 digit":
+              newProb = MathUtil.getAdditionOperands(2);
+              break;
+            case "3 digit":
+              newProb = MathUtil.getAdditionOperands(3);
+              break;
+            case "4 digit":
+              newProb = MathUtil.getAdditionOperands(4);
+              break;
+            default:
+              newProb = MathUtil.getAdditionOperands(
+                Math.floor(Math.random() * 3) + 2
+              );
+              break;
+          }
           tmpProblems.push(newProb);
           break;
+
         case "Subtraction":
-          numDigits = Math.floor(Math.random() * 3) + 2;
-          newProb = MathUtil.getSubtractionOperands(numDigits);
+          switch (topic) {
+            case "1 digit":
+              newProb = MathUtil.getSubtractionOperands(1);
+              break;
+            case "2 digit":
+              newProb = MathUtil.getSubtractionOperands(2);
+              break;
+            case "3 digit":
+              newProb = MathUtil.getSubtractionOperands(3);
+              break;
+            case "4 digit":
+              newProb = MathUtil.getSubtractionOperands(4);
+              break;
+            default:
+              newProb = MathUtil.getAdditionOperands(
+                Math.floor(Math.random() * 3) + 2
+              );
+              break;
+          }
           tmpProblems.push(newProb);
           break;
         case "Multiplication":
-          const digits1 = Math.floor(Math.random() * 3) + 2;
-          const digits2 = Math.floor(Math.random() * 3) + 1;
-          newProb = MathUtil.getMultiplicationOperands(digits1, digits2);
+          switch (topic) {
+            case "1 digit":
+              newProb = MathUtil.getMultiplicationOperands(1, 1);
+              break;
+            case "2 digit":
+              numDigits = Math.floor(Math.random() * 2) + 1;
+              newProb = MathUtil.getMultiplicationOperands(2, numDigits);
+              break;
+            case "3 digit":
+              numDigits = Math.floor(Math.random() * 2) + 1;
+              newProb = MathUtil.getMultiplicationOperands(3, numDigits);
+              break;
+            case "4 digit":
+              numDigits = Math.floor(Math.random() * 3) + 1;
+              newProb = MathUtil.getMultiplicationOperands(4, numDigits);
+              break;
+            default:
+              numDigits = Math.floor(Math.random() * 2) + 1;
+              newProb = MathUtil.getMultiplicationOperands(3, numDigits);
+              break;
+          }
           tmpProblems.push(newProb);
           break;
         case "Geometry":
@@ -48,9 +102,9 @@ const ProblemPanel = (props) => {
   };
 
   useEffect(() => {
-    createNewProblems(category);
+    createNewProblems(subject, topic);
     setCount(-1);
-  }, [category]);
+  }, [subject, topic]);
 
   /*
   const handleNext = () => {
@@ -134,13 +188,15 @@ const ProblemPanel = (props) => {
       ))}
       {count < 0 && (
         <div style={{ textAlign: "center", paddingTop: 40 }}>
-          <p style={{ fontSize: 24 }}>Start {category} ...</p>
+          <p style={{ fontSize: 24 }}>
+            Start {topic} {subject} ...
+          </p>
           <p style={{ fontSize: 18 }}>Press Next to begin</p>
         </div>
       )}
       {count >= NUMPROBLEMS && (
         <div style={{ textAlign: "center", paddingTop: 40 }}>
-          <p style={{ fontSize: 24 }}>Done {category} ...</p>
+          <p style={{ fontSize: 24 }}>Done {subject} ...</p>
           <p style={{ fontSize: 18 }}>Get more?</p>
         </div>
       )}
@@ -200,13 +256,13 @@ const ProblemPanel = (props) => {
       ))}
       {open[0] === 0 && (
         <div style={{ textAlign: "center", paddingTop: 40 }}>
-          {category === "addition" && (
+          {subject === "addition" && (
             <p style={{ fontSize: 36 }}>Starting Addition ...</p>
           )}
-          {category === "subtraction" && (
+          {subject === "subtraction" && (
             <p style={{ fontSize: 36 }}>Starting Subtraction ...</p>
           )}
-          {category === "multiplication" && (
+          {subject === "multiplication" && (
             <p style={{ fontSize: 36 }}>Starting Multiplication ...</p>
           )}
           <p style={{ fontSize: 18 }}>Please press Next to begin</p>
