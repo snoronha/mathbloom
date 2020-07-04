@@ -143,8 +143,8 @@ const MathUtil = {
     return { id: MathUtil.uuidv4(), specs: specs };
   },
   getAlgebraQuadraticProblem: () => {
-    const m = Math.floor(Math.random() * 10) + 1;
-    const n = Math.floor(Math.random() * 10) + 1;
+    const m = Math.floor(Math.random() * 15) - 10;
+    const n = Math.floor(Math.random() * 15) - 10;
     const p = m + n;
     const q = m * n;
     let specs = [];
@@ -161,19 +161,31 @@ const MathUtil = {
     specs.push({
       style: { flex: 1, textAlign: "center" },
       type: "staticString",
-      data: `x^2 + ${p}x + ${q} = 0`,
+      data: `x^2 ${p > 0 ? "+" : "-"} ${Math.abs(p)}x ${
+        q > 0 ? "+" : "-"
+      } ${Math.abs(q)} = 0`,
     });
     specs.push({
       style: { flex: 1, textAlign: "center", margin: 10 },
       type: "mixed",
       data: [
-        { type: "staticString", data: "x = " },
-        { type: "editable", data: [-m, -n] },
-        { type: "staticString", data: "\\space,\\space and\\space x = " },
-        { type: "editable", data: [-m, -n] },
+        { type: "staticString", data: "x_1,\\space x_2 = " },
+        { type: "editable" },
       ],
     });
-    return { id: MathUtil.uuidv4(), specs: specs };
+    specs.push({
+      type: "mixed",
+      data: [
+        {
+          type: "html",
+          data: "Answer in form <num>,<num> e.g. -4,3",
+          style: { fontSize: 12 },
+        },
+      ],
+    });
+    // Set up answer
+    const answer = [[-m, -n].join(","), [-n, -m].join(",")];
+    return { id: MathUtil.uuidv4(), answer: answer, specs: specs };
   },
   getAlgebraFactorizationProblem: () => {
     const m = Math.floor(Math.random() * 10) + 1;
@@ -205,11 +217,7 @@ const MathUtil = {
     });
     // Set up answer
     const answer = [[m, n].join(","), [n, m].join(",")];
-    return {
-      id: MathUtil.uuidv4(),
-      answer: answer,
-      specs: specs,
-    };
+    return { id: MathUtil.uuidv4(), answer: answer, specs: specs };
   },
   getGeometryProblem: () => {
     const b = Math.floor(Math.random() * 100) + 50;

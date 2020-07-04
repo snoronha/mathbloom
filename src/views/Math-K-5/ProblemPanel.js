@@ -93,7 +93,20 @@ const ProblemPanel = (props) => {
           tmpProblems.push(newProb);
           break;
         case "Algebra":
-          newProb = MathUtil.getAlgebraFactorizationProblem();
+          switch (tpc) {
+            case "Linear":
+              newProb = MathUtil.getAlgebraFactorizationProblem();
+              break;
+            case "Quadratic":
+              newProb = MathUtil.getAlgebraFactorizationProblem();
+              break;
+            case "Equations":
+              newProb = MathUtil.getAlgebraQuadraticProblem();
+              break;
+            default:
+              newProb = MathUtil.getAlgebraQuadraticProblem();
+              break;
+          }
           tmpProblems.push(newProb);
           break;
       }
