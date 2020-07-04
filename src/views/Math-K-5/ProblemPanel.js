@@ -6,21 +6,21 @@ import Problem from "./Problem";
 import MathUtil from "./MathUtil";
 
 const ProblemPanel = (props) => {
+  const NUMPROBLEMS = 10;
   const size = props.size;
   const subject = props.subject;
   const topic = props.topic;
-  const NUMPROBLEMS = 10;
   // const [open, setOpen] = useState(new Array(NUMPROBLEMS).fill(0));
   const [count, setCount] = useState(-1);
   const [problems, setProblems] = useState([]);
 
-  const createNewProblems = (subject, topic) => {
+  const createNewProblems = (subj, tpc) => {
     let tmpProblems = [];
     let numDigits, newProb;
     for (let i = 0; i < NUMPROBLEMS; i++) {
-      switch (subject) {
+      switch (subj) {
         case "Addition":
-          switch (topic) {
+          switch (tpc) {
             case "1 digit":
               newProb = MathUtil.getAdditionOperands(1);
               break;
@@ -43,7 +43,7 @@ const ProblemPanel = (props) => {
           break;
 
         case "Subtraction":
-          switch (topic) {
+          switch (tpc) {
             case "1 digit":
               newProb = MathUtil.getSubtractionOperands(1);
               break;
@@ -65,7 +65,7 @@ const ProblemPanel = (props) => {
           tmpProblems.push(newProb);
           break;
         case "Multiplication":
-          switch (topic) {
+          switch (tpc) {
             case "1 digit":
               newProb = MathUtil.getMultiplicationOperands(1, 1);
               break;
@@ -102,8 +102,10 @@ const ProblemPanel = (props) => {
   };
 
   useEffect(() => {
-    createNewProblems(subject, topic);
-    setCount(-1);
+    if (subject !== "" && topic !== "") {
+      createNewProblems(subject, topic);
+      setCount(-1);
+    }
   }, [subject, topic]);
 
   /*

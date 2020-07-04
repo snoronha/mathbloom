@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { InputLabel, MenuItem, FormControl, Select } from "@material-ui/core";
 import { withSize } from "react-sizeme";
 import { makeStyles } from "@material-ui/core/styles";
@@ -38,6 +38,14 @@ const MathK5 = ({ size }) => {
   const [subject, setSubject] = useState("");
   const [topic, setTopic] = useState("");
   const classes = useStyles();
+
+  useEffect(() => {
+    /*
+    setProblemPanel(
+      <ProblemPanel size={size} subject={subject} topic={topic} />
+    );
+    */
+  }, [subject, topic]);
 
   const gradeSubjectMap = [
     { name: "Kinder", grade: 0, subjects: ["Addition"] },
