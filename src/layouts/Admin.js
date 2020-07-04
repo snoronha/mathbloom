@@ -99,7 +99,6 @@ export default function Admin({ ...rest }) {
         routes={routes}
         logoText={"MathBloom"}
         logo={logo}
-        image={image}
         handleDrawerToggle={handleDrawerToggle}
         open={mobileOpen}
         color={color}
