@@ -23,7 +23,7 @@ const sidebarStyle = (theme) => ({
     bottom: "0",
     left: "0",
     zIndex: "1",
-    backgroundColor: "#888",
+    backgroundColor: "#000",
     ...boxShadow,
     width: drawerWidth,
     [theme.breakpoints.up("md")]: {
@@ -88,7 +88,7 @@ const sidebarStyle = (theme) => ({
     textDecoration: "none",
     backgroundColor: "transparent",
     "&,&:hover": {
-      color: blackColor,
+      color: whiteColor,
     },
   },
   logoLinkRTL: {
@@ -289,7 +289,7 @@ const sidebarStyle = (theme) => ({
     width: "260px",
     zIndex: "4",
     overflowScrolling: "touch",
-    backgroundColor: "#888",
+    backgroundColor: "#000",
   },
   activePro: {
     [theme.breakpoints.up("md")]: {
