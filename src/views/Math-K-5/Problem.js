@@ -48,8 +48,22 @@ export default function Problem(props) {
     problem.specs.forEach((spec) => {
       if (spec.data) {
         let tmpRow = [];
-        spec.data.forEach((el) => {
-          tmpRow.push({ color: COLORS.NOT_TRIED, answer: "" });
+        spec.data.forEach((el, idx) => {
+          if (spec.attempt) {
+            if (spec.attempt[idx] == el.toString()) {
+              tmpRow.push({ color: COLORS.RIGHT, answer: spec.attempt[idx] });
+            } else if (spec.attempt[idx]) {
+              // fieldVal exists
+              tmpRow.push({ color: COLORS.WRONG, answer: spec.attempt[idx] });
+            } else {
+              tmpRow.push({
+                color: COLORS.NOT_TRIED,
+                answer: spec.attempt[idx],
+              });
+            }
+          } else {
+            tmpRow.push({ color: COLORS.NOT_TRIED, answer: "" });
+          }
         });
         tmpAnswer.push(tmpRow);
       } else {
