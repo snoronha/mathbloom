@@ -44,7 +44,6 @@ export default function Problem(props) {
 
   useEffect(() => {
     // clone spec part of problem into tmpAnswer
-    console.log("START PROBLEM: ", problem);
     let tmpAnswer = [];
     problem.specs.forEach((spec) => {
       if (spec.data) {
@@ -74,7 +73,7 @@ export default function Problem(props) {
     } else {
       tmpAnswer[specIdx][digIdx].color = COLORS.NOT_TRIED;
     }
-    console.log("UPDATED: ", problem);
+    // console.log("UPDATED: ", problem);
     setAnswer(tmpAnswer);
   };
 
