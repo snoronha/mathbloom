@@ -18,7 +18,6 @@ const MathUtil = {
       .toString()
       .split("")
       .map((s) => parseInt(s));
-    const attempt = new Array(resArr.length).fill("");
     op1Arr.unshift("");
     op2Arr.unshift("+");
     if (resArr.length < op1Arr.length || resArr.length < op2Arr.length) {
@@ -30,7 +29,7 @@ const MathUtil = {
         { type: "static", data: op1Arr },
         { type: "static", data: op2Arr },
         { type: "hr" },
-        { type: "editable", data: resArr, attempt: attempt },
+        { type: "editable", data: resArr },
       ],
     };
   },
@@ -308,6 +307,24 @@ const MathUtil = {
   },
   randomStr: () => {
     return (Math.floor(Math.random() * 1000000) + 100).toString();
+  },
+  deepCopyObject: (inObject) => {
+    // Deep copy of an Object
+    let outObject, value, key;
+    if (typeof inObject !== "object" || inObject === null) {
+      return inObject; // Return the value if inObject is not an object
+    }
+    // Create an array or object to hold the values
+    outObject = Array.isArray(inObject) ? [] : {};
+    for (key in inObject) {
+      value = inObject[key];
+      // Recursively (deep) copy for nested objects, including arrays
+      outObject[key] =
+        typeof value === "object" && value !== null
+          ? MathUtil.deepCopyObject(value)
+          : value;
+    }
+    return outObject;
   },
 };
 

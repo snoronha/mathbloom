@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { StaticMathField, EditableMathField } from "react-mathquill";
 import TriangleSidesAngle from "./components/TriangleSidesAngle";
 import { makeStyles } from "@material-ui/core/styles";
+import MathUtil from "./MathUtil";
 
 const styles = {
   staticDigitInstance: {
@@ -37,38 +38,40 @@ export default function Problem(props) {
   const classes = useStyles();
   const [problem, setProblem] = useState(props.problem);
   const [answerCorrect, setAnswerCorrect] = useState(null);
-  const [resultColor, setResultColor] = useState([]);
+  const [answer, setAnswer] = useState([]);
   const COLORS = { NOT_TRIED: "#fff", RIGHT: "#8f8", WRONG: "#f88" };
 
   useEffect(() => {
-    // clone empty problem into resultColor
-    let tmpResColor = [];
+    // clone empty problem into tmpAnswer
+    let tmpAnswer = [];
     problem.specs.forEach((spec) => {
       if (spec.data) {
-        tmpResColor.push(new Array(spec.data.length).fill(COLORS.NOT_TRIED));
+        let tmpRow = [];
+        spec.data.forEach((el) => {
+          tmpRow.push({ color: COLORS.NOT_TRIED, answer: "" });
+        });
+        tmpAnswer.push(tmpRow);
       } else {
-        tmpResColor.push(new Array(1).fill(COLORS.NOT_TRIED));
+        let tmpRow = [{ color: COLORS.NOT_TRIED, answer: "" }];
+        tmpAnswer.push(tmpRow);
       }
     });
-    setResultColor(tmpResColor);
+    setAnswer(tmpAnswer);
   }, []);
 
   const onChange = (mathField, specIdx, digIdx) => {
-    let tmpResColor = [];
-    resultColor.forEach((row) => {
-      tmpResColor.push(row.slice());
-    });
+    let tmpAnswer = MathUtil.deepCopyObject(answer);
     const fieldVal = mathField.latex();
     const data = problem.specs[specIdx].data;
     if (data[digIdx].toString() == fieldVal) {
-      tmpResColor[specIdx][digIdx] = COLORS.RIGHT;
+      tmpAnswer[specIdx][digIdx].color = COLORS.RIGHT;
     } else if (fieldVal) {
       // fieldVal exists
-      tmpResColor[specIdx][digIdx] = COLORS.WRONG;
+      tmpAnswer[specIdx][digIdx].color = COLORS.WRONG;
     } else {
-      tmpResColor[specIdx][digIdx] = COLORS.NOT_TRIED;
+      tmpAnswer[specIdx][digIdx].color = COLORS.NOT_TRIED;
     }
-    setResultColor(tmpResColor);
+    setAnswer(tmpAnswer);
   };
 
   const onFieldChange = (mathField, problem, spec) => {
@@ -196,16 +199,16 @@ export default function Problem(props) {
               ))}
             </span>
           )}
-          {spec.type === "editable" && resultColor.length > 0 && (
+          {spec.type === "editable" && answer.length > 0 && (
             <span>
               {spec.data.map((digit, digIdx) => (
                 <span key={`res-${specIdx}-${digIdx}`}>
                   {parseInt(digit) >= 0 ? (
                     <EditableMathField
-                      style={{ backgroundColor: resultColor[specIdx][digIdx] }}
+                      style={{ backgroundColor: answer[specIdx][digIdx].color }}
                       className={classes.editableDigitInstance}
                       key={"result" + digIdx}
-                      latex={""} // latex value for the input field
+                      latex={answer[specIdx][digIdx].answer} // latex value for the input field
                       onChange={(mathField) => {
                         onChange(mathField, specIdx, digIdx);
                       }}
