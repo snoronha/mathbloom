@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 // import { Motion, spring } from "react-motion";
 import Button from "@material-ui/core/Button";
+import Slide from "react-reveal/Slide";
 import Problem from "./Problem";
 import MathUtil from "./MathUtil";
 
@@ -121,50 +122,6 @@ const ProblemPanel = (props) => {
     }
   }, [subject, topic]);
 
-  /*
-  const handleNext = () => {
-    if (count < open.length) {
-      if (open[count] === 0) {
-        let tmpOpen = open.slice();
-        tmpOpen[count] = 1;
-        setOpen(tmpOpen);
-      } else if (open[count] === 1) {
-        let tmpOpen = open.slice();
-        tmpOpen[count] = 2;
-        if (count < tmpOpen.length - 1) {
-          tmpOpen[count + 1] = 1;
-        }
-        setOpen(tmpOpen);
-        setCount(count + 1);
-      }
-    } else {
-      // setCount(0);
-      // setOpen(new Array(10).fill(0));
-    }
-  };
-
-  const handlePrevious = () => {
-    if (count < open.length) {
-      if (open[count] === 2) {
-        let tmpOpen = open.slice();
-        tmpOpen[count] = 1;
-        setOpen(tmpOpen);
-      } else if (open[count] === 1) {
-        let tmpOpen = open.slice();
-        tmpOpen[count] = 0;
-        if (count >= 1) {
-          tmpOpen[count - 1] = 1;
-          setCount(count - 1);
-        }
-        setOpen(tmpOpen);
-      }
-    } else {
-      // setCount(0);
-      // setOpen(new Array(10).fill(0));
-    }
-  };
-  */
-
   const handleNext = () => {
     if (count < NUMPROBLEMS) {
       setCount(count + 1);
@@ -190,14 +147,16 @@ const ProblemPanel = (props) => {
           key={idx.toString()}
         >
           {count === idx && (
-            <Problem
-              style={{
-                border: "4px solid #eee",
-                borderRadius: "10px",
-                padding: "10px",
-              }}
-              problem={problem}
-            />
+            <Slide right>
+              <Problem
+                style={{
+                  border: "4px solid #eee",
+                  borderRadius: "10px",
+                  padding: "10px",
+                }}
+                problem={problem}
+              />
+            </Slide>
           )}
         </span>
       ))}
