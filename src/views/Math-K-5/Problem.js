@@ -63,7 +63,8 @@ export default function Problem(props) {
   const onChange = (mathField, specIdx, digIdx) => {
     let tmpAnswer = MathUtil.deepCopyObject(answer);
     const fieldVal = mathField.latex();
-    problem.specs[specIdx].attempt[digIdx] = fieldVal;
+    // set attempt for each problem type - right now done only for addition
+    // problem.specs[specIdx].attempt[digIdx] = fieldVal;
     const data = problem.specs[specIdx].data;
     if (data[digIdx].toString() == fieldVal) {
       tmpAnswer[specIdx][digIdx].color = COLORS.RIGHT;
