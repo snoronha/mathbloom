@@ -23,13 +23,14 @@ const MathUtil = {
     if (resArr.length < op1Arr.length || resArr.length < op2Arr.length) {
       resArr.unshift("");
     }
+    const attempt = new Array(resArr.length).fill("");
     return {
       id: MathUtil.uuidv4(),
       specs: [
         { type: "static", data: op1Arr },
         { type: "static", data: op2Arr },
         { type: "hr" },
-        { type: "editable", data: resArr },
+        { type: "editable", data: resArr, attempt: attempt },
       ],
     };
   },

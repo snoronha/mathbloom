@@ -36,13 +36,15 @@ const useStyles = makeStyles(styles);
 
 export default function Problem(props) {
   const classes = useStyles();
-  const [problem, setProblem] = useState(props.problem);
+  // const [problem, setProblem] = useState(props.problem);
+  let problem = props.problem;
   const [answerCorrect, setAnswerCorrect] = useState(null);
   const [answer, setAnswer] = useState([]);
   const COLORS = { NOT_TRIED: "#fff", RIGHT: "#8f8", WRONG: "#f88" };
 
   useEffect(() => {
-    // clone empty problem into tmpAnswer
+    // clone spec part of problem into tmpAnswer
+    console.log("START PROBLEM: ", problem);
     let tmpAnswer = [];
     problem.specs.forEach((spec) => {
       if (spec.data) {
@@ -62,6 +64,7 @@ export default function Problem(props) {
   const onChange = (mathField, specIdx, digIdx) => {
     let tmpAnswer = MathUtil.deepCopyObject(answer);
     const fieldVal = mathField.latex();
+    problem.specs[specIdx].attempt[digIdx] = fieldVal;
     const data = problem.specs[specIdx].data;
     if (data[digIdx].toString() == fieldVal) {
       tmpAnswer[specIdx][digIdx].color = COLORS.RIGHT;
@@ -71,6 +74,7 @@ export default function Problem(props) {
     } else {
       tmpAnswer[specIdx][digIdx].color = COLORS.NOT_TRIED;
     }
+    console.log("UPDATED: ", problem);
     setAnswer(tmpAnswer);
   };
 
