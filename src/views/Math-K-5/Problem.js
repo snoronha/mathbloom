@@ -64,7 +64,7 @@ export default function Problem(props) {
     let tmpAnswer = MathUtil.deepCopyObject(answer);
     const fieldVal = mathField.latex();
     // set attempt for each problem type - right now done only for addition
-    // problem.specs[specIdx].attempt[digIdx] = fieldVal;
+    problem.specs[specIdx].attempt[digIdx] = fieldVal;
     const data = problem.specs[specIdx].data;
     if (data[digIdx].toString() == fieldVal) {
       tmpAnswer[specIdx][digIdx].color = COLORS.RIGHT;
@@ -74,7 +74,7 @@ export default function Problem(props) {
     } else {
       tmpAnswer[specIdx][digIdx].color = COLORS.NOT_TRIED;
     }
-    // console.log("UPDATED: ", problem);
+    props.updateProblem(problem);
     setAnswer(tmpAnswer);
   };
 

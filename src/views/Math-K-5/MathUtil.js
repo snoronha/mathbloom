@@ -65,13 +65,14 @@ const MathUtil = {
         resArr.unshift("");
       }
     }
+    const attempt = new Array(resArr.length).fill("");
     return {
       id: MathUtil.uuidv4(),
       specs: [
         { type: "static", data: op1Arr },
         { type: "static", data: op2Arr },
         { type: "hr" },
-        { type: "editable", data: resArr },
+        { type: "editable", data: resArr, attempt: attempt },
       ],
     };
   },
@@ -134,12 +135,13 @@ const MathUtil = {
             opArr.unshift("");
           }
         }
-        specs.push({ type: "editable", data: opArr });
+        let opAttempt = new Array(opArr.length).fill("");
+        specs.push({ type: "editable", data: opArr, attempt: opAttempt });
       }
       specs.push({ type: "hr" });
     }
-
-    specs.push({ type: "editable", data: resArr });
+    const attempt = new Array(resArr.length).fill("");
+    specs.push({ type: "editable", data: resArr, attempt: attempt });
     return { id: MathUtil.uuidv4(), specs: specs };
   },
   getAlgebraQuadraticProblem: () => {

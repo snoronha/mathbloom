@@ -11,6 +11,15 @@ const ProblemPanel = (props) => {
   const topic = props.topic;
   const [count, setCount] = useState(-1);
   const [currentProblem, setCurrentProblem] = useState({});
+  const [problems, setProblems] = useState([]);
+
+  useEffect(() => {
+    if (subject !== "" && topic !== "") {
+      setCount(-1);
+      setCurrentProblem({});
+      setProblems([]);
+    }
+  }, [subject, topic]);
 
   const createNewProblem = (subj, tpc) => {
     let numDigits, newProb;
@@ -35,9 +44,7 @@ const ProblemPanel = (props) => {
             );
             break;
         }
-        setCurrentProblem(newProb);
         break;
-
       case "Subtraction":
         switch (tpc) {
           case "1 digit":
@@ -58,7 +65,6 @@ const ProblemPanel = (props) => {
             );
             break;
         }
-        setCurrentProblem(newProb);
         break;
       case "Multiplication":
         switch (tpc) {
@@ -82,11 +88,9 @@ const ProblemPanel = (props) => {
             newProb = MathUtil.getMultiplicationOperands(3, numDigits);
             break;
         }
-        setCurrentProblem(newProb);
         break;
       case "Geometry":
         newProb = MathUtil.getGeometryProblem();
-        setCurrentProblem(newProb);
         break;
       case "Algebra":
         switch (tpc) {
@@ -103,29 +107,38 @@ const ProblemPanel = (props) => {
             newProb = MathUtil.getAlgebraQuadraticProblem();
             break;
         }
-        setCurrentProblem(newProb);
         break;
     }
+    return newProb;
   };
-
-  useEffect(() => {
-    if (subject !== "" && topic !== "") {
-      setCount(-1);
-      setCurrentProblem({});
-    }
-  }, [subject, topic]);
 
   const handleNext = () => {
     if (subject !== "" && topic !== "") {
-      createNewProblem(subject, topic);
+      if (currentProblem?.id) {
+        // push currentProblem onto problem stack
+        const tmpProblems = MathUtil.deepCopyObject(problems);
+        tmpProblems.push(currentProblem);
+        console.log("NEXT PROBLEMS: ", tmpProblems);
+        setProblems(tmpProblems);
+      }
+      setCurrentProblem(createNewProblem(subject, topic));
       setCount(count + 1);
     }
   };
 
   const handlePrevious = () => {
     if (count >= 0) {
+      // const tmpProblems = MathUtil.deepCopyObject(problems);
+      setCurrentProblem(problems[count - 1]);
+      console.log("PREV PROBLEMS: ", problems);
       setCount(count - 1);
     }
+  };
+
+  // callback when problem us updated on Problem.js
+  const updateCurrentProblem = (problem) => {
+    console.log("PROBLEM: ", problem);
+    setCurrentProblem(problem);
   };
 
   const handleTouchStart = (e) => {
@@ -154,7 +167,7 @@ const ProblemPanel = (props) => {
           )}
         </span>
       )) */}
-      {currentProblem.specs && (
+      {currentProblem?.id && (
         <span
           style={{ display: "flex", justifyContent: "center" }}
           key={currentProblem.id}
@@ -167,6 +180,7 @@ const ProblemPanel = (props) => {
                 padding: "10px",
               }}
               problem={currentProblem}
+              updateProblem={updateCurrentProblem}
             />
           </Slide>
         </span>
