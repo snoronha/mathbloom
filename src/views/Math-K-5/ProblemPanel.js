@@ -118,7 +118,7 @@ const ProblemPanel = (props) => {
         // push currentProblem onto problem stack
         const tmpProblems = MathUtil.deepCopyObject(problems);
         tmpProblems.push(currentProblem);
-        console.log("NEXT PROBLEMS: ", tmpProblems);
+        // console.log("NEXT PROBLEMS: ", tmpProblems);
         setProblems(tmpProblems);
       }
       setCurrentProblem(createNewProblem(subject, topic));
@@ -128,10 +128,11 @@ const ProblemPanel = (props) => {
 
   const handlePrevious = () => {
     if (count >= 0) {
-      // const tmpProblems = MathUtil.deepCopyObject(problems);
-      setCurrentProblem(problems[count - 1]);
-      console.log("PREV PROBLEMS: ", problems);
+      const tmpProblems = MathUtil.deepCopyObject(problems).splice(0, count);
+      setCurrentProblem(tmpProblems[count - 1]);
+      // console.log("PREV PROBLEMS: ", tmpProblems);
       setCount(count - 1);
+      setProblems(tmpProblems);
     }
   };
 
