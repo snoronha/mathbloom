@@ -40,38 +40,43 @@ export default function Problem(props) {
   let problem = props.problem;
   const [answerCorrect, setAnswerCorrect] = useState(null);
   const [answer, setAnswer] = useState([]);
+  const [singleAnswer, setSingleAnswer] = useState("");
   const COLORS = { NOT_TRIED: "#fff", RIGHT: "#8f8", WRONG: "#f88" };
 
   useEffect(() => {
     // clone spec part of problem into tmpAnswer
-    let tmpAnswer = [];
-    problem.specs.forEach((spec) => {
-      if (spec.data) {
-        let tmpRow = [];
-        spec.data.forEach((el, idx) => {
-          if (spec.attempt) {
-            if (spec.attempt[idx] == el.toString()) {
-              tmpRow.push({ color: COLORS.RIGHT, answer: spec.attempt[idx] });
-            } else if (spec.attempt[idx]) {
-              // fieldVal exists
-              tmpRow.push({ color: COLORS.WRONG, answer: spec.attempt[idx] });
+    if (problem.attempt) {
+      setSingleAnswer(problem.attempt);
+    } else {
+      let tmpAnswer = [];
+      problem.specs.forEach((spec) => {
+        if (spec.data) {
+          let tmpRow = [];
+          spec.data.forEach((el, idx) => {
+            if (spec.attempt) {
+              if (spec.attempt[idx] == el.toString()) {
+                tmpRow.push({ color: COLORS.RIGHT, answer: spec.attempt[idx] });
+              } else if (spec.attempt[idx]) {
+                // fieldVal exists
+                tmpRow.push({ color: COLORS.WRONG, answer: spec.attempt[idx] });
+              } else {
+                tmpRow.push({
+                  color: COLORS.NOT_TRIED,
+                  answer: spec.attempt[idx],
+                });
+              }
             } else {
-              tmpRow.push({
-                color: COLORS.NOT_TRIED,
-                answer: spec.attempt[idx],
-              });
+              tmpRow.push({ color: COLORS.NOT_TRIED, answer: "" });
             }
-          } else {
-            tmpRow.push({ color: COLORS.NOT_TRIED, answer: "" });
-          }
-        });
-        tmpAnswer.push(tmpRow);
-      } else {
-        let tmpRow = [{ color: COLORS.NOT_TRIED, answer: "" }];
-        tmpAnswer.push(tmpRow);
-      }
-    });
-    setAnswer(tmpAnswer);
+          });
+          tmpAnswer.push(tmpRow);
+        } else {
+          let tmpRow = [{ color: COLORS.NOT_TRIED, answer: "" }];
+          tmpAnswer.push(tmpRow);
+        }
+      });
+      setAnswer(tmpAnswer);
+    }
   }, []);
 
   const onChange = (mathField, specIdx, digIdx) => {
@@ -94,6 +99,7 @@ export default function Problem(props) {
 
   const onFieldChange = (mathField, problem, spec) => {
     const fieldVal = mathField.latex().toString();
+    problem.attempt = fieldVal;
     if (fieldVal) {
       let matched = false;
       for (let k in problem.answer) {
@@ -109,6 +115,7 @@ export default function Problem(props) {
     } else {
       setAnswerCorrect(null);
     }
+    props.updateProblem(problem);
   };
   const HorizontalRule = () => {
     return (
@@ -198,7 +205,7 @@ export default function Problem(props) {
                       }}
                       className={classes.editableInstance}
                       key={"result" + subspecIdx}
-                      latex={""} // latex value for the input field
+                      latex={singleAnswer} // latex value for the input field
                       onChange={(mathField) => {
                         onFieldChange(mathField, problem, subspec);
                       }}

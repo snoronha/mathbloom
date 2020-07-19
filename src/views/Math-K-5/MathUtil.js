@@ -187,7 +187,7 @@ const MathUtil = {
     });
     // Set up answer
     const answer = [[-m, -n].join(","), [-n, -m].join(",")];
-    return { id: MathUtil.uuidv4(), answer: answer, specs: specs };
+    return { id: MathUtil.uuidv4(), answer: answer, attempt: "", specs: specs };
   },
   getAlgebraFactorizationProblem: () => {
     const m = Math.floor(Math.random() * 10) + 1;
@@ -219,7 +219,7 @@ const MathUtil = {
     });
     // Set up answer
     const answer = [[m, n].join(","), [n, m].join(",")];
-    return { id: MathUtil.uuidv4(), answer: answer, specs: specs };
+    return { id: MathUtil.uuidv4(), answer: answer, attempt: "", specs: specs };
   },
   getGeometryProblem: () => {
     const b = Math.floor(Math.random() * 100) + 50;
@@ -248,11 +248,7 @@ const MathUtil = {
     });
     // Set up answer
     const answer = [57];
-    return {
-      id: MathUtil.uuidv4(),
-      answer: answer,
-      specs: specs,
-    };
+    return { id: MathUtil.uuidv4(), answer: answer, attempt: "", specs: specs };
   },
   computeTriangleParams: (params) => {
     const b = params.b;
