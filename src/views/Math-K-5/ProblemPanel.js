@@ -12,6 +12,7 @@ const ProblemPanel = (props) => {
   const [count, setCount] = useState(-1);
   const [currentProblem, setCurrentProblem] = useState({});
   const [problems, setProblems] = useState([]);
+  const [slideRight, setSlideRight] = useState(true);
 
   useEffect(() => {
     if (subject !== "" && topic !== "") {
@@ -124,6 +125,7 @@ const ProblemPanel = (props) => {
       setCurrentProblem(createNewProblem(subject, topic));
       setCount(count + 1);
     }
+    setSlideRight(true);
   };
 
   const handlePrevious = () => {
@@ -134,6 +136,7 @@ const ProblemPanel = (props) => {
       setCount(count - 1);
       if (count > 0) setProblems(tmpProblems.splice(0, count - 1));
     }
+    setSlideRight(false);
   };
 
   // callback when problem us updated on Problem.js
@@ -168,11 +171,11 @@ const ProblemPanel = (props) => {
         </span>
       )) */}
       {currentProblem?.id && (
-        <span
-          style={{ display: "flex", justifyContent: "center" }}
-          key={currentProblem.id}
-        >
-          <Slide right>
+        <Slide left={slideRight}>
+          <span
+            style={{ display: "flex", justifyContent: "center" }}
+            key={currentProblem.id}
+          >
             <Problem
               style={{
                 border: "4px solid #eee",
@@ -182,8 +185,8 @@ const ProblemPanel = (props) => {
               problem={currentProblem}
               updateProblem={updateCurrentProblem}
             />
-          </Slide>
-        </span>
+          </span>
+        </Slide>
       )}
       {count < 0 && (
         <div style={{ textAlign: "center", paddingTop: 40 }}>
