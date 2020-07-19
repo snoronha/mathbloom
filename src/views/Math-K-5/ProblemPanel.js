@@ -132,13 +132,12 @@ const ProblemPanel = (props) => {
       setCurrentProblem(tmpProblems[count - 1]);
       // console.log("PREV PROBLEMS: ", tmpProblems);
       setCount(count - 1);
-      setProblems(tmpProblems);
+      if (count > 0) setProblems(tmpProblems.splice(0, count - 1));
     }
   };
 
   // callback when problem us updated on Problem.js
   const updateCurrentProblem = (problem) => {
-    console.log("PROBLEM: ", problem);
     setCurrentProblem(problem);
   };
 
