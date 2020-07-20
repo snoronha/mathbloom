@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import Slide from "react-reveal/Slide";
+import { GoogleLogin } from "react-google-login";
 import Problem from "./Problem";
 import MathUtil from "./MathUtil";
 // TODO: Figure out react-reveal/makeCarousel
@@ -149,6 +150,10 @@ const ProblemPanel = (props) => {
     handleMouseDown();
   };
 
+  const responseGoogle = (response) => {
+    console.log(response);
+  };
+
   return (
     <div>
       {/* problems.map((problem, idx) => (
@@ -203,6 +208,13 @@ const ProblemPanel = (props) => {
         </div>
       ) */}
 
+      <GoogleLogin
+        clientId="694333334914-1tdnugar7cvq666onqqvilnbq97dldr0.apps.googleusercontent.com"
+        buttonText="Sign in with Google"
+        onSuccess={responseGoogle}
+        onFailure={responseGoogle}
+        cookiePolicy={"single_host_origin"}
+      />
       <div
         style={{
           position: "absolute",
