@@ -25,13 +25,13 @@ const appStyle = (theme) => ({
     "background-image": `url(${mathbloom_bg})`,
   },
   content: {
-    marginTop: "10px",
-    padding: "20px 15px",
+    marginTop: "20px",
+    padding: "30px 15px",
     minHeight: "calc(100vh - 123px)",
   },
   container,
   map: {
-    marginTop: "60px",
+    marginTop: "70px",
   },
 });
 
