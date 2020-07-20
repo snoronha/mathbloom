@@ -202,20 +202,35 @@ const ProblemPanel = (props) => {
           <p style={{ fontSize: 18 }}>Get more?</p>
         </div>
       ) */}
-      <div style={{ position: "absolute", bottom: "10px", left: "10px" }}>
-        <Button
-          variant="contained"
-          color="default"
-          onMouseDown={handlePrevious}
-          disabled={count < 0}
-        >
-          Previous
-        </Button>
-      </div>
-      <div style={{ position: "absolute", bottom: "10px", right: "10px" }}>
-        <Button variant="contained" color="default" onMouseDown={handleNext}>
-          Next
-        </Button>
+
+      <div
+        style={{
+          position: "absolute",
+          bottom: "10px",
+          left: "10px",
+          right: "10px",
+        }}
+      >
+        <div style={{ position: "absolute", bottom: "0px", left: "0px" }}>
+          <Button
+            variant="contained"
+            color="default"
+            onMouseDown={handlePrevious}
+            disabled={count < 0}
+          >
+            Previous
+          </Button>
+        </div>
+        {count >= 0 && (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            Problem {count + 1}
+          </div>
+        )}
+        <div style={{ position: "absolute", bottom: "0px", right: "0px" }}>
+          <Button variant="contained" color="default" onMouseDown={handleNext}>
+            Next
+          </Button>
+        </div>
       </div>
     </div>
   );
