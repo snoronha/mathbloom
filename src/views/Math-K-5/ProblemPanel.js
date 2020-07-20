@@ -4,6 +4,9 @@ import Button from "@material-ui/core/Button";
 import Slide from "react-reveal/Slide";
 import Problem from "./Problem";
 import MathUtil from "./MathUtil";
+// TODO: Figure out react-reveal/makeCarousel
+// Carousel needs static elements though
+// Current elements are created IRL. Think through how to make that work
 
 const ProblemPanel = (props) => {
   const size = props.size;
@@ -12,7 +15,6 @@ const ProblemPanel = (props) => {
   const [count, setCount] = useState(-1);
   const [currentProblem, setCurrentProblem] = useState({});
   const [problems, setProblems] = useState([]);
-  const [slideRight, setSlideRight] = useState(true);
 
   useEffect(() => {
     if (subject !== "" && topic !== "") {
@@ -125,7 +127,6 @@ const ProblemPanel = (props) => {
       setCurrentProblem(createNewProblem(subject, topic));
       setCount(count + 1);
     }
-    setSlideRight(true);
   };
 
   const handlePrevious = () => {
@@ -136,7 +137,6 @@ const ProblemPanel = (props) => {
       setCount(count - 1);
       if (count > 0) setProblems(tmpProblems.splice(0, count - 1));
     }
-    setSlideRight(false);
   };
 
   // callback when problem us updated on Problem.js
@@ -171,7 +171,7 @@ const ProblemPanel = (props) => {
         </span>
       )) */}
       {currentProblem?.id && (
-        <Slide left={slideRight}>
+        <Slide right>
           <span
             style={{ display: "flex", justifyContent: "center" }}
             key={currentProblem.id}
