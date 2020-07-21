@@ -6,21 +6,29 @@ import MathUtil from "../MathUtil";
 export default function TriangleSidesAngle(props) {
   const r = 20;
   const p = MathUtil.computeTriangleParams(props);
-  const pathA = `M ${r} 0 A ${r} ${r} 0 0 1 ${Math.cos(p.Arad) * r} ${
-    Math.sin(p.Arad) * r
+  const ra = p.A < 50 ? 30 : p.A < 90 ? 20 : 15;
+  const rb = p.B < 50 ? 30 : p.B < 90 ? 20 : 15;
+  const rc = p.C < 50 ? 30 : p.C < 90 ? 20 : 15;
+  const pathA = `M ${ra} 0 A ${ra} ${ra} 0 0 1 ${Math.cos(p.Arad) * ra} ${
+    Math.sin(p.Arad) * ra
   }`;
-  const pathB = `M ${r} 0 A ${r} ${r} 0 0 1 ${Math.cos(p.Brad) * r} ${
-    Math.sin(p.Brad) * r
+  const pathB = `M ${rb} 0 A ${rb} ${rb} 0 0 1 ${Math.cos(p.Brad) * rb} ${
+    Math.sin(p.Brad) * rb
   }`;
-  const pathC = `M ${r} 0 A ${r} ${r} 0 0 1 ${Math.cos(p.Crad) * r} ${
-    Math.sin(p.Crad) * r
+  const pathC = `M ${rc} 0 A ${rc} ${rc} 0 0 1 ${Math.cos(p.Crad) * rc} ${
+    Math.sin(p.Crad) * rc
   }`;
   const cy = p.points[0][1];
   const cx = p.points[2][0];
   const xOffset = cx < 0 ? -cx : 0;
-  const transformA = `translate(0,${cy}) rotate(${-p.A})`;
-  const transformB = `translate(${p.c},${cy}) rotate(180)`;
-  const transformC = `translate(${cx},0) rotate(${(p.Brad * 180) / Math.PI})`;
+  const transforma = `translate(0,${cy}) rotate(${-p.A})`;
+  const transformb = `translate(${p.c},${cy}) rotate(180)`;
+  const transformc = `translate(${cx},0) rotate(${p.B})`;
+  const transformA = `translate(10,${cy}) rotate(${-p.A / 2})`;
+  const transformB = `translate(${p.c - 20},${p.B > 30 ? cy - 5 : cy}) rotate(${
+    p.B > 30 ? p.B / 2 : 0
+  })`;
+  const transformC = `translate(${cx},0) rotate(0)`;
   const textTransformA = `translate(${(p.c + cx) / 2},${cy / 2}) rotate(${
     p.B
   })`;
@@ -33,16 +41,31 @@ export default function TriangleSidesAngle(props) {
   return (
     <g stroke={"#888"} transform={`translate(${xOffset},0)`} strokeWidth={1}>
       <polygon points={points} fill={"#ffa"} opacity={0.8} />
-      <path fill={"none"} d={pathA} transform={transformA} />
-      <path fill={"none"} d={pathB} transform={transformB} />
-      <path fill={"none"} d={pathC} transform={transformC} />
-      <text x={0} y={0} transform={textTransformA}>
+      <path fill={"none"} d={pathA} transform={transforma} />
+      <path fill={"none"} d={pathB} transform={transformb} />
+      <path fill={"none"} d={pathC} transform={transformc} />
+      <text x={0} y={0} fontSize={10} transform={transformA}>
+        {Math.round(p.A)}
+      </text>
+      <text x={0} y={0} fontSize={10} transform={transformB}>
+        {Math.round(p.B)}
+      </text>
+      <text
+        x={0}
+        y={0}
+        fontSize={18}
+        fontWeight={"bold"}
+        transform={transformC}
+      >
+        {"C"}
+      </text>
+      <text x={0} y={0} fontSize={10} transform={textTransformA}>
         {Math.floor(p.a)}
       </text>
-      <text x={0} y={0} transform={textTransformB}>
+      <text x={0} y={0} fontSize={10} transform={textTransformB}>
         {p.b}
       </text>
-      <text x={0} y={0} transform={textTransformC}>
+      <text x={0} y={0} fontSize={10} transform={textTransformC}>
         {p.c}
       </text>
     </g>

@@ -149,7 +149,7 @@ export default function Problem(props) {
   };
   const Triangle = ({ props }) => {
     return (
-      <svg height={200} width={300}>
+      <svg height={200} width={275}>
         <g transform={"translate(25, 25) rotate(0)"}>
           <TriangleSidesAngle {...props} />
         </g>

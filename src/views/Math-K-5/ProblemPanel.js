@@ -208,14 +208,14 @@ const ProblemPanel = (props) => {
         </div>
       ) */}
 
-      <GoogleLogin
+      {/* <GoogleLogin
         clientId="694333334914-1tdnugar7cvq666onqqvilnbq97dldr0.apps.googleusercontent.com"
         buttonText="Sign in with Google"
         onSuccess={responseGoogle}
         onFailure={responseGoogle}
         cookiePolicy={"single_host_origin"}
         isSignedIn={true}
-      />
+      /> */}
       <div
         style={{
           position: "absolute",

@@ -223,8 +223,9 @@ const MathUtil = {
   },
   getGeometryProblem: () => {
     const b = Math.floor(Math.random() * 100) + 50;
-    const c = Math.floor(Math.random() * 100) + 50;
-    const A = Math.floor(Math.random() * 120) + 20;
+    const c = Math.floor(Math.random() * 200) + 50;
+    const A = Math.floor(Math.random() * 60) + 30;
+    const p = MathUtil.computeTriangleParams({ b: b, c: c, A: A });
     let specs = [];
     specs.push({
       type: "mixed",
@@ -247,7 +248,7 @@ const MathUtil = {
       data: [{ type: "staticString", data: "C = " }, { type: "editable" }],
     });
     // Set up answer
-    const answer = [57];
+    const answer = [(180 - (Math.round(p.A) + Math.round(p.B))).toString()];
     return { id: MathUtil.uuidv4(), answer: answer, attempt: "", specs: specs };
   },
   computeTriangleParams: (params) => {
