@@ -99,6 +99,7 @@ export default function Problem(props) {
 
   const onFieldChange = (mathField, problem, spec) => {
     const fieldVal = mathField.latex().toString();
+
     problem.attempt = fieldVal;
     if (fieldVal) {
       let matched = false;
@@ -149,12 +150,41 @@ export default function Problem(props) {
   };
   const Triangle = ({ props }) => {
     return (
-      <svg height={200} width={275}>
+      <svg>
         <g transform={"translate(25, 25) rotate(0)"}>
           <TriangleSidesAngle {...props} />
         </g>
       </svg>
     );
+  };
+  // <Mixed subspec={subspec} subspecIdx={subspecIdx} />
+  // replaces <span key={subspecIdx.toString()}> ... </span>
+  // works except the answer field behaves weird
+  const Mixed = (props) => {
+    const subspec = props.subspec;
+    const subspecIdx = props.subspecIdx;
+    if (subspec.type === "html") {
+      return <HtmlText style={subspec.style} data={subspec.data} />;
+    } else if (subspec.type === "staticString") {
+      return <StaticString style={subspec.style} data={subspec.data} />;
+    } else if (subspec.type === "triangle") {
+      return <Triangle style={subspec.style} props={subspec.data} />;
+    } else if (subspec.type === "editable") {
+      return (
+        <EditableMathField
+          style={{
+            backgroundColor:
+              answerCorrect === null ? "#fff" : answerCorrect ? "#cfc" : "#fcc",
+          }}
+          className={classes.editableInstance}
+          key={"result" + subspecIdx}
+          latex={singleAnswer} // latex value for the input field
+          onChange={(mathField) => {
+            onFieldChange(mathField, problem, subspec);
+          }}
+        />
+      );
+    }
   };
   /*
   const EditableDigit = (props) => {

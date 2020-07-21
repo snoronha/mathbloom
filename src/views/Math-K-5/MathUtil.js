@@ -229,16 +229,17 @@ const MathUtil = {
     let specs = [];
     specs.push({
       type: "mixed",
+      style: { flex: 1 },
       data: [
         {
           type: "html",
           data: "Compute Angle C",
-          style: { fontSize: 20 },
+          style: { display: "flex", justifyContent: "center", fontSize: 20 },
         },
       ],
     });
     specs.push({
-      style: { flex: 1, textAlign: "center" },
+      style: { display: "flex", justifyContent: "center" },
       type: "mixed",
       data: [{ type: "triangle", data: { b: b, c: c, A: A } }],
     });
