@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import Slide from "react-reveal/Slide";
-import { GoogleLogin } from "react-google-login";
 import Problem from "./Problem";
 import MathUtil from "./MathUtil";
 // TODO: Figure out react-reveal/makeCarousel
@@ -152,26 +151,6 @@ const ProblemPanel = (props) => {
     handleMouseDown();
   };
 
-  const responseGoogle = (res) => {
-    console.log(res);
-    const body = JSON.stringify({
-      email: res.profileObj.email,
-      googleId: res.profileObj.googleId,	
-      familyName: res.profileObj.familyName,
-      givenName: res.profileObj.givenName,
-      name: res.profileObj.name,
-      imageUrl: res.profileObj.imageUrl,
-    });
-    fetch(`${API_ENDPOINT}/user`, { method: "post", body: body })
-      .then((response) => response.json())
-      .then((json) => {
-        console.log("responseGoogle: ", json);
-        // setQtyLoading(true);
-      })
-      .catch((error) => console.log(error)) // handle this
-      .finally(() => {});
-  };
-
   return (
     <div>
       {currentProblem?.id && (
@@ -207,14 +186,6 @@ const ProblemPanel = (props) => {
         </div>
       ) */}
 
-      <GoogleLogin
-        clientId="694333334914-1tdnugar7cvq666onqqvilnbq97dldr0.apps.googleusercontent.com"
-        buttonText="Sign in with Google"
-        onSuccess={responseGoogle}
-        onFailure={responseGoogle}
-        cookiePolicy={"single_host_origin"}
-        isSignedIn={true}
-      />
       <div
         style={{
           position: "absolute",

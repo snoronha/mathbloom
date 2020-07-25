@@ -3,12 +3,12 @@ import React, { useState, useEffect } from "react";
 import { InputLabel, MenuItem, FormControl, Select } from "@material-ui/core";
 import { withSize } from "react-sizeme";
 import { makeStyles } from "@material-ui/core/styles";
+import { GoogleLogin } from "react-google-login";
 // core components
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import ProblemPanel from "./ProblemPanel";
-import MathUtil from "./MathUtil";
 
 const styles = {
   cardTitleWhite: {
@@ -37,6 +37,7 @@ const MathK5 = ({ size }) => {
   const [grade, setGrade] = useState(0);
   const [subject, setSubject] = useState("");
   const [topic, setTopic] = useState("");
+  const [userName, setUserName] = useState("");
   const classes = useStyles();
 
   useEffect(() => {
@@ -92,8 +93,42 @@ const MathK5 = ({ size }) => {
     setTopic(evt.target.value);
   };
 
+  const responseGoogle = (res) => {
+    console.log(res);
+    if (res.accessToken) {
+      setUserName(res.profileObj.name);
+      const body = JSON.stringify({
+        email: res.profileObj.email,
+        googleId: res.profileObj.googleId,
+        familyName: res.profileObj.familyName,
+        givenName: res.profileObj.givenName,
+        name: res.profileObj.name,
+        imageUrl: res.profileObj.imageUrl,
+      });
+      fetch(`${API_ENDPOINT}/user`, { method: "post", body: body })
+        .then((response) => response.json())
+        .then((json) => {
+          console.log("responseGoogle: ", json);
+          // setQtyLoading(true);
+        })
+        .catch((error) => console.log(error)) // handle this
+        .finally(() => {});
+    }
+  };
+
   return (
     <div>
+      {!userName && (
+        <GoogleLogin
+          clientId="694333334914-1tdnugar7cvq666onqqvilnbq97dldr0.apps.googleusercontent.com"
+          buttonText="Sign in with Google"
+          onSuccess={responseGoogle}
+          onFailure={responseGoogle}
+          cookiePolicy={"single_host_origin"}
+          isSignedIn={true}
+        />
+      )}
+      {userName && <span>Welcome {userName}</span>}
       <Card>
         <CardBody style={{ height: 75, textAlign: "center" }}>
           <FormControl className={classes.formControl}>
@@ -146,7 +181,7 @@ const MathK5 = ({ size }) => {
       {subject && topic && (
         <Card>
           <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>{subject}</h4>
+            <h4>{subject}</h4>
           </CardHeader>
           <CardBody style={{ height: 360 }}>
             <ProblemPanel size={size} subject={subject} topic={topic} />
