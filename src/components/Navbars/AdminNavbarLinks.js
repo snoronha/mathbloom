@@ -28,8 +28,8 @@ export default function AdminNavbarLinks() {
   const API_ENDPOINT = "https://mathbloom.org/api";
   const dispatch = useDispatch();
 
-  const userName = useSelector((state) => {
-    return state.userName;
+  const user = useSelector((state) => {
+    return state.user;
   });
 
   const handleClickNotification = (event) => {
@@ -53,14 +53,39 @@ export default function AdminNavbarLinks() {
     setOpenProfile(null);
   };
 
+  const saveAccessToken = (tokenObj) => {
+    // fire and forget save access_token
+    if (tokenObj.access_token) {
+      const body = JSON.stringify({
+        userId: 1, // TODO: need to get actual userId
+        accessToken: tokenObj.access_token,
+        tokenId: tokenObj.id_token,
+        expiresAt: tokenObj.expires_at,
+        expiresIn: tokenObj.expires_in,
+        firstIssuedAt: tokenObj.first_issued_at,
+      });
+      fetch(`${API_ENDPOINT}/access_token`, { method: "post", body: body })
+        .then((response) => response.json())
+        .then((json) => {
+          console.log("responseAccessToken: ", json);
+        })
+        .catch((error) => console.log(error)) // handle this
+        .finally(() => {});
+    }
+  };
+
   const responseGoogle = (res) => {
     console.log(res);
+    if (res.tokenObj) {
+      // TODO: need to figure out how to get userId before this call is made
+      saveAccessToken(res.tokenObj);
+    }
     if (res.accessToken) {
       // dispatch redux event to update
-      // useSelector for userName subscribes to this event
+      // useSelector for user subscribes to this event
       dispatch({
-        type: "SET_USER_NAME",
-        payload: { userName: res.profileObj.name },
+        type: "SET_USER",
+        payload: { user: res.profileObj },
       });
       const body = JSON.stringify({
         email: res.profileObj.email,
@@ -195,7 +220,7 @@ export default function AdminNavbarLinks() {
 
       <div className={classes.manager}>
         <span>
-          {!userName && (
+          {!user?.givenName && (
             <GoogleLogin
               clientId="694333334914-1tdnugar7cvq666onqqvilnbq97dldr0.apps.googleusercontent.com"
               buttonText="Sign in with Google"
@@ -205,7 +230,11 @@ export default function AdminNavbarLinks() {
               isSignedIn={true}
             />
           )}
-          {userName && <span>Welcome {userName}</span>}
+          {user?.givenName && (
+            <span style={{ fontSize: 12 }}>
+              Welcome <b>{user.givenName}</b>
+            </span>
+          )}
         </span>
         <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}
@@ -250,19 +279,7 @@ export default function AdminNavbarLinks() {
                     >
                       Profile
                     </MenuItem>
-                    <MenuItem
-                      onClick={handleCloseProfile}
-                      className={classes.dropdownItem}
-                    >
-                      Settings
-                    </MenuItem>
                     <Divider light />
-                    <MenuItem
-                      onClick={handleCloseProfile}
-                      className={classes.dropdownItem}
-                    >
-                      Logout
-                    </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
