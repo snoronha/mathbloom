@@ -9,6 +9,8 @@ import MathUtil from "./MathUtil";
 // Carousel needs static elements though
 // Current elements are created IRL. Think through how to make that work
 
+const API_ENDPOINT = "http://localhost:8081/api";
+
 const ProblemPanel = (props) => {
   const size = props.size;
   const subject = props.subject;
@@ -94,7 +96,7 @@ const ProblemPanel = (props) => {
         }
         break;
       case "Geometry":
-        newProb = MathUtil.getGeometryProblem();
+        newProb = MathUtil.getTriangleProblem();
         break;
       case "Algebra":
         switch (tpc) {
@@ -150,31 +152,27 @@ const ProblemPanel = (props) => {
     handleMouseDown();
   };
 
-  const responseGoogle = (response) => {
-    console.log(response);
+  const responseGoogle = (res) => {
+    console.log(res);
+    const body = JSON.stringify({
+      email: res.profileObj.email,
+      familyName: res.profileObj.familyName,
+      givenName: res.profileObj.givenName,
+      name: res.profileObj.name,
+      imageUrl: res.profileObj.imageUrl,
+    });
+    fetch(`${API_ENDPOINT}/user`, { method: "post", body: body })
+      .then((response) => response.json())
+      .then((json) => {
+        console.log("responseGoogle: ", json);
+        // setQtyLoading(true);
+      })
+      .catch((error) => console.log(error)) // handle this
+      .finally(() => {});
   };
 
   return (
     <div>
-      {/* problems.map((problem, idx) => (
-        <span
-          style={{ display: "flex", justifyContent: "center" }}
-          key={idx.toString()}
-        >
-          {count === idx && (
-            <Slide right>
-              <Problem
-                style={{
-                  border: "4px solid #eee",
-                  borderRadius: "10px",
-                  padding: "10px",
-                }}
-                problem={problem}
-              />
-            </Slide>
-          )}
-        </span>
-      )) */}
       {currentProblem?.id && (
         <Slide right>
           <span
@@ -208,14 +206,14 @@ const ProblemPanel = (props) => {
         </div>
       ) */}
 
-      {/* <GoogleLogin
+      <GoogleLogin
         clientId="694333334914-1tdnugar7cvq666onqqvilnbq97dldr0.apps.googleusercontent.com"
         buttonText="Sign in with Google"
         onSuccess={responseGoogle}
         onFailure={responseGoogle}
         cookiePolicy={"single_host_origin"}
         isSignedIn={true}
-      /> */}
+      />
       <div
         style={{
           position: "absolute",

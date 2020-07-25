@@ -221,7 +221,7 @@ const MathUtil = {
     const answer = [[m, n].join(","), [n, m].join(",")];
     return { id: MathUtil.uuidv4(), answer: answer, attempt: "", specs: specs };
   },
-  getGeometryProblem: () => {
+  getTriangleProblem: () => {
     const b = Math.floor(Math.random() * 100) + 50;
     const c = Math.floor(Math.random() * 200) + 50;
     const A = Math.floor(Math.random() * 60) + 30;
