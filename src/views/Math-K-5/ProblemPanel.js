@@ -8,8 +8,6 @@ import MathUtil from "./MathUtil";
 // Carousel needs static elements though
 // Current elements are created IRL. Think through how to make that work
 
-const API_ENDPOINT = "https://mathbloom.org/api";
-
 const ProblemPanel = (props) => {
   const size = props.size;
   const subject = props.subject;

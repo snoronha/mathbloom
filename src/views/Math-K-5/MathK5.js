@@ -33,6 +33,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const API_ENDPOINT = "https://mathbloom.org/api";
+
 const MathK5 = ({ size }) => {
   const [grade, setGrade] = useState(0);
   const [subject, setSubject] = useState("");
