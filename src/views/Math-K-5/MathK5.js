@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { InputLabel, MenuItem, FormControl, Select } from "@material-ui/core";
 import { withSize } from "react-sizeme";
 import { makeStyles } from "@material-ui/core/styles";
+import { useSelector, useDispatch } from "react-redux";
 import { GoogleLogin } from "react-google-login";
 // core components
 import Card from "components/Card/Card.js";
@@ -39,8 +40,13 @@ const MathK5 = ({ size }) => {
   const [grade, setGrade] = useState(0);
   const [subject, setSubject] = useState("");
   const [topic, setTopic] = useState("");
-  const [userName, setUserName] = useState("");
+  // const [userName, setUserName] = useState("");
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const userName = useSelector((state) => {
+    return state.userName;
+  });
 
   useEffect(() => {
     /*
@@ -98,7 +104,12 @@ const MathK5 = ({ size }) => {
   const responseGoogle = (res) => {
     console.log(res);
     if (res.accessToken) {
-      setUserName(res.profileObj.name);
+      // dispatch redux event to update
+      // useSelector for userName subscribes to this event
+      dispatch({
+        type: "SET_USER_NAME",
+        payload: { userName: res.profileObj.name },
+      });
       const body = JSON.stringify({
         email: res.profileObj.email,
         googleId: res.profileObj.googleId,
