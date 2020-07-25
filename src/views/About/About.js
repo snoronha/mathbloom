@@ -1,15 +1,7 @@
 import React from "react";
-// @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-// @material-ui/icons
-// import Close from "@material-ui/icons/Close";
-// import Check from "@material-ui/icons/Check";
-// core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-// import Danger from "components/Typography/Danger.js";
-// import Success from "components/Typography/Success.js";
-// import Button from "components/CustomButtons/Button.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";

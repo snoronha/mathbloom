@@ -101,47 +101,8 @@ const MathK5 = ({ size }) => {
     setTopic(evt.target.value);
   };
 
-  const responseGoogle = (res) => {
-    console.log(res);
-    if (res.accessToken) {
-      // dispatch redux event to update
-      // useSelector for userName subscribes to this event
-      dispatch({
-        type: "SET_USER_NAME",
-        payload: { userName: res.profileObj.name },
-      });
-      const body = JSON.stringify({
-        email: res.profileObj.email,
-        googleId: res.profileObj.googleId,
-        familyName: res.profileObj.familyName,
-        givenName: res.profileObj.givenName,
-        name: res.profileObj.name,
-        imageUrl: res.profileObj.imageUrl,
-      });
-      fetch(`${API_ENDPOINT}/user`, { method: "post", body: body })
-        .then((response) => response.json())
-        .then((json) => {
-          console.log("responseGoogle: ", json);
-          // setQtyLoading(true);
-        })
-        .catch((error) => console.log(error)) // handle this
-        .finally(() => {});
-    }
-  };
-
   return (
     <div>
-      {!userName && (
-        <GoogleLogin
-          clientId="694333334914-1tdnugar7cvq666onqqvilnbq97dldr0.apps.googleusercontent.com"
-          buttonText="Sign in with Google"
-          onSuccess={responseGoogle}
-          onFailure={responseGoogle}
-          cookiePolicy={"single_host_origin"}
-          isSignedIn={true}
-        />
-      )}
-      {userName && <span>Welcome {userName}</span>}
       <Card>
         <CardBody style={{ height: 75, textAlign: "center" }}>
           <FormControl className={classes.formControl}>
