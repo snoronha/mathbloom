@@ -9,7 +9,7 @@ import MathUtil from "./MathUtil";
 // Carousel needs static elements though
 // Current elements are created IRL. Think through how to make that work
 
-const API_ENDPOINT = "http://localhost:8081/api";
+const API_ENDPOINT = "https://mathbloom.org/api";
 
 const ProblemPanel = (props) => {
   const size = props.size;
@@ -156,6 +156,7 @@ const ProblemPanel = (props) => {
     console.log(res);
     const body = JSON.stringify({
       email: res.profileObj.email,
+      googleId: res.profileObj.googleId,	
       familyName: res.profileObj.familyName,
       givenName: res.profileObj.givenName,
       name: res.profileObj.name,
