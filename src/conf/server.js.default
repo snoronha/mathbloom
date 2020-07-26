@@ -1,0 +1,5 @@
+const server = {
+    domain: 'https://mathbloom.org', // 'http://mathbloom.localhost.org'
+}
+
+export default server;

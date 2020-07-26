@@ -16,6 +16,7 @@ import Person from "@material-ui/icons/Person";
 import Notifications from "@material-ui/icons/Notifications";
 import Button from "components/CustomButtons/Button.js";
 import { GoogleLogin } from "react-google-login";
+import server from "../../conf/server";
 
 import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
 
@@ -25,7 +26,6 @@ export default function AdminNavbarLinks() {
   const classes = useStyles();
   const [openNotification, setOpenNotification] = React.useState(null);
   const [openProfile, setOpenProfile] = React.useState(null);
-  const API_ENDPOINT = "https://mathbloom.org/api";
   const dispatch = useDispatch();
 
   const user = useSelector((state) => {
@@ -64,7 +64,7 @@ export default function AdminNavbarLinks() {
         expiresIn: tokenObj.expires_in,
         firstIssuedAt: tokenObj.first_issued_at,
       });
-      fetch(`${API_ENDPOINT}/access_token/email/${email.toLowerCase()}`, {
+      fetch(`${server.domain}/api/access_token/email/${email.toLowerCase()}`, {
         method: "post",
         body: body,
       })
@@ -94,7 +94,7 @@ export default function AdminNavbarLinks() {
         name: res.profileObj.name,
         imageUrl: res.profileObj.imageUrl,
       });
-      fetch(`${API_ENDPOINT}/user`, { method: "post", body: body })
+      fetch(`${server.domain}/api/user`, { method: "post", body: body })
         .then((response) => response.json())
         .then((json) => {
           console.log("responseGoogle: ", json);

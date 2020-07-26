@@ -36,9 +36,8 @@ const useStyles = makeStyles(styles);
 
 export default function Problem(props) {
   const classes = useStyles();
-  // const [problem, setProblem] = useState(props.problem);
   let problem = props.problem;
-  console.log("PROBLEM: ", problem);
+  // console.log("PROBLEM: ", problem);
   const [answerCorrect, setAnswerCorrect] = useState(null);
   const [answer, setAnswer] = useState([]);
   const [singleAnswer, setSingleAnswer] = useState("");

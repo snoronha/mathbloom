@@ -1,9 +1,11 @@
 /*eslint-disable*/
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import Button from "@material-ui/core/Button";
 import Slide from "react-reveal/Slide";
 import Problem from "./Problem";
 import MathUtil from "./MathUtil";
+import server from "../../conf/server";
 // TODO: Figure out react-reveal/makeCarousel
 // Carousel needs static elements though
 // Current elements are created IRL. Think through how to make that work
@@ -23,6 +25,10 @@ const ProblemPanel = (props) => {
       setProblems([]);
     }
   }, [subject, topic]);
+
+  const user = useSelector((state) => {
+    return state.user;
+  });
 
   const createNewProblem = (subj, tpc) => {
     let numDigits, newProb;
@@ -115,13 +121,37 @@ const ProblemPanel = (props) => {
     return newProb;
   };
 
+  const saveProblem = (problem) => {
+    // TODO figure out how to auth locally for testing
+    const email = user?.email || "snoronha@gmail.com";
+    // console.log("USER: ", user);
+    const body = JSON.stringify({
+      guid: problem.guid,
+      specs: JSON.stringify(problem.specs),
+      answer: problem.answer ? JSON.stringify(problem.answer) : null,
+      attempt: problem.attempt ? JSON.stringify(problem.attempt) : null,
+    });
+    fetch(`${server.domain}/api/problem/email/${email.toLowerCase()}`, {
+      method: "post",
+      body: body,
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        console.log("responseProblem: ", json);
+      })
+      .catch((error) => console.log(error)) // handle this
+      .finally(() => {});
+  };
+
   const handleNext = () => {
     if (subject !== "" && topic !== "") {
       if (currentProblem?.guid) {
+        // Save current problem
+        saveProblem(currentProblem);
         // push currentProblem onto problem stack
         const tmpProblems = MathUtil.deepCopyObject(problems);
         tmpProblems.push(currentProblem);
-        // console.log("NEXT PROBLEMS: ", tmpProblems);
+
         setProblems(tmpProblems);
       }
       setCurrentProblem(createNewProblem(subject, topic));
