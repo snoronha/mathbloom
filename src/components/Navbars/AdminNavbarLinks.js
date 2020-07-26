@@ -53,18 +53,21 @@ export default function AdminNavbarLinks() {
     setOpenProfile(null);
   };
 
-  const saveAccessToken = (tokenObj) => {
+  const upsertAccessToken = (email, tokenObj) => {
     // fire and forget save access_token
     if (tokenObj.access_token) {
       const body = JSON.stringify({
-        userId: 1, // TODO: need to get actual userId
+        // userId is derived from email by the server and inserted
         accessToken: tokenObj.access_token,
         tokenId: tokenObj.id_token,
         expiresAt: tokenObj.expires_at,
         expiresIn: tokenObj.expires_in,
         firstIssuedAt: tokenObj.first_issued_at,
       });
-      fetch(`${API_ENDPOINT}/access_token`, { method: "post", body: body })
+      fetch(`${API_ENDPOINT}/access_token/email/${email.toLowerCase()}`, {
+        method: "post",
+        body: body,
+      })
         .then((response) => response.json())
         .then((json) => {
           console.log("responseAccessToken: ", json);
@@ -76,10 +79,6 @@ export default function AdminNavbarLinks() {
 
   const responseGoogle = (res) => {
     console.log(res);
-    if (res.tokenObj) {
-      // TODO: need to figure out how to get userId before this call is made
-      saveAccessToken(res.tokenObj);
-    }
     if (res.accessToken) {
       // dispatch redux event to update
       // useSelector for user subscribes to this event
@@ -88,7 +87,7 @@ export default function AdminNavbarLinks() {
         payload: { user: res.profileObj },
       });
       const body = JSON.stringify({
-        email: res.profileObj.email,
+        email: res.profileObj.email.toLowerCase(),
         googleId: res.profileObj.googleId,
         familyName: res.profileObj.familyName,
         givenName: res.profileObj.givenName,
@@ -99,7 +98,8 @@ export default function AdminNavbarLinks() {
         .then((response) => response.json())
         .then((json) => {
           console.log("responseGoogle: ", json);
-          // setQtyLoading(true);
+          // upsert access token
+          upsertAccessToken(res.profileObj.email.toLowerCase(), res.tokenObj);
         })
         .catch((error) => console.log(error)) // handle this
         .finally(() => {});
