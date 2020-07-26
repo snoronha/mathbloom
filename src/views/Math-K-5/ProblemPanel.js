@@ -117,7 +117,7 @@ const ProblemPanel = (props) => {
 
   const handleNext = () => {
     if (subject !== "" && topic !== "") {
-      if (currentProblem?.id) {
+      if (currentProblem?.guid) {
         // push currentProblem onto problem stack
         const tmpProblems = MathUtil.deepCopyObject(problems);
         tmpProblems.push(currentProblem);
@@ -151,11 +151,11 @@ const ProblemPanel = (props) => {
 
   return (
     <div>
-      {currentProblem?.id && (
+      {currentProblem?.guid && (
         <Slide right>
           <span
             style={{ display: "flex", justifyContent: "center" }}
-            key={currentProblem.id}
+            key={currentProblem.guid}
           >
             <Problem
               style={{

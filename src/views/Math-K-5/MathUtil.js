@@ -25,7 +25,7 @@ const MathUtil = {
     }
     const attempt = new Array(resArr.length).fill("");
     return {
-      id: MathUtil.uuidv4(),
+      guid: MathUtil.uuidv4(),
       specs: [
         { type: "static", data: op1Arr },
         { type: "static", data: op2Arr },
@@ -67,7 +67,7 @@ const MathUtil = {
     }
     const attempt = new Array(resArr.length).fill("");
     return {
-      id: MathUtil.uuidv4(),
+      guid: MathUtil.uuidv4(),
       specs: [
         { type: "static", data: op1Arr },
         { type: "static", data: op2Arr },
@@ -142,7 +142,7 @@ const MathUtil = {
     }
     const attempt = new Array(resArr.length).fill("");
     specs.push({ type: "editable", data: resArr, attempt: attempt });
-    return { id: MathUtil.uuidv4(), specs: specs };
+    return { guid: MathUtil.uuidv4(), specs: specs };
   },
   getAlgebraQuadraticProblem: () => {
     const m = Math.floor(Math.random() * 15) - 10;
@@ -187,7 +187,12 @@ const MathUtil = {
     });
     // Set up answer
     const answer = [[-m, -n].join(","), [-n, -m].join(",")];
-    return { id: MathUtil.uuidv4(), answer: answer, attempt: "", specs: specs };
+    return {
+      guid: MathUtil.uuidv4(),
+      answer: answer,
+      attempt: "",
+      specs: specs,
+    };
   },
   getAlgebraFactorizationProblem: () => {
     const m = Math.floor(Math.random() * 10) + 1;
@@ -219,7 +224,12 @@ const MathUtil = {
     });
     // Set up answer
     const answer = [[m, n].join(","), [n, m].join(",")];
-    return { id: MathUtil.uuidv4(), answer: answer, attempt: "", specs: specs };
+    return {
+      guid: MathUtil.uuidv4(),
+      answer: answer,
+      attempt: "",
+      specs: specs,
+    };
   },
   getTriangleProblem: () => {
     const b = Math.floor(Math.random() * 100) + 50;
@@ -250,7 +260,12 @@ const MathUtil = {
     });
     // Set up answer
     const answer = [(180 - (Math.round(p.A) + Math.round(p.B))).toString()];
-    return { id: MathUtil.uuidv4(), answer: answer, attempt: "", specs: specs };
+    return {
+      guid: MathUtil.uuidv4(),
+      answer: answer,
+      attempt: "",
+      specs: specs,
+    };
   },
   computeTriangleParams: (params) => {
     const b = params.b;
