@@ -122,10 +122,9 @@ export default function UpgradeToPro() {
                       have also taken the AMC 8 and AMC 10 tests as well as the
                       Math Olympiad. I would like to offer my help <b>FREE</b>{" "}
                       to anyone who wants a hand at succeeding in Middle School
-                      and preparing for High School. Along with my brother, who
-                      is on the honor roll for AMC8 and has Straight A's in
-                      school, I am also conducting a <b>FREE</b> Math program
-                      for students.
+                      and preparing for High School. I will be teaching with my
+                      brother who is on the honor roll for AMC8 and has Straight
+                      A's in school.
                       <p>
                         <b>Program Schedule</b>
                       </p>

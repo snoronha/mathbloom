@@ -2,14 +2,14 @@
 
 */
 // @material-ui/icons
-// import Dashboard from "@material-ui/icons/Dashboard";
+import Dashboard from "@material-ui/icons/Dashboard";
 // import Person from "@material-ui/icons/Person";
 // import LibraryBooks from "@material-ui/icons/LibraryBooks";
 // import BubbleChart from "@material-ui/icons/BubbleChart";
 // import LocationOn from "@material-ui/icons/LocationOn";
 import Notifications from "@material-ui/icons/Notifications";
 // core components/views for Admin layout
-// import DashboardPage from "views/Dashboard/Dashboard.js";
+import DashboardPage from "views/Dashboard/Dashboard.js";
 // import UserProfile from "views/UserProfile/UserProfile.js";
 // import TableList from "views/TableList/TableList.js";
 // import Typography from "views/Typography/Typography.js";
@@ -17,10 +17,11 @@ import Notifications from "@material-ui/icons/Notifications";
 // import Maps from "views/Maps/Maps.js";
 // import NotificationsPage from "views/Notifications/Notifications.js";
 import MathK5Page from "views/Math-K-5/MathK5.js";
+import MyPractice from "views/MyPractice/MyPractice.js";
 import AboutPage from "views/About/About.js";
 
 const dashboardRoutes = [
-  /*
+  /*  
   {
     path: "/dashboard",
     name: "Dashboard",
@@ -29,6 +30,7 @@ const dashboardRoutes = [
     component: DashboardPage,
     layout: "/admin",
   },
+
   {
     path: "/user",
     name: "Your Profile",
@@ -38,20 +40,29 @@ const dashboardRoutes = [
     layout: "/admin",
   },
   */
+
+  {
+    path: "/mathk5",
+    name: "Practice",
+    rtlName: "إخطارات",
+    icon: Notifications,
+    component: MathK5Page,
+    layout: "/admin",
+  },
+  {
+    path: "/myproblems",
+    name: "My Problems",
+    rtlName: "إخطارات",
+    icon: Notifications,
+    component: MyPractice,
+    layout: "/admin",
+  },
   {
     path: "/about",
     name: "About Us",
     rtlName: "إخطارات",
     icon: Notifications,
     component: AboutPage,
-    layout: "/admin",
-  },
-  {
-    path: "/mathk5",
-    name: "Math Lessons",
-    rtlName: "إخطارات",
-    icon: Notifications,
-    component: MathK5Page,
     layout: "/admin",
   },
   /*
