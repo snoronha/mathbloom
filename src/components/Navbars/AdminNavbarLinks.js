@@ -219,23 +219,6 @@ export default function AdminNavbarLinks() {
       */}
 
       <div className={classes.manager}>
-        <span>
-          {!user?.givenName && (
-            <GoogleLogin
-              clientId="694333334914-1tdnugar7cvq666onqqvilnbq97dldr0.apps.googleusercontent.com"
-              buttonText="Sign in with Google"
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
-              cookiePolicy={"single_host_origin"}
-              isSignedIn={true}
-            />
-          )}
-          {user?.givenName && (
-            <span style={{ fontSize: 12 }}>
-              Welcome <b>{user.givenName}</b>
-            </span>
-          )}
-        </span>
         <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}
           justIcon={window.innerWidth > 959}
@@ -277,9 +260,24 @@ export default function AdminNavbarLinks() {
                       onClick={handleCloseProfile}
                       className={classes.dropdownItem}
                     >
-                      Profile
+                      <span>
+                        {!user?.givenName && (
+                          <GoogleLogin
+                            clientId="694333334914-1tdnugar7cvq666onqqvilnbq97dldr0.apps.googleusercontent.com"
+                            buttonText="Sign in with Google"
+                            onSuccess={responseGoogle}
+                            onFailure={responseGoogle}
+                            cookiePolicy={"single_host_origin"}
+                            isSignedIn={true}
+                          />
+                        )}
+                        {user?.givenName && (
+                          <span style={{ fontSize: 12 }}>
+                            Welcome <b>{user.givenName}</b>
+                          </span>
+                        )}
+                      </span>
                     </MenuItem>
-                    <Divider light />
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
