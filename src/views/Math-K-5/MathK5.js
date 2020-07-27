@@ -3,8 +3,7 @@ import React, { useState, useEffect } from "react";
 import { InputLabel, MenuItem, FormControl, Select } from "@material-ui/core";
 import { withSize } from "react-sizeme";
 import { makeStyles } from "@material-ui/core/styles";
-import { useSelector, useDispatch } from "react-redux";
-import { GoogleLogin } from "react-google-login";
+import { useSelector } from "react-redux";
 // core components
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
@@ -27,22 +26,19 @@ const styles = {
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 120,
+    width: "auto",
+    minWidth: 80,
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
 }));
 
-const API_ENDPOINT = "https://mathbloom.org/api";
-
 const MathK5 = ({ size }) => {
   const [grade, setGrade] = useState(0);
   const [subject, setSubject] = useState("");
   const [topic, setTopic] = useState("");
-  // const [userName, setUserName] = useState("");
   const classes = useStyles();
-  const dispatch = useDispatch();
 
   const userName = useSelector((state) => {
     return state.userName;
@@ -57,21 +53,21 @@ const MathK5 = ({ size }) => {
   }, [subject, topic]);
 
   const gradeSubjectMap = [
-    { name: "Kinder", grade: 0, subjects: ["Addition"] },
-    { name: "1st grade", grade: 1, subjects: ["Addition", "Subtraction"] },
-    { name: "2nd grade", grade: 2, subjects: ["Addition", "Subtraction"] },
+    { name: "K", grade: 0, subjects: ["Addition"] },
+    { name: "1", grade: 1, subjects: ["Addition", "Subtraction"] },
+    { name: "2", grade: 2, subjects: ["Addition", "Subtraction"] },
     {
-      name: "3rd grade",
+      name: "3",
       grade: 3,
       subjects: ["Addition", "Subtraction", "Multiplication"],
     },
     {
-      name: "4th grade",
+      name: "4",
       grade: 4,
       subjects: ["Addition", "Subtraction", "Multiplication", "Geometry"],
     },
     {
-      name: "5th grade",
+      name: "5",
       grade: 5,
       subjects: [
         "Addition",
@@ -105,7 +101,7 @@ const MathK5 = ({ size }) => {
     <div>
       <Card>
         <CardBody style={{ height: 75, textAlign: "center" }}>
-          <FormControl className={classes.formControl}>
+          <FormControl size={"small"} className={classes.formControl}>
             <InputLabel id="grade-select-label">Grade</InputLabel>
             <Select
               labelId="grade-select-label"
@@ -120,7 +116,7 @@ const MathK5 = ({ size }) => {
               ))}
             </Select>
           </FormControl>
-          <FormControl className={classes.formControl}>
+          <FormControl size={"small"} className={classes.formControl}>
             <InputLabel id="subject-select-label">Subject</InputLabel>
             <Select
               labelId="subject-select-label"
@@ -135,7 +131,7 @@ const MathK5 = ({ size }) => {
               ))}
             </Select>
           </FormControl>
-          <FormControl className={classes.formControl}>
+          <FormControl size={"small"} className={classes.formControl}>
             <InputLabel id="topic-select-label">Topic</InputLabel>
             <Select
               labelId="topic-select-label"
