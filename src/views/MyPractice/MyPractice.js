@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MyPractice = ({ size }) => {
+  const [problems, setProblems] = useState([]);
   const userName = useSelector((state) => {
     return state.userName;
   });
@@ -47,7 +48,23 @@ const MyPractice = ({ size }) => {
     })
       .then((response) => response.json())
       .then((json) => {
-        console.log("responseProblems: ", json);
+        let tmpProblems = [];
+        json.problems?.forEach((prob) => {
+          if (prob.answer || prob.attempt) {
+            tmpProblems.push({
+              guid: prob.guid,
+              specs: JSON.parse(prob.specs),
+              answer: JSON.parse(prob.answer),
+              attempt: JSON.parse(prob.attempt),
+            });
+          } else {
+            tmpProblems.push({
+              guid: prob.guid,
+              specs: JSON.parse(prob.specs),
+            });
+          }
+        });
+        setProblems(tmpProblems);
       })
       .catch((error) => console.log(error)) // handle this
       .finally(() => {});
@@ -60,7 +77,9 @@ const MyPractice = ({ size }) => {
           <h4>My Problems</h4>
         </CardHeader>
         <CardBody style={{ height: 360 }}>
-          <ProblemPanel size={size} />
+          {problems.length > 0 && (
+            <ProblemPanel size={size} savedProblems={problems} />
+          )}
         </CardBody>
       </Card>
     </div>

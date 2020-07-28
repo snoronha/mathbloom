@@ -17,6 +17,7 @@ const ProblemPanel = (props) => {
   const [count, setCount] = useState(-1);
   const [currentProblem, setCurrentProblem] = useState({});
   const [problems, setProblems] = useState([]);
+  const [savedProblems, setSavedProblems] = useState(null);
 
   useEffect(() => {
     if (subject !== "" && topic !== "") {
@@ -25,6 +26,17 @@ const ProblemPanel = (props) => {
       setProblems([]);
     }
   }, [subject, topic]);
+
+  useEffect(() => {
+    if (props.savedProblems) {
+      setCount(0);
+      if (props.savedProblems.length > 0) {
+        setCurrentProblem(props.savedProblems[0]);
+        setCount(0);
+      }
+      setSavedProblems(props.savedProblems);
+    }
+  }, []);
 
   const user = useSelector((state) => {
     return state.user;
@@ -144,18 +156,29 @@ const ProblemPanel = (props) => {
   };
 
   const handleNext = () => {
-    if (subject !== "" && topic !== "") {
+    if (savedProblems.length > 0) {
+      // play back and edit/retry saved problem
       if (currentProblem?.guid) {
-        // Save current problem
         saveProblem(currentProblem);
-        // push currentProblem onto problem stack
-        const tmpProblems = MathUtil.deepCopyObject(problems);
-        tmpProblems.push(currentProblem);
-
-        setProblems(tmpProblems);
       }
-      setCurrentProblem(createNewProblem(subject, topic));
-      setCount(count + 1);
+      if (count < savedProblems.length) {
+        setCurrentProblem(savedProblems[count]);
+        setCount(count + 1);
+      }
+    } else {
+      // create new problem and attempt
+      if (subject !== "" && topic !== "") {
+        if (currentProblem?.guid) {
+          // Save current problem
+          saveProblem(currentProblem);
+          // push currentProblem onto problem stack
+          const tmpProblems = MathUtil.deepCopyObject(problems);
+          tmpProblems.push(currentProblem);
+          setProblems(tmpProblems);
+        }
+        setCurrentProblem(createNewProblem(subject, topic));
+        setCount(count + 1);
+      }
     }
   };
 
@@ -207,12 +230,6 @@ const ProblemPanel = (props) => {
           <p style={{ fontSize: 18 }}>Press Next to begin</p>
         </div>
       )}
-      {/* count >= NUMPROBLEMS && (
-        <div style={{ textAlign: "center", paddingTop: 40 }}>
-          <p style={{ fontSize: 24 }}>Done {subject} ...</p>
-          <p style={{ fontSize: 18 }}>Get more?</p>
-        </div>
-      ) */}
 
       <div
         style={{
