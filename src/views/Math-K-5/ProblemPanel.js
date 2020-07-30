@@ -156,7 +156,7 @@ const ProblemPanel = (props) => {
   };
 
   const handleNext = () => {
-    if (savedProblems.length > 0) {
+    if (savedProblems?.length > 0) {
       // play back and edit/retry saved problem
       if (currentProblem?.guid) {
         saveProblem(currentProblem);
