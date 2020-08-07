@@ -16,6 +16,8 @@ const ProblemPanel = (props) => {
   const topic = props.topic;
   const [count, setCount] = useState(-1);
   const [currentProblem, setCurrentProblem] = useState({});
+  const [prevProblem, setPrevProblem] = useState({});
+  const [visibleProblems, setVisibleProblems] = useState([]);
   const [problems, setProblems] = useState([]);
   const [savedProblems, setSavedProblems] = useState(null);
 
@@ -23,6 +25,7 @@ const ProblemPanel = (props) => {
     if (subject !== "" && topic !== "") {
       setCount(-1);
       setCurrentProblem({});
+      setPrevProblem({});
       setProblems([]);
     }
   }, [subject, topic]);
@@ -33,6 +36,7 @@ const ProblemPanel = (props) => {
       if (props.savedProblems.length > 0) {
         setCurrentProblem(props.savedProblems[0]);
         setCount(0);
+        setVisibleProblems([props.savedProblems[0]]);
       }
       setSavedProblems(props.savedProblems);
     }
@@ -175,8 +179,14 @@ const ProblemPanel = (props) => {
           const tmpProblems = MathUtil.deepCopyObject(problems);
           tmpProblems.push(currentProblem);
           setProblems(tmpProblems);
+          setPrevProblem(currentProblem);
         }
-        setCurrentProblem(createNewProblem(subject, topic));
+        const newProblem = createNewProblem(subject, topic);
+        if (currentProblem?.guid) {
+          setVisibleProblems([currentProblem, newProblem]);
+        }
+        setCurrentProblem(newProblem);
+
         setCount(count + 1);
       }
     }
@@ -218,6 +228,23 @@ const ProblemPanel = (props) => {
               }}
               problem={currentProblem}
               updateProblem={updateCurrentProblem}
+            />
+          </span>
+        </Slide>
+      )}
+      {prevProblem?.guid && false && (
+        <Slide left>
+          <span
+            style={{ display: "flex", justifyContent: "flexStart" }}
+            key={prevProblem.guid}
+          >
+            <Problem
+              style={{
+                border: "4px solid #eee",
+                borderRadius: "10px",
+                padding: "10px",
+              }}
+              problem={prevProblem}
             />
           </span>
         </Slide>
