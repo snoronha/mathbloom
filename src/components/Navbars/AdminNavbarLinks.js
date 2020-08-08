@@ -1,20 +1,20 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import classNames from "classnames";
+// import classNames from "classnames";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import MenuItem from "@material-ui/core/MenuItem";
-import MenuList from "@material-ui/core/MenuList";
-import Grow from "@material-ui/core/Grow";
-import Paper from "@material-ui/core/Paper";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Hidden from "@material-ui/core/Hidden";
-import Poppers from "@material-ui/core/Popper";
-import Divider from "@material-ui/core/Divider";
+// import MenuItem from "@material-ui/core/MenuItem";
+// import MenuList from "@material-ui/core/MenuList";
+// import Grow from "@material-ui/core/Grow";
+// import Paper from "@material-ui/core/Paper";
+// import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+// import Hidden from "@material-ui/core/Hidden";
+// import Poppers from "@material-ui/core/Popper";
+// import Divider from "@material-ui/core/Divider";
 // @material-ui/icons
-import Person from "@material-ui/icons/Person";
-import Notifications from "@material-ui/icons/Notifications";
-import Button from "components/CustomButtons/Button.js";
+// import Person from "@material-ui/icons/Person";
+// import Notifications from "@material-ui/icons/Notifications";
+// import Button from "components/CustomButtons/Button.js";
 import { GoogleLogin } from "react-google-login";
 import server from "../../conf/server";
 
@@ -219,6 +219,7 @@ export default function AdminNavbarLinks() {
       */}
 
       <div className={classes.manager}>
+        {/*
         <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}
           justIcon={window.innerWidth > 959}
@@ -233,57 +234,24 @@ export default function AdminNavbarLinks() {
             <p className={classes.linkText}>Profile</p>
           </Hidden>
         </Button>
-        <Poppers
-          open={Boolean(openProfile)}
-          anchorEl={openProfile}
-          transition
-          disablePortal
-          className={
-            classNames({ [classes.popperClose]: !openProfile }) +
-            " " +
-            classes.popperNav
-          }
-        >
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              id="profile-menu-list-grow"
-              style={{
-                transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom",
-              }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleCloseProfile}>
-                  <MenuList role="menu">
-                    <MenuItem
-                      onClick={handleCloseProfile}
-                      className={classes.dropdownItem}
-                    >
-                      <span>
-                        {!user?.givenName && (
-                          <GoogleLogin
-                            clientId="694333334914-1tdnugar7cvq666onqqvilnbq97dldr0.apps.googleusercontent.com"
-                            buttonText="Sign in with Google"
-                            onSuccess={responseGoogle}
-                            onFailure={responseGoogle}
-                            cookiePolicy={"single_host_origin"}
-                            isSignedIn={true}
-                          />
-                        )}
-                        {user?.givenName && (
-                          <span style={{ fontSize: 12 }}>
-                            Welcome <b>{user.givenName}</b>
-                          </span>
-                        )}
-                      </span>
-                    </MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
+        */}
+        <span style={{ margin: 12 }}>
+          {!user?.givenName && (
+            <GoogleLogin
+              clientId="694333334914-1tdnugar7cvq666onqqvilnbq97dldr0.apps.googleusercontent.com"
+              buttonText="Sign in with Google"
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+              cookiePolicy={"single_host_origin"}
+              isSignedIn={true}
+            />
           )}
-        </Poppers>
+          {user?.givenName && (
+            <span style={{ fontSize: 12 }}>
+              Welcome <b>{user.givenName}</b>
+            </span>
+          )}
+        </span>
       </div>
     </div>
   );
