@@ -1,6 +1,5 @@
 /*eslint-disable*/
 import React, { useState, useEffect } from "react";
-import { InputLabel, MenuItem, FormControl, Select } from "@material-ui/core";
 import { withSize } from "react-sizeme";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
@@ -37,9 +36,6 @@ const useStyles = makeStyles((theme) => ({
 
 const MyPractice = ({ size }) => {
   const [problems, setProblems] = useState([]);
-  const userName = useSelector((state) => {
-    return state.userName;
-  });
 
   useEffect(() => {
     const email = "snoronha@gmail.com";
