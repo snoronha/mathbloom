@@ -19,6 +19,7 @@ import DashboardPage from "views/Dashboard/Dashboard.js";
 import MathK5Page from "views/Math-K-5/MathK5.js";
 import MyPractice from "views/MyPractice/MyPractice.js";
 import SolveIt from "views/SolveIt/SolveIt.js";
+import AskAarav from "views/AskAarav/AskAarav.js";
 import AboutPage from "views/About/About.js";
 
 const dashboardRoutes = [
@@ -64,6 +65,14 @@ const dashboardRoutes = [
     rtlName: "إخطارات",
     icon: Notifications,
     component: SolveIt,
+    layout: "/admin",
+  },
+  {
+    path: "/askaarav",
+    name: "Ask Aarav",
+    rtlName: "إخطارات",
+    icon: Notifications,
+    component: AskAarav,
     layout: "/admin",
   },
   {
