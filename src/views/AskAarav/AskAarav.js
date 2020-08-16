@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { StaticMathField, EditableMathField } from "react-mathquill";
 import { makeStyles } from "@material-ui/core/styles";
 import { withSize } from "react-sizeme";
@@ -30,17 +30,19 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 const AskAarav = ({ size }) => {
+  const textInput = useRef(null);
   const [problemStr, setProblemStr] = useState("");
   const classes = useStyles();
 
   const onFieldChange = (mathField) => {
     const fieldVal = mathField.latex().toString();
+    // console.log("Fieldval: ", fieldVal, textInput.current.mathField);
     setProblemStr(fieldVal);
   };
 
   const latexUpdate = (txt) => {
-    console.log("Clicked: ", txt);
     setProblemStr(problemStr + txt);
+    textInput.current?.mathField?.focus();
   };
 
   return (
@@ -51,6 +53,7 @@ const AskAarav = ({ size }) => {
         </CardHeader>
         <CardBody style={{ height: 360 }}>
           <EditableMathField
+            ref={textInput}
             style={{
               backgroundColor: "#fff",
             }}
