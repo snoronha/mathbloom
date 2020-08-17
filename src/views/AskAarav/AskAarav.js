@@ -29,7 +29,10 @@ const styles = {
   },
   draggableSymbols: {
     border: "1px solid #ddd",
-    width: "auto",
+    borderRadius: 8,
+    padding: 4,
+    width: 150,
+    textAlign: "center",
   },
 };
 
@@ -40,10 +43,18 @@ const AskAarav = ({ size }) => {
   const [problemStr, setProblemStr] = useState("");
   const classes = useStyles();
   const symbols = [
-    { htmltext: "+", latex: "+" },
-    { htmltext: "π", latex: "\\pi" },
-    { htmltext: "&le;", latex: "\\le" },
-    { htmltext: "∑", latex: "\\sum" },
+    [
+      { htmltext: "+", latex: "+" },
+      { htmltext: "π", latex: "\\pi" },
+      { htmltext: "&le;", latex: "\\le" },
+      { htmltext: "∑", latex: "\\sum" },
+    ],
+    [
+      { htmltext: "x", latex: "\\times" },
+      { htmltext: "&#8734;", latex: "\\infinity" },
+      { htmltext: "&ge;", latex: "\\ge" },
+      { htmltext: "∑", latex: "\\sum" },
+    ],
   ];
 
   const onFieldChange = (mathField) => {
@@ -77,15 +88,26 @@ const AskAarav = ({ size }) => {
           />
           <Draggable defaultPosition={{ x: 0, y: 0 }} position={null} scale={1}>
             <div className={classes.draggableSymbols}>
-              {symbols.map((symbol, symbolIdx) => (
-                <button
-                  key={symbolIdx.toString()}
-                  onClick={() => latexUpdate(symbol.latex)}
-                  style={{ margin: 2 }}
-                >
-                  <span dangerouslySetInnerHTML={{ __html: symbol.htmltext }} />
-                </button>
-              ))}
+              <span>
+                Symbol Map
+                <hr />
+                {symbols.map((symbolRow, symbolRowIdx) => (
+                  <span>
+                    {symbolRow.map((symbol, symbolIdx) => (
+                      <button
+                        key={symbolIdx.toString()}
+                        onClick={() => latexUpdate(symbol.latex)}
+                        style={{ margin: 2 }}
+                      >
+                        <span
+                          dangerouslySetInnerHTML={{ __html: symbol.htmltext }}
+                        />
+                      </button>
+                    ))}
+                    <br />
+                  </span>
+                ))}
+              </span>
             </div>
           </Draggable>
         </CardBody>
