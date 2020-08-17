@@ -1,6 +1,8 @@
 /*eslint-disable*/
 import React, { useState, useRef } from "react";
-import { StaticMathField, EditableMathField } from "react-mathquill";
+import ReactDOM from "react-dom";
+import { EditableMathField } from "react-mathquill";
+import Draggable from "react-draggable";
 import { makeStyles } from "@material-ui/core/styles";
 import { withSize } from "react-sizeme";
 
@@ -24,6 +26,10 @@ const styles = {
     minWidth: 80,
     height: "auto",
     fontSize: 24,
+  },
+  draggableSymbols: {
+    border: "1px solid #ddd",
+    width: "auto",
   },
 };
 
@@ -69,15 +75,19 @@ const AskAarav = ({ size }) => {
               onFieldChange(mathField);
             }}
           />
-          {symbols.map((symbol, symbolIdx) => (
-            <button
-              key={symbolIdx.toString()}
-              onClick={() => latexUpdate(symbol.latex)}
-              style={{ margin: 2 }}
-            >
-              <span dangerouslySetInnerHTML={{ __html: symbol.htmltext }} />
-            </button>
-          ))}
+          <Draggable defaultPosition={{ x: 0, y: 0 }} position={null} scale={1}>
+            <div className={classes.draggableSymbols}>
+              {symbols.map((symbol, symbolIdx) => (
+                <button
+                  key={symbolIdx.toString()}
+                  onClick={() => latexUpdate(symbol.latex)}
+                  style={{ margin: 2 }}
+                >
+                  <span dangerouslySetInnerHTML={{ __html: symbol.htmltext }} />
+                </button>
+              ))}
+            </div>
+          </Draggable>
         </CardBody>
       </Card>
     </div>
