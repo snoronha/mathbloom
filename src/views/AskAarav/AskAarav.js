@@ -33,6 +33,12 @@ const AskAarav = ({ size }) => {
   const textInput = useRef(null);
   const [problemStr, setProblemStr] = useState("");
   const classes = useStyles();
+  const symbols = [
+    { htmltext: "+", latex: "+" },
+    { htmltext: "π", latex: "\\pi" },
+    { htmltext: "&le;", latex: "\\le" },
+    { htmltext: "∑", latex: "\\sum" },
+  ];
 
   const onFieldChange = (mathField) => {
     const fieldVal = mathField.latex().toString();
@@ -63,18 +69,15 @@ const AskAarav = ({ size }) => {
               onFieldChange(mathField);
             }}
           />
-          <button onClick={() => latexUpdate("+")} style={{ margin: 2 }}>
-            +
-          </button>
-          <button onClick={() => latexUpdate("\\pi")} style={{ margin: 2 }}>
-            π
-          </button>
-          <button onClick={() => latexUpdate("\\le")} style={{ margin: 2 }}>
-            &le;
-          </button>
-          <button onClick={() => latexUpdate("\\sum")} style={{ margin: 2 }}>
-            ∑
-          </button>
+          {symbols.map((symbol, symbolIdx) => (
+            <button
+              key={symbolIdx.toString()}
+              onClick={() => latexUpdate(symbol.latex)}
+              style={{ margin: 2 }}
+            >
+              <span dangerouslySetInnerHTML={{ __html: symbol.htmltext }} />
+            </button>
+          ))}
         </CardBody>
       </Card>
     </div>
