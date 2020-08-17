@@ -44,16 +44,29 @@ const AskAarav = ({ size }) => {
   const classes = useStyles();
   const symbols = [
     [
-      { htmltext: "+", latex: "+" },
-      { htmltext: "π", latex: "\\pi" },
+      { htmltext: "&ne;", latex: "\\neq" },
       { htmltext: "&le;", latex: "\\le" },
+      { htmltext: "&ge;", latex: "\\ge" },
+      { htmltext: "&pm;", latex: "\\pm" },
       { htmltext: "∑", latex: "\\sum" },
     ],
     [
       { htmltext: "x", latex: "\\times" },
+      { htmltext: "&Sqrt;", latex: "\\sqrt" },
+      { htmltext: "&int;", latex: "\\int" },
       { htmltext: "&#8734;", latex: "\\infinity" },
-      { htmltext: "&ge;", latex: "\\ge" },
-      { htmltext: "∑", latex: "\\sum" },
+    ],
+    [
+      { htmltext: "π", latex: "\\pi" },
+      { htmltext: "&alpha;", latex: "\\alpha" },
+      { htmltext: "&beta;", latex: "\\beta" },
+      { htmltext: "&gamma;", latex: "\\gamma" },
+    ],
+    [
+      { htmltext: "&delta;", latex: "\\delta" },
+      { htmltext: "&epsilon;", latex: "\\epsilon" },
+      { htmltext: "&phi;", latex: "\\phi" },
+      { htmltext: "&omega;", latex: "\\omega" },
     ],
   ];
 
@@ -64,6 +77,7 @@ const AskAarav = ({ size }) => {
   };
 
   const latexUpdate = (txt) => {
+    console.log("problemStr: ", problemStr);
     setProblemStr(problemStr + txt);
     textInput.current?.mathField?.focus();
   };
@@ -85,11 +99,16 @@ const AskAarav = ({ size }) => {
             onChange={(mathField) => {
               onFieldChange(mathField);
             }}
+            substituteTextarea={() => <textarea rows={5} />}
           />
-          <Draggable defaultPosition={{ x: 0, y: 0 }} position={null} scale={1}>
+          <Draggable
+            defaultPosition={{ x: 200, y: 0 }}
+            position={null}
+            scale={1}
+          >
             <div className={classes.draggableSymbols}>
               <span>
-                Symbol Map
+                Symbols
                 <hr />
                 {symbols.map((symbolRow, symbolRowIdx) => (
                   <span>
@@ -97,7 +116,7 @@ const AskAarav = ({ size }) => {
                       <button
                         key={symbolIdx.toString()}
                         onClick={() => latexUpdate(symbol.latex)}
-                        style={{ margin: 2 }}
+                        style={{ width: 24, margin: 2 }}
                       >
                         <span
                           dangerouslySetInnerHTML={{ __html: symbol.htmltext }}
