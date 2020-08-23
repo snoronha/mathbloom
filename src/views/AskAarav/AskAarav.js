@@ -12,7 +12,7 @@ import { withSize } from "react-sizeme";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import Button from "components/CustomButtons/Button.js";
+import MathUtil from "../Math-K-5/MathUtil";
 
 const styles = {
   staticDigitInstance: {
@@ -25,7 +25,7 @@ const styles = {
   editableInstance: {
     textAlign: "center",
     width: "auto",
-    minWidth: 80,
+    minWidth: 275,
     height: "auto",
     fontSize: 24,
   },
@@ -40,10 +40,10 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-const AskAarav = ({ size }) => {
-  const textInput = useRef(null);
-  const [problemStr, setProblemStr] = useState("");
-  const classes = useStyles();
+// SymbolMap component
+const SymbolMap = (props) => {
+  const classes = props.classes;
+  const latexUpdate = props.latexUpdate;
   const symbols = [
     [
       { htmltext: "&ne;", latex: "\\neq" },
@@ -71,17 +71,72 @@ const AskAarav = ({ size }) => {
       { htmltext: "&omega;", latex: "\\omega" },
     ],
   ];
+  return (
+    <Draggable defaultPosition={{ x: 200, y: 0 }} position={null} scale={1}>
+      <div className={classes.draggableSymbols}>
+        <span>
+          Symbols
+          <hr />
+          {symbols.map((symbolRow, symbolRowIdx) => (
+            <span key={symbolRowIdx.toString()}>
+              {symbolRow.map((symbol, symbolIdx) => (
+                <button
+                  key={symbolIdx.toString()}
+                  onClick={() => latexUpdate(symbol.latex)}
+                  style={{ width: 24, margin: 2 }}
+                >
+                  <span dangerouslySetInnerHTML={{ __html: symbol.htmltext }} />
+                </button>
+              ))}
+              <br />
+            </span>
+          ))}
+        </span>
+      </div>
+    </Draggable>
+  );
+};
 
-  const onFieldChange = (mathField) => {
+const AskAarav = ({ size }) => {
+  const [selectedIdx, setSelectedIdx] = useState(-1);
+  const [descrLines, setDescrLines] = useState([]);
+  // max of 5 equation inputs for now - research how to make this dynamic
+  const [textInputs, setTextInputs] = useState([
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+  ]);
+  const classes = useStyles();
+
+  const onFieldChange = (mathField, idx) => {
     const fieldVal = mathField.latex().toString();
     // console.log("Fieldval: ", fieldVal, textInput.current.mathField);
-    setProblemStr(fieldVal);
+    let tmpDescrLines = MathUtil.deepCopyObject(descrLines);
+    tmpDescrLines[idx] = fieldVal;
+    setDescrLines(tmpDescrLines);
+  };
+
+  const onFocus = (idx) => {
+    console.log("Focused on: ", idx);
+    setSelectedIdx(idx);
   };
 
   const latexUpdate = (txt) => {
-    console.log("problemStr: ", problemStr);
-    setProblemStr(problemStr + txt);
-    textInput.current?.mathField?.focus();
+    if (selectedIdx >= 0) {
+      console.log("problemStr: ", descrLines[selectedIdx]);
+      let tmpDescrLines = MathUtil.deepCopyObject(descrLines);
+      tmpDescrLines[selectedIdx] += txt;
+      setDescrLines(tmpDescrLines);
+      textInputs[selectedIdx].current?.mathField?.focus();
+    }
+  };
+
+  const createMathField = () => {
+    let tmpDescrLines = MathUtil.deepCopyObject(descrLines);
+    tmpDescrLines.push("");
+    setDescrLines(tmpDescrLines);
   };
 
   return (
@@ -89,52 +144,54 @@ const AskAarav = ({ size }) => {
       <Card>
         <CardHeader color="primary">
           <h4>Ask Aarav</h4>
-          <FontAwesomeIcon icon={faCoffee} />
         </CardHeader>
         <CardBody style={{ height: 360 }}>
-          <EditableMathField
-            ref={textInput}
-            style={{
-              backgroundColor: "#fff",
-            }}
-            className={classes.editableInstance}
-            latex={problemStr} // latex value for the input field
-            onChange={(mathField) => {
-              onFieldChange(mathField);
-            }}
-          />
-          <Draggable
-            defaultPosition={{ x: 200, y: 0 }}
-            position={null}
-            scale={1}
+          <button
+            onClick={createMathField}
+            style={{ position: "absolute", right: 20, top: 10 }}
           >
-            <div className={classes.draggableSymbols}>
-              <span>
-                Symbols
-                <hr />
-                {symbols.map((symbolRow, symbolRowIdx) => (
-                  <span key={symbolRowIdx.toString()}>
-                    {symbolRow.map((symbol, symbolIdx) => (
-                      <button
-                        key={symbolIdx.toString()}
-                        onClick={() => latexUpdate(symbol.latex)}
-                        style={{ width: 24, margin: 2 }}
-                      >
-                        <span
-                          dangerouslySetInnerHTML={{ __html: symbol.htmltext }}
-                        />
-                      </button>
-                    ))}
-                    <br />
-                  </span>
-                ))}
-              </span>
-            </div>
-          </Draggable>
+            Equation
+          </button>
+          <button
+            onClick={() => console.log("Hello")}
+            style={{ position: "absolute", right: 20, top: 40 }}
+          >
+            Text
+          </button>
+          {descrLines.map((descr, descrIdx) => (
+            <span key={descrIdx.toString()}>
+              <EditableMathField
+                ref={textInputs[descrIdx]}
+                style={{
+                  marginTop: 10,
+                  backgroundColor: "#fff",
+                }}
+                className={classes.editableInstance}
+                latex={descr} // latex value for the input field
+                onChange={(mathField) => {
+                  onFieldChange(mathField, descrIdx);
+                }}
+                onFocus={() => {
+                  onFocus(descrIdx);
+                }}
+              />
+              <br />
+            </span>
+          ))}
+
+          <SymbolMap classes={classes} latexUpdate={latexUpdate} />
         </CardBody>
       </Card>
     </div>
   );
 };
 
+/*
+          <MathField
+            ref={textInput}
+            classes={classes}
+            latex={problemStr}
+            onChange={onFieldChange}
+          />
+          */
 export default withSize()(AskAarav);
