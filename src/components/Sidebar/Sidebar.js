@@ -35,6 +35,9 @@ export default function Sidebar(props) {
         listItemClasses = classNames({
           [" " + classes[color]]: activeRoute(prop.layout + prop.path),
         });
+        const whiteFontClasses = classNames({
+          [" " + classes.whiteFont]: activeRoute(prop.layout + prop.path),
+        });
         return (
           <NavLink
             to={prop.layout + prop.path}
@@ -42,7 +45,7 @@ export default function Sidebar(props) {
             activeClassName="active"
             key={key}
           >
-            <ListItem button>
+            <ListItem button className={listItemClasses}>
               <FontAwesomeIcon icon={prop.icon} style={{ marginRight: 10 }} />
               <ListItemText primary={prop.name} disableTypography={true} />
             </ListItem>
