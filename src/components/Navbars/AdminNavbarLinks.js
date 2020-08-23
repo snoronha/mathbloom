@@ -24,14 +24,15 @@ const useStyles = makeStyles(styles);
 
 export default function AdminNavbarLinks() {
   const classes = useStyles();
-  const [openNotification, setOpenNotification] = React.useState(null);
-  const [openProfile, setOpenProfile] = React.useState(null);
+  // const [openNotification, setOpenNotification] = React.useState(null);
+  // const [openProfile, setOpenProfile] = React.useState(null);
   const dispatch = useDispatch();
 
   const user = useSelector((state) => {
     return state.user;
   });
 
+  /*
   const handleClickNotification = (event) => {
     if (openNotification && openNotification.contains(event.target)) {
       setOpenNotification(null);
@@ -52,6 +53,7 @@ export default function AdminNavbarLinks() {
   const handleCloseProfile = () => {
     setOpenProfile(null);
   };
+  */
 
   const upsertAccessToken = (email, tokenObj) => {
     // fire and forget save access_token

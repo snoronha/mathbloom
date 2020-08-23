@@ -4,7 +4,6 @@ import MathUtil from "../MathUtil";
 // Sides a, b, c (c is base), angles A, B, C in degrees
 // Input expected: b, c, A (two sides + included angle)
 export default function TriangleSidesAngle(props) {
-  const r = 20;
   const p = MathUtil.computeTriangleParams(props);
   const ra = p.A < 50 ? 30 : p.A < 90 ? 20 : 15;
   const rb = p.B < 50 ? 30 : p.B < 90 ? 20 : 15;
