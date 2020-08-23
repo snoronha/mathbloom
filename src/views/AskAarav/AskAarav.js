@@ -2,10 +2,11 @@
 import React, { useState, useRef } from "react";
 import ReactDOM from "react-dom"; // needed for Draggable
 import { EditableMathField } from "react-mathquill";
+import Button from "@material-ui/core/Button";
 import Draggable from "react-draggable";
 import { makeStyles } from "@material-ui/core/styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCoffee } from "@fortawesome/free-solid-svg-icons";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { withSize } from "react-sizeme";
 
 // core components
@@ -23,6 +24,7 @@ const styles = {
     fontSize: 24,
   },
   editableInstance: {
+    flex: 1,
     textAlign: "center",
     width: "auto",
     minWidth: 275,
@@ -117,12 +119,18 @@ const AskAarav = ({ size }) => {
     setDescrLines(tmpDescrLines);
   };
 
+  const onTextChange = (evt, idx) => {
+    let tmpDescrLines = MathUtil.deepCopyObject(descrLines);
+    tmpDescrLines[idx].data = evt.target.value;
+    setDescrLines(tmpDescrLines);
+  };
+
   const onFocus = (idx) => {
     setSelectedIdx(idx);
   };
 
   const latexUpdate = (txt) => {
-    if (selectedIdx >= 0) {
+    if (selectedIdx >= 0 && descrLines[selectedIdx].type === "math") {
       console.log("problemStr: ", descrLines[selectedIdx]);
       let tmpDescrLines = MathUtil.deepCopyObject(descrLines);
       tmpDescrLines[selectedIdx].data += txt;
@@ -135,6 +143,16 @@ const AskAarav = ({ size }) => {
     let tmpDescrLines = MathUtil.deepCopyObject(descrLines);
     tmpDescrLines.push({ type: type, data: "" });
     setDescrLines(tmpDescrLines);
+  };
+
+  const deleteField = (idx) => {
+    let tmpDescrLines = MathUtil.deepCopyObject(descrLines);
+    tmpDescrLines.splice(idx, 1);
+    setDescrLines(tmpDescrLines);
+  };
+
+  const handleSave = () => {
+    console.log("Save this");
   };
 
   return (
@@ -162,7 +180,10 @@ const AskAarav = ({ size }) => {
           </button>
 
           {descrLines.map((descr, descrIdx) => (
-            <span key={descrIdx.toString()}>
+            <div
+              style={{ justifyContent: "flex-start" }}
+              key={descrIdx.toString()}
+            >
               {descr.type === "math" && (
                 <EditableMathField
                   ref={textInputs[descrIdx]}
@@ -191,12 +212,31 @@ const AskAarav = ({ size }) => {
                     onFocus(descrIdx);
                   }}
                   defaultValue={descr.data}
+                  onChange={(evt) => {
+                    onTextChange(evt, descrIdx);
+                  }}
                 />
               )}
+              <button
+                onClick={() => {
+                  deleteField(descrIdx);
+                }}
+              >
+                <FontAwesomeIcon icon={faTimes} />
+              </button>
               <br />
-            </span>
+            </div>
           ))}
           <SymbolMap classes={classes} latexUpdate={latexUpdate} />
+          <div style={{ position: "absolute", bottom: "10px", right: "10px" }}>
+            <Button
+              variant="contained"
+              color="default"
+              onMouseDown={handleSave}
+            >
+              Save
+            </Button>
+          </div>
         </CardBody>
       </Card>
     </div>
