@@ -1,13 +1,14 @@
 /*!
 
 */
-// @material-ui/icons
-import Dashboard from "@material-ui/icons/Dashboard";
-// import Person from "@material-ui/icons/Person";
-// import LibraryBooks from "@material-ui/icons/LibraryBooks";
-// import BubbleChart from "@material-ui/icons/BubbleChart";
-// import LocationOn from "@material-ui/icons/LocationOn";
-import Notifications from "@material-ui/icons/Notifications";
+
+import {
+  faCoffee,
+  faRunning,
+  faMagic,
+  faHandsHelping,
+  faUserEdit,
+} from "@fortawesome/free-solid-svg-icons";
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
 // import UserProfile from "views/UserProfile/UserProfile.js";
@@ -46,40 +47,35 @@ const dashboardRoutes = [
   {
     path: "/mathk5",
     name: "Practice",
-    rtlName: "إخطارات",
-    icon: Notifications,
+    icon: faRunning,
     component: MathK5Page,
     layout: "/admin",
   },
   {
     path: "/myproblems",
     name: "My Problems",
-    rtlName: "إخطارات",
-    icon: Notifications,
+    icon: faUserEdit,
     component: MyPractice,
     layout: "/admin",
   },
   {
     path: "/solveit",
     name: "Solve It!",
-    rtlName: "إخطارات",
-    icon: Notifications,
+    icon: faMagic,
     component: SolveIt,
     layout: "/admin",
   },
   {
     path: "/askaarav",
     name: "Ask Aarav",
-    rtlName: "إخطارات",
-    icon: Notifications,
+    icon: faHandsHelping,
     component: AskAarav,
     layout: "/admin",
   },
   {
     path: "/about",
     name: "About Us",
-    rtlName: "إخطارات",
-    icon: Notifications,
+    icon: faCoffee,
     component: AboutPage,
     layout: "/admin",
   },
@@ -87,7 +83,6 @@ const dashboardRoutes = [
   {
     path: "/table",
     name: "Table List",
-    rtlName: "قائمة الجدول",
     icon: "content_paste",
     component: TableList,
     layout: "/admin",
@@ -96,7 +91,6 @@ const dashboardRoutes = [
   {
     path: "/typography",
     name: "Typography",
-    rtlName: "طباعة",
     icon: LibraryBooks,
     component: Typography,
     layout: "/admin",

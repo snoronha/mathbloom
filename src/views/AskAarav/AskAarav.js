@@ -1,9 +1,11 @@
 /*eslint-disable*/
 import React, { useState, useRef } from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom"; // needed for Draggable
 import { EditableMathField } from "react-mathquill";
 import Draggable from "react-draggable";
 import { makeStyles } from "@material-ui/core/styles";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCoffee } from "@fortawesome/free-solid-svg-icons";
 import { withSize } from "react-sizeme";
 
 // core components
@@ -87,6 +89,7 @@ const AskAarav = ({ size }) => {
       <Card>
         <CardHeader color="primary">
           <h4>Ask Aarav</h4>
+          <FontAwesomeIcon icon={faCoffee} />
         </CardHeader>
         <CardBody style={{ height: 360 }}>
           <EditableMathField
@@ -99,7 +102,6 @@ const AskAarav = ({ size }) => {
             onChange={(mathField) => {
               onFieldChange(mathField);
             }}
-            substituteTextarea={() => <textarea rows={5} />}
           />
           <Draggable
             defaultPosition={{ x: 200, y: 0 }}
@@ -111,7 +113,7 @@ const AskAarav = ({ size }) => {
                 Symbols
                 <hr />
                 {symbols.map((symbolRow, symbolRowIdx) => (
-                  <span>
+                  <span key={symbolRowIdx.toString()}>
                     {symbolRow.map((symbol, symbolIdx) => (
                       <button
                         key={symbolIdx.toString()}

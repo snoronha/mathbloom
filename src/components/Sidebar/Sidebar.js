@@ -10,7 +10,8 @@ import Hidden from "@material-ui/core/Hidden";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import Icon from "@material-ui/core/Icon";
+// import Icon from "@material-ui/core/Icon";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // core components
 import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.js";
 import RTLNavbarLinks from "components/Navbars/RTLNavbarLinks.js";
@@ -34,9 +35,6 @@ export default function Sidebar(props) {
         listItemClasses = classNames({
           [" " + classes[color]]: activeRoute(prop.layout + prop.path),
         });
-        const whiteFontClasses = classNames({
-          [" " + classes.whiteFont]: activeRoute(prop.layout + prop.path),
-        });
         return (
           <NavLink
             to={prop.layout + prop.path}
@@ -44,29 +42,9 @@ export default function Sidebar(props) {
             activeClassName="active"
             key={key}
           >
-            <ListItem button className={classes.itemLink + listItemClasses}>
-              {typeof prop.icon === "string" ? (
-                <Icon
-                  className={classNames(classes.itemIcon, whiteFontClasses, {
-                    [classes.itemIconRTL]: props.rtlActive,
-                  })}
-                >
-                  {prop.icon}
-                </Icon>
-              ) : (
-                <prop.icon
-                  className={classNames(classes.itemIcon, whiteFontClasses, {
-                    [classes.itemIconRTL]: props.rtlActive,
-                  })}
-                />
-              )}
-              <ListItemText
-                primary={props.rtlActive ? prop.rtlName : prop.name}
-                className={classNames(classes.itemText, whiteFontClasses, {
-                  [classes.itemTextRTL]: props.rtlActive,
-                })}
-                disableTypography={true}
-              />
+            <ListItem button>
+              <FontAwesomeIcon icon={prop.icon} style={{ marginRight: 10 }} />
+              <ListItemText primary={prop.name} disableTypography={true} />
             </ListItem>
           </NavLink>
         );
@@ -77,9 +55,7 @@ export default function Sidebar(props) {
     <div className={classes.logo}>
       <a
         href="https://mathbloom.org"
-        className={classNames(classes.logoLink, {
-          [classes.logoLinkRTL]: props.rtlActive,
-        })}
+        className={classNames(classes.logoLink)}
         target="_blank"
       >
         <div className={classes.logoImage}>
@@ -121,13 +97,11 @@ export default function Sidebar(props) {
       </Hidden>
       <Hidden smDown implementation="css">
         <Drawer
-          anchor={props.rtlActive ? "right" : "left"}
+          anchor={"left"}
           variant="permanent"
           open
           classes={{
-            paper: classNames(classes.drawerPaper, {
-              [classes.drawerPaperRTL]: props.rtlActive,
-            }),
+            paper: classNames(classes.drawerPaper),
           }}
         >
           {brand}
