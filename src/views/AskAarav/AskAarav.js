@@ -100,26 +100,24 @@ const SymbolMap = (props) => {
 const AskAarav = ({ size }) => {
   const [selectedIdx, setSelectedIdx] = useState(-1);
   const [descrLines, setDescrLines] = useState([]);
-  // max of 5 equation inputs for now - research how to make this dynamic
-  const [textInputs, setTextInputs] = useState([
-    useRef(null),
-    useRef(null),
-    useRef(null),
-    useRef(null),
-    useRef(null),
-  ]);
+  // max of 10 equation/text inputs for now - research how to make this dynamic
+  const [textInputs, setTextInputs] = useState(
+    Array(10)
+      .fill(null)
+      .map((i) => React.createRef()),
+    []
+  );
   const classes = useStyles();
 
   const onFieldChange = (mathField, idx) => {
     const fieldVal = mathField.latex().toString();
     // console.log("Fieldval: ", fieldVal, textInput.current.mathField);
     let tmpDescrLines = MathUtil.deepCopyObject(descrLines);
-    tmpDescrLines[idx] = fieldVal;
+    tmpDescrLines[idx].data = fieldVal;
     setDescrLines(tmpDescrLines);
   };
 
   const onFocus = (idx) => {
-    console.log("Focused on: ", idx);
     setSelectedIdx(idx);
   };
 
@@ -127,15 +125,15 @@ const AskAarav = ({ size }) => {
     if (selectedIdx >= 0) {
       console.log("problemStr: ", descrLines[selectedIdx]);
       let tmpDescrLines = MathUtil.deepCopyObject(descrLines);
-      tmpDescrLines[selectedIdx] += txt;
+      tmpDescrLines[selectedIdx].data += txt;
       setDescrLines(tmpDescrLines);
       textInputs[selectedIdx].current?.mathField?.focus();
     }
   };
 
-  const createMathField = () => {
+  const createField = (type) => {
     let tmpDescrLines = MathUtil.deepCopyObject(descrLines);
-    tmpDescrLines.push("");
+    tmpDescrLines.push({ type: type, data: "" });
     setDescrLines(tmpDescrLines);
   };
 
@@ -147,38 +145,57 @@ const AskAarav = ({ size }) => {
         </CardHeader>
         <CardBody style={{ height: 360 }}>
           <button
-            onClick={createMathField}
+            onClick={() => {
+              createField("math");
+            }}
             style={{ position: "absolute", right: 20, top: 10 }}
           >
             Equation
           </button>
           <button
-            onClick={() => console.log("Hello")}
+            onClick={() => {
+              createField("text");
+            }}
             style={{ position: "absolute", right: 20, top: 40 }}
           >
             Text
           </button>
+
           {descrLines.map((descr, descrIdx) => (
             <span key={descrIdx.toString()}>
-              <EditableMathField
-                ref={textInputs[descrIdx]}
-                style={{
-                  marginTop: 10,
-                  backgroundColor: "#fff",
-                }}
-                className={classes.editableInstance}
-                latex={descr} // latex value for the input field
-                onChange={(mathField) => {
-                  onFieldChange(mathField, descrIdx);
-                }}
-                onFocus={() => {
-                  onFocus(descrIdx);
-                }}
-              />
+              {descr.type === "math" && (
+                <EditableMathField
+                  ref={textInputs[descrIdx]}
+                  style={{
+                    marginTop: 10,
+                    backgroundColor: "#fff",
+                  }}
+                  className={classes.editableInstance}
+                  latex={descr.data} // latex value for the input field
+                  onChange={(mathField) => {
+                    onFieldChange(mathField, descrIdx);
+                  }}
+                  onFocus={() => {
+                    onFocus(descrIdx);
+                  }}
+                />
+              )}
+              {descr.type === "text" && (
+                <textarea
+                  ref={textInputs[descrIdx]}
+                  style={{
+                    marginTop: 10,
+                    backgroundColor: "#fff",
+                  }}
+                  onFocus={() => {
+                    onFocus(descrIdx);
+                  }}
+                  defaultValue={descr.data}
+                />
+              )}
               <br />
             </span>
           ))}
-
           <SymbolMap classes={classes} latexUpdate={latexUpdate} />
         </CardBody>
       </Card>
@@ -186,12 +203,4 @@ const AskAarav = ({ size }) => {
   );
 };
 
-/*
-          <MathField
-            ref={textInput}
-            classes={classes}
-            latex={problemStr}
-            onChange={onFieldChange}
-          />
-          */
 export default withSize()(AskAarav);
