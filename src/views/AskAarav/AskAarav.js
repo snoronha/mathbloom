@@ -1,5 +1,6 @@
 /*eslint-disable*/
 import React, { useState, useRef } from "react";
+import { useSelector } from "react-redux";
 import ReactDOM from "react-dom"; // needed for Draggable
 import { EditableMathField } from "react-mathquill";
 import Button from "@material-ui/core/Button";
@@ -14,6 +15,7 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import MathUtil from "../Math-K-5/MathUtil";
+import server from "../../conf/server";
 
 const styles = {
   staticDigitInstance: {
@@ -101,6 +103,7 @@ const SymbolMap = (props) => {
 
 const AskAarav = ({ size }) => {
   const [selectedIdx, setSelectedIdx] = useState(-1);
+  const [questionId, setQuestionId] = useState(null);
   const [descrLines, setDescrLines] = useState([]);
   // max of 10 equation/text inputs for now - research how to make this dynamic
   const [textInputs, setTextInputs] = useState(
@@ -109,6 +112,9 @@ const AskAarav = ({ size }) => {
       .map((i) => React.createRef()),
     []
   );
+  const user = useSelector((state) => {
+    return state.user;
+  });
   const classes = useStyles();
 
   const onFieldChange = (mathField, idx) => {
@@ -151,8 +157,32 @@ const AskAarav = ({ size }) => {
     setDescrLines(tmpDescrLines);
   };
 
-  const handleSave = () => {
-    console.log("Save this");
+  const saveQuestion = () => {
+    // TODO figure out how to auth locally for testing
+    const email = user?.email || "snoronha@gmail.com";
+    const body = questionId
+      ? JSON.stringify({
+          id: questionId,
+          question: JSON.stringify(descrLines),
+          isAnswered: false,
+        })
+      : JSON.stringify({
+          question: JSON.stringify(descrLines),
+          isAnswered: false,
+        });
+    fetch(`${server.domain}/api/question/email/${email.toLowerCase()}`, {
+      method: "post",
+      body: body,
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        console.log("responseQuestion: ", json);
+        if (json.id) {
+          setQuestionId(json.id);
+        }
+      })
+      .catch((error) => console.log(error)) // handle this
+      .finally(() => {});
   };
 
   return (
@@ -232,9 +262,10 @@ const AskAarav = ({ size }) => {
             <Button
               variant="contained"
               color="default"
-              onMouseDown={handleSave}
+              onMouseDown={saveQuestion}
             >
-              Save
+              {questionId && "Update"}
+              {!questionId && "Save"}
             </Button>
           </div>
         </CardBody>
