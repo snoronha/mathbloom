@@ -13,11 +13,9 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { withSize } from "react-sizeme";
 
 // core components
-import Card from "components/Card/Card.js";
-import CardHeader from "components/Card/CardHeader.js";
-import CardBody from "components/Card/CardBody.js";
 import MathUtil from "../Math-K-5/MathUtil";
 import server from "../../conf/server";
+import AaravAnswers from "./AaravAnswers";
 
 const styles = {
   staticDigitInstance: {
@@ -162,6 +160,7 @@ const AskAarav = ({ size }) => {
   const saveQuestion = () => {
     // TODO figure out how to auth locally for testing
     const email = user?.email || "snoronha@gmail.com";
+    console.log("USER: ", user);
     const body = questionId
       ? JSON.stringify({
           id: questionId,
@@ -275,7 +274,7 @@ const AskAarav = ({ size }) => {
         </div>
       </TabPanel>
       <TabPanel>
-        <h2>Any content 2</h2>
+        <AaravAnswers />
       </TabPanel>
     </Tabs>
   );
