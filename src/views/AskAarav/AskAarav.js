@@ -2,6 +2,8 @@
 import React, { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import ReactDOM from "react-dom"; // needed for Draggable
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
 import { EditableMathField } from "react-mathquill";
 import Button from "@material-ui/core/Button";
 import Draggable from "react-draggable";
@@ -186,12 +188,14 @@ const AskAarav = ({ size }) => {
   };
 
   return (
-    <div>
-      <Card>
-        <CardHeader color="primary">
-          <h4>Ask Aarav</h4>
-        </CardHeader>
-        <CardBody style={{ height: 360 }}>
+    <Tabs style={{ marginTop: 30 }}>
+      <TabList style={{ margin: 0 }}>
+        <Tab>Ask Aarav</Tab>
+        <Tab>Aarav Answers</Tab>
+      </TabList>
+
+      <TabPanel>
+        <div style={{ height: 360, backgroundColor: "#fff" }}>
           <button
             onClick={() => {
               createField("math");
@@ -268,9 +272,12 @@ const AskAarav = ({ size }) => {
               {!questionId && "Save"}
             </Button>
           </div>
-        </CardBody>
-      </Card>
-    </div>
+        </div>
+      </TabPanel>
+      <TabPanel>
+        <h2>Any content 2</h2>
+      </TabPanel>
+    </Tabs>
   );
 };
 
