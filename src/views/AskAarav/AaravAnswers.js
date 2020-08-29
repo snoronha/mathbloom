@@ -46,8 +46,12 @@ const AaravAnswers = ({ size }) => {
 
   return (
     <span>
-      {questions.map((question, questionIdx) => (
-        <div key={questionIdx.toString()}>{question.CreatedAt}</div>
+      {questions.map((qn, qnIdx) => (
+        <div key={qnIdx.toString()}>
+          <span>{qn.ID} </span>
+          <span>{qn.question}</span>
+          <span>{qn.isAnswered.toString()}</span>
+        </div>
       ))}
     </span>
   );

@@ -160,7 +160,6 @@ const AskAarav = ({ size }) => {
   const saveQuestion = () => {
     // TODO figure out how to auth locally for testing
     const email = user?.email || "snoronha@gmail.com";
-    console.log("USER: ", user);
     const body = questionId
       ? JSON.stringify({
           id: questionId,
