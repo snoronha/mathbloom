@@ -26,7 +26,6 @@ const styles = {
     fontSize: 24,
   },
   editableInstance: {
-    flex: 1,
     textAlign: "center",
     width: "auto",
     minWidth: 275,
@@ -35,6 +34,7 @@ const styles = {
   },
   draggableSymbols: {
     border: "1px solid #ddd",
+    backgroundColor: "#eee",
     borderRadius: 8,
     padding: 4,
     width: 150,
@@ -212,52 +212,79 @@ const AskAarav = ({ size }) => {
           </button>
 
           {descrLines.map((descr, descrIdx) => (
-            <div
-              style={{ justifyContent: "flex-start" }}
-              key={descrIdx.toString()}
-            >
+            <span key={descrIdx.toString()}>
               {descr.type === "math" && (
-                <EditableMathField
-                  ref={textInputs[descrIdx]}
-                  style={{
-                    marginTop: 10,
-                    backgroundColor: "#fff",
-                  }}
-                  className={classes.editableInstance}
-                  latex={descr.data} // latex value for the input field
-                  onChange={(mathField) => {
-                    onFieldChange(mathField, descrIdx);
-                  }}
-                  onFocus={() => {
-                    onFocus(descrIdx);
-                  }}
-                />
+                <div style={{ display: "flex", paddingTop: 5 }}>
+                  <EditableMathField
+                    ref={textInputs[descrIdx]}
+                    style={{
+                      backgroundColor: "#fff",
+                    }}
+                    className={classes.editableInstance}
+                    latex={descr.data} // latex value for the input field
+                    onChange={(mathField) => {
+                      onFieldChange(mathField, descrIdx);
+                    }}
+                    onFocus={() => {
+                      onFocus(descrIdx);
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: "relative",
+                      textAlign: "center",
+                      width: 16,
+                      height: 16,
+                      left: -10,
+                      top: -10,
+                    }}
+                  >
+                    <button
+                      onClick={() => {
+                        deleteField(descrIdx);
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faTimes} size={"xs"} />
+                    </button>
+                  </div>
+                </div>
               )}
               {descr.type === "text" && (
-                <textarea
-                  ref={textInputs[descrIdx]}
-                  style={{
-                    marginTop: 10,
-                    backgroundColor: "#fff",
-                  }}
-                  onFocus={() => {
-                    onFocus(descrIdx);
-                  }}
-                  defaultValue={descr.data}
-                  onChange={(evt) => {
-                    onTextChange(evt, descrIdx);
-                  }}
-                />
+                <div style={{ display: "flex", paddingTop: 5 }}>
+                  <textarea
+                    ref={textInputs[descrIdx]}
+                    style={{
+                      backgroundColor: "#fff",
+                    }}
+                    onFocus={() => {
+                      onFocus(descrIdx);
+                    }}
+                    defaultValue={descr.data}
+                    onChange={(evt) => {
+                      onTextChange(evt, descrIdx);
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: "relative",
+                      textAlign: "center",
+                      width: 16,
+                      height: 16,
+                      left: -10,
+                      top: -10,
+                    }}
+                  >
+                    <button
+                      onClick={() => {
+                        deleteField(descrIdx);
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faTimes} size={"xs"} />
+                    </button>
+                  </div>
+                </div>
               )}
-              <button
-                onClick={() => {
-                  deleteField(descrIdx);
-                }}
-              >
-                <FontAwesomeIcon icon={faTimes} />
-              </button>
-              <br />
-            </div>
+            </span>
           ))}
           <SymbolMap classes={classes} latexUpdate={latexUpdate} />
           <div style={{ position: "absolute", bottom: "10px", right: "10px" }}>
