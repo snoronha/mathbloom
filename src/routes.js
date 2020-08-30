@@ -58,6 +58,7 @@ const dashboardRoutes = [
     component: MyPractice,
     layout: "/admin",
   },
+  /*
   {
     path: "/solveit",
     name: "Solve It!",
@@ -65,6 +66,7 @@ const dashboardRoutes = [
     component: SolveIt,
     layout: "/admin",
   },
+  */
   {
     path: "/askaarav",
     name: "Ask Aarav",
