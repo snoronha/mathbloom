@@ -16,6 +16,7 @@ import { withSize } from "react-sizeme";
 import MathUtil from "../Math-K-5/MathUtil";
 import server from "../../conf/server";
 import AaravAnswers from "./AaravAnswers";
+import { ABSOLUTE_VALUE } from "mathsteps/lib/ChangeTypes";
 
 const styles = {
   staticDigitInstance: {
@@ -76,7 +77,7 @@ const SymbolMap = (props) => {
     ],
   ];
   return (
-    <Draggable defaultPosition={{ x: 200, y: 0 }} position={null} scale={1}>
+    <Draggable defaultPosition={{ x: 200, y: -300 }} position={null} scale={1}>
       <div className={classes.draggableSymbols}>
         <span>
           Symbols
@@ -194,22 +195,28 @@ const AskAarav = ({ size }) => {
 
       <TabPanel>
         <div style={{ height: 360, backgroundColor: "#fff" }}>
-          <button
-            onClick={() => {
-              createField("math");
-            }}
-            style={{ position: "absolute", right: 20, top: 10 }}
-          >
-            Equation
-          </button>
-          <button
-            onClick={() => {
-              createField("text");
-            }}
-            style={{ position: "absolute", right: 20, top: 40 }}
-          >
-            Text
-          </button>
+          <div style={{ position: "absolute", top: "48px", right: "10px" }}>
+            <Button
+              variant="outlined"
+              color="default"
+              size="small"
+              onMouseDown={() => {
+                createField("math");
+              }}
+            >
+              Equation
+            </Button>
+            <Button
+              variant="contained"
+              color="default"
+              size="small"
+              onMouseDown={() => {
+                createField("text");
+              }}
+            >
+              Text
+            </Button>
+          </div>
 
           {descrLines.map((descr, descrIdx) => (
             <span key={descrIdx.toString()}>
@@ -286,7 +293,7 @@ const AskAarav = ({ size }) => {
               )}
             </span>
           ))}
-          <SymbolMap classes={classes} latexUpdate={latexUpdate} />
+
           <div style={{ position: "absolute", bottom: "10px", right: "10px" }}>
             <Button
               variant="contained"
@@ -298,6 +305,9 @@ const AskAarav = ({ size }) => {
             </Button>
           </div>
         </div>
+        <span style={{ zIndex: 10, position: "absolute" }}>
+          <SymbolMap classes={classes} latexUpdate={latexUpdate} />
+        </span>
       </TabPanel>
       <TabPanel>
         <AaravAnswers />
