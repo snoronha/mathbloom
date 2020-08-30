@@ -1,12 +1,12 @@
 /*eslint-disable*/
 import React, { useState, useRef } from "react";
 import { useSelector } from "react-redux";
-import ReactDOM from "react-dom"; // needed for Draggable
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { EditableMathField } from "react-mathquill";
 import Button from "@material-ui/core/Button";
 import Draggable from "react-draggable";
+import ReactDOM from "react-dom"; // needed for Draggable
 import { makeStyles } from "@material-ui/core/styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
