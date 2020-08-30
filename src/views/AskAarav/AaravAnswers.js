@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Link } from "@material-ui/core";
 import { withSize } from "react-sizeme";
+import { StaticMathField } from "react-mathquill";
 import Draggable from "react-draggable";
 import ReactDOM from "react-dom"; // needed for Draggable
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -35,7 +36,9 @@ const useStyles = makeStyles(styles);
 // SymbolMap component
 const AnswerModal = (props) => {
   const classes = props.classes;
-  const question = props.question;
+  const questionBlob = props.question;
+  const question = JSON.parse(props.question.question);
+  console.log("QUESTION: ", question);
 
   return (
     <Draggable defaultPosition={{ x: 200, y: 0 }} position={null} scale={1}>
@@ -57,7 +60,14 @@ const AnswerModal = (props) => {
         <span>
           Answer
           <hr />
-          <span>{question.question}</span>
+          {question.map((part, idx) => (
+            <span key={idx.toString()}>
+              {part.type === "math" && (
+                <StaticMathField>{part.data}</StaticMathField>
+              )}
+              {part.type === "text" && <div>{part.data}</div>}
+            </span>
+          ))}
         </span>
       </div>
     </Draggable>
