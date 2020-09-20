@@ -5,13 +5,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Pagination } from "@material-ui/lab";
 import { Button, Link } from "@material-ui/core";
 import { withSize } from "react-sizeme";
-import { StaticMathField } from "react-mathquill";
+import "react-tabs/style/react-tabs.css";
+import { StaticMathField, EditableMathField } from "react-mathquill";
 import Draggable from "react-draggable";
 import ReactDOM from "react-dom"; // needed for Draggable
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 // core components
+import MathUtil from "../Math-K-5/MathUtil";
 import server from "../../conf/server";
 
 const styles = {
@@ -19,6 +21,13 @@ const styles = {
     "line-height": "35px",
     textAlign: "center",
     width: 42,
+    height: "auto",
+    fontSize: 24,
+  },
+  editableInstance: {
+    textAlign: "center",
+    width: "auto",
+    minWidth: 275,
     height: "auto",
     fontSize: 24,
   },
@@ -79,8 +88,16 @@ const AaravAnswers = ({ size }) => {
   const [questions, setQuestions] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState({});
   const [page, setPage] = useState(0);
+  const [descrLines, setDescrLines] = useState([]);
   const [pageQuestion, setPageQuestion] = useState({});
   const [modalDisplayed, setModalDisplayed] = useState(false);
+  const [textInputs, setTextInputs] = useState(
+    Array(10)
+      .fill(null)
+      .map((i) => React.createRef()),
+    []
+  );
+  const [selectedIdx, setSelectedIdx] = useState(-1);
   const classes = useStyles();
 
   useEffect(() => {
@@ -129,8 +146,60 @@ const AaravAnswers = ({ size }) => {
     setPageQuestion(JSON.parse(questions[value - 1].question));
   };
 
+  const onFieldChange = (mathField, idx) => {
+    const fieldVal = mathField.latex().toString();
+    // console.log("Fieldval: ", fieldVal, textInput.current.mathField);
+    let tmpDescrLines = MathUtil.deepCopyObject(descrLines);
+    tmpDescrLines[idx].data = fieldVal;
+    setDescrLines(tmpDescrLines);
+  };
+
+  const onTextChange = (evt, idx) => {
+    let tmpDescrLines = MathUtil.deepCopyObject(descrLines);
+    tmpDescrLines[idx].data = evt.target.value;
+    setDescrLines(tmpDescrLines);
+  };
+
+  const onFocus = (idx) => {
+    setSelectedIdx(idx);
+  };
+
+  const createField = (type) => {
+    let tmpDescrLines = MathUtil.deepCopyObject(descrLines);
+    tmpDescrLines.push({ type: type, data: "" });
+    setDescrLines(tmpDescrLines);
+  };
+
+  const deleteField = (idx) => {
+    let tmpDescrLines = MathUtil.deepCopyObject(descrLines);
+    tmpDescrLines.splice(idx, 1);
+    setDescrLines(tmpDescrLines);
+  };
+
   return (
     <div style={{ height: 360, backgroundColor: "#fff" }}>
+      <div style={{ position: "absolute", top: "48px", right: "10px" }}>
+        <Button
+          variant="outlined"
+          color="default"
+          size="small"
+          onMouseDown={() => {
+            createField("math");
+          }}
+        >
+          Equation
+        </Button>
+        <Button
+          variant="contained"
+          color="default"
+          size="small"
+          onMouseDown={() => {
+            createField("text");
+          }}
+        >
+          Text
+        </Button>
+      </div>
       <span>
         {/* questions.map((qn, qnIdx) => (
           <div key={qnIdx.toString()}>
@@ -145,13 +214,11 @@ const AaravAnswers = ({ size }) => {
               {qn.isAnswered.toString()}
             </Link>
           </div>
-            )) */}
+        )) */}
       </span>
-      <span>
+      <div style={{ padding: 10 }}>
         {page > 0 && questions.length > 0 && (
           <span>
-            Answer
-            <hr />
             {pageQuestion.map((part, idx) => (
               <span key={idx.toString()}>
                 {part.type === "math" && (
@@ -162,14 +229,99 @@ const AaravAnswers = ({ size }) => {
             ))}
           </span>
         )}
-      </span>
+      </div>
+      {descrLines.map((descr, descrIdx) => (
+        <span key={descrIdx.toString()}>
+          {descr.type === "math" && (
+            <div style={{ display: "flex", paddingTop: 5 }}>
+              <EditableMathField
+                ref={textInputs[descrIdx]}
+                style={{
+                  backgroundColor: "#fff",
+                }}
+                className={classes.editableInstance}
+                latex={descr.data} // latex value for the input field
+                onChange={(mathField) => {
+                  onFieldChange(mathField, descrIdx);
+                }}
+                onFocus={() => {
+                  onFocus(descrIdx);
+                }}
+              />
+              <div
+                style={{
+                  position: "relative",
+                  textAlign: "center",
+                  width: 16,
+                  height: 16,
+                  left: -10,
+                  top: -10,
+                }}
+              >
+                <button
+                  onClick={() => {
+                    deleteField(descrIdx);
+                  }}
+                >
+                  <FontAwesomeIcon icon={faTimes} size={"xs"} />
+                </button>
+              </div>
+            </div>
+          )}
+          {descr.type === "text" && (
+            <div style={{ display: "flex", paddingTop: 5 }}>
+              <textarea
+                ref={textInputs[descrIdx]}
+                style={{
+                  backgroundColor: "#fff",
+                }}
+                onFocus={() => {
+                  onFocus(descrIdx);
+                }}
+                defaultValue={descr.data}
+                onChange={(evt) => {
+                  onTextChange(evt, descrIdx);
+                }}
+              />
+              <div
+                style={{
+                  position: "relative",
+                  textAlign: "center",
+                  width: 16,
+                  height: 16,
+                  left: -10,
+                  top: -10,
+                }}
+              >
+                <button
+                  onClick={() => {
+                    deleteField(descrIdx);
+                  }}
+                >
+                  <FontAwesomeIcon icon={faTimes} size={"xs"} />
+                </button>
+              </div>
+            </div>
+          )}
+        </span>
+      ))}
       {questions.length > 0 && (
-        <Pagination
-          count={questions.length}
-          onChange={handlePageChange}
-          showFirstButton
-          showLastButton
-        />
+        <span
+          style={{
+            display: "flex",
+            width: "100%",
+            position: "absolute",
+            justifyContent: "center",
+            bottom: "10px",
+          }}
+        >
+          <Pagination
+            count={questions.length}
+            onChange={handlePageChange}
+            showFirstButton
+            showLastButton
+          />
+        </span>
       )}
       {modalDisplayed && (
         <AnswerModal
