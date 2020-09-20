@@ -88,6 +88,7 @@ const AaravAnswers = ({ size }) => {
   const [questions, setQuestions] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState({});
   const [page, setPage] = useState(0);
+  const [answerId, setAnswerId] = useState(null);
   const [descrLines, setDescrLines] = useState([]);
   const [pageQuestion, setPageQuestion] = useState({});
   const [modalDisplayed, setModalDisplayed] = useState(false);
@@ -164,6 +165,31 @@ const AaravAnswers = ({ size }) => {
     setSelectedIdx(idx);
   };
 
+  const saveAnswer = () => {
+    const email = user?.email || "snoronha@gmail.com";
+    const body = answerId
+      ? JSON.stringify({
+          id: answerId,
+          question: JSON.stringify(descrLines),
+        })
+      : JSON.stringify({
+          question: JSON.stringify(descrLines),
+        });
+    fetch(`${server.domain}/api/answer/email/${email.toLowerCase()}`, {
+      method: "post",
+      body: body,
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        console.log("responseAnswer: ", json);
+        if (json.id) {
+          setAnswerId(json.id);
+        }
+      })
+      .catch((error) => console.log(error)) // handle this
+      .finally(() => {});
+  };
+
   const createField = (type) => {
     let tmpDescrLines = MathUtil.deepCopyObject(descrLines);
     tmpDescrLines.push({ type: type, data: "" });
@@ -180,7 +206,7 @@ const AaravAnswers = ({ size }) => {
     <div style={{ height: 360, backgroundColor: "#fff" }}>
       <div style={{ position: "absolute", top: "48px", right: "10px" }}>
         <Button
-          variant="outlined"
+          variant="contained"
           color="default"
           size="small"
           onMouseDown={() => {
@@ -198,6 +224,17 @@ const AaravAnswers = ({ size }) => {
           }}
         >
           Text
+        </Button>
+      </div>
+      <div style={{ position: "absolute", top: "90px", right: "10px" }}>
+        <Button
+          variant="contained"
+          color="default"
+          size="small"
+          onMouseDown={saveAnswer}
+        >
+          {answerId && "Update"}
+          {!answerId && "Save"}
         </Button>
       </div>
       <span>
