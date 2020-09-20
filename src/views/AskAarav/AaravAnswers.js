@@ -101,6 +101,8 @@ const AaravAnswers = ({ size }) => {
         console.log("responseQuestions: ", json);
         if (json.questions) {
           setQuestions(json.questions);
+          setPageQuestion(JSON.parse(json.questions[0].question));
+          setPage(1);
         }
       })
       .catch((error) => console.log(error)) // handle this
@@ -122,7 +124,6 @@ const AaravAnswers = ({ size }) => {
   };
 
   const handlePageChange = (event, value) => {
-    console.log("VALUE=", value);
     setPage(value);
     // console.log("question: ", value, questions[value - 1]);
     setPageQuestion(JSON.parse(questions[value - 1].question));
@@ -131,7 +132,7 @@ const AaravAnswers = ({ size }) => {
   return (
     <div style={{ height: 360, backgroundColor: "#fff" }}>
       <span>
-        {questions.map((qn, qnIdx) => (
+        {/* questions.map((qn, qnIdx) => (
           <div key={qnIdx.toString()}>
             <span>{qn.ID}</span>
             <span>{qn.question}</span>
@@ -144,7 +145,7 @@ const AaravAnswers = ({ size }) => {
               {qn.isAnswered.toString()}
             </Link>
           </div>
-        ))}
+            )) */}
       </span>
       <span>
         {page > 0 && questions.length > 0 && (
