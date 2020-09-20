@@ -48,7 +48,6 @@ const AnswerModal = (props) => {
   const classes = props.classes;
   const questionBlob = props.question;
   const question = JSON.parse(props.question.question);
-  console.log("QUESTION: ", question);
 
   return (
     <Draggable defaultPosition={{ x: 200, y: 0 }} position={null} scale={1}>
@@ -119,7 +118,7 @@ const AaravAnswers = ({ size }) => {
         console.log("responseQuestions: ", json);
         if (json.questions) {
           setQuestions(json.questions);
-          setPageQuestion(JSON.parse(json.questions[0].question));
+          setPageQuestion(json.questions[0]);
           setPage(1);
         }
       })
@@ -143,8 +142,7 @@ const AaravAnswers = ({ size }) => {
 
   const handlePageChange = (event, value) => {
     setPage(value);
-    // console.log("question: ", value, questions[value - 1]);
-    setPageQuestion(JSON.parse(questions[value - 1].question));
+    setPageQuestion(questions[value - 1]);
   };
 
   const onFieldChange = (mathField, idx) => {
@@ -170,11 +168,15 @@ const AaravAnswers = ({ size }) => {
     const body = answerId
       ? JSON.stringify({
           id: answerId,
-          question: JSON.stringify(descrLines),
+          questionId: pageQuestion.ID,
+          answer: JSON.stringify(descrLines),
         })
       : JSON.stringify({
-          question: JSON.stringify(descrLines),
+          questionId: pageQuestion.ID,
+          answer: JSON.stringify(descrLines),
         });
+    console.log("BODY: ", body);
+    /*
     fetch(`${server.domain}/api/answer/email/${email.toLowerCase()}`, {
       method: "post",
       body: body,
@@ -188,6 +190,7 @@ const AaravAnswers = ({ size }) => {
       })
       .catch((error) => console.log(error)) // handle this
       .finally(() => {});
+      */
   };
 
   const createField = (type) => {
@@ -256,7 +259,7 @@ const AaravAnswers = ({ size }) => {
       <div style={{ padding: 10 }}>
         {page > 0 && questions.length > 0 && (
           <span>
-            {pageQuestion.map((part, idx) => (
+            {JSON.parse(pageQuestion.question).map((part, idx) => (
               <span key={idx.toString()}>
                 {part.type === "math" && (
                   <StaticMathField>{part.data}</StaticMathField>
