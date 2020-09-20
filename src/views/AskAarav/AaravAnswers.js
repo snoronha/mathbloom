@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
+import { Pagination } from "@material-ui/lab";
 import { Button, Link } from "@material-ui/core";
 import { withSize } from "react-sizeme";
 import { StaticMathField } from "react-mathquill";
@@ -77,6 +78,8 @@ const AnswerModal = (props) => {
 const AaravAnswers = ({ size }) => {
   const [questions, setQuestions] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState({});
+  const [page, setPage] = useState(0);
+  const [pageQuestion, setPageQuestion] = useState({});
   const [modalDisplayed, setModalDisplayed] = useState(false);
   const classes = useStyles();
 
@@ -118,6 +121,13 @@ const AaravAnswers = ({ size }) => {
     setModalDisplayed(false);
   };
 
+  const handlePageChange = (event, value) => {
+    console.log("VALUE=", value);
+    setPage(value);
+    // console.log("question: ", value, questions[value - 1]);
+    setPageQuestion(JSON.parse(questions[value - 1].question));
+  };
+
   return (
     <div style={{ height: 360, backgroundColor: "#fff" }}>
       <span>
@@ -136,6 +146,30 @@ const AaravAnswers = ({ size }) => {
           </div>
         ))}
       </span>
+      <span>
+        {page > 0 && questions.length > 0 && (
+          <span>
+            Answer
+            <hr />
+            {pageQuestion.map((part, idx) => (
+              <span key={idx.toString()}>
+                {part.type === "math" && (
+                  <StaticMathField>{part.data}</StaticMathField>
+                )}
+                {part.type === "text" && <div>{part.data}</div>}
+              </span>
+            ))}
+          </span>
+        )}
+      </span>
+      {questions.length > 0 && (
+        <Pagination
+          count={questions.length}
+          onChange={handlePageChange}
+          showFirstButton
+          showLastButton
+        />
+      )}
       {modalDisplayed && (
         <AnswerModal
           classes={classes}
