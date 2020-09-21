@@ -143,6 +143,7 @@ const AaravAnswers = ({ size }) => {
   const handlePageChange = (event, value) => {
     setPage(value);
     setPageQuestion(questions[value - 1]);
+    setAnswerId(null); // set current answerId = NULL
   };
 
   const onFieldChange = (mathField, idx) => {
@@ -176,7 +177,6 @@ const AaravAnswers = ({ size }) => {
           answer: JSON.stringify(descrLines),
         });
     console.log("BODY: ", body);
-    /*
     fetch(`${server.domain}/api/answer/email/${email.toLowerCase()}`, {
       method: "post",
       body: body,
@@ -190,7 +190,6 @@ const AaravAnswers = ({ size }) => {
       })
       .catch((error) => console.log(error)) // handle this
       .finally(() => {});
-      */
   };
 
   const createField = (type) => {
