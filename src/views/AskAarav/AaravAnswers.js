@@ -117,7 +117,27 @@ const AaravAnswers = ({ size }) => {
       .then((json) => {
         console.log("responseQuestions: ", json);
         if (json.questions) {
-          setQuestions(json.questions);
+          let answers = {};
+          if (json.answers) {
+            // merge answers into questions
+            json.answers.forEach((answer) => {
+              answer.answer = JSON.parse(answer.answer);
+              if (answer.questionId in answers) {
+                answers[answer.questionId].push(answer);
+              } else {
+                answers[answer.questionId] = [answer];
+              }
+            });
+          }
+          let questions = [];
+          json.questions.forEach((question) => {
+            if (question.ID in answers) {
+              question.answers = answers[question.ID];
+            }
+            questions.push(question);
+          });
+          console.log("QUESTIONS: ", questions);
+          setQuestions(questions);
           setPageQuestion(json.questions[0]);
           setPage(1);
         }
@@ -264,6 +284,21 @@ const AaravAnswers = ({ size }) => {
                   <StaticMathField>{part.data}</StaticMathField>
                 )}
                 {part.type === "text" && <div>{part.data}</div>}
+              </span>
+            ))}
+            {pageQuestion.answers?.map((answer, aIdx) => (
+              <span key={aIdx.toString()}>
+                <hr />
+                {answer.answer.map((apart, apIdx) => (
+                  <span key={apIdx.toString()}>
+                    {apart.type === "math" && (
+                      <div>
+                        <StaticMathField>{apart.data}</StaticMathField>
+                      </div>
+                    )}
+                    {apart.type === "text" && <div>{apart.data}</div>}
+                  </span>
+                ))}
               </span>
             ))}
           </span>
