@@ -1,16 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
+import server from "../conf/server";
 
 const styles = {
-  container: {
-    transform: "translateY(-100%)",
-    "& p": {
-      color: "red",
-      textAlign: "center",
-    },
-  },
   dropContainer: {
     display: "flex",
     alignItems: "center",
@@ -33,18 +27,17 @@ const styles = {
   fileStatusBar: {
     width: "100%",
     verticalAlign: "top",
-    marginTop: "10px",
-    marginBottom: "20px",
+    marginTop: "4px",
+    marginBottom: "4px",
     position: "relative",
-    lineHeight: "50px",
-    height: "50px",
+    lineHeight: "24px",
+    height: "24px",
     "& div": {
       overflow: "hidden",
     },
   },
   fileType: {
-    display: "inline-block!important",
-    position: "absolute",
+    display: "inline-block",
     fontSize: "12px",
     fontWeight: "700",
     lineHeight: "13px",
@@ -100,6 +93,109 @@ const styles = {
     color: "red",
     marginRight: "-10px",
   },
+  modal: {
+    zIndex: 999,
+    display: "none",
+    overflow: "hidden",
+    "& overlay": {
+      width: "100%",
+      height: "100vh",
+      background: "rgba(0,0,0,.66)",
+      position: "absolute",
+      top: 0,
+      left: 0,
+    },
+    "& modalImage": {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%,-50%)",
+      overflow: "hidden",
+      objectFit: "cover",
+      width: "100%",
+      height: "300px",
+      backgroundSize: "contain",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+    },
+  },
+  uploadModal: {
+    zIndex: 999,
+    display: "none",
+    overflow: "hidden",
+    "& overlay": {
+      width: "100%",
+      height: "100vh",
+      background: "rgba(0,0,0,.66)",
+      position: "absolute",
+      top: 0,
+      left: 0,
+    },
+  },
+
+  progressContainer: {
+    background: "white",
+    width: "500px",
+    height: "300px",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%,-50%)",
+    overflow: "hidden",
+    border: "1px solid gray",
+    "& span": {
+      display: "flex",
+      justifyContent: "center",
+      paddingTop: "20px",
+      fontSize: "20px",
+    },
+  },
+
+  progress: {
+    width: "90%",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%,-50%)",
+    backgroundColor: "#efefef",
+    height: "20px",
+    borderRadius: "5px",
+  },
+
+  progressBar: {
+    position: "absolute",
+    backgroundColor: "#4aa1f3",
+    height: "20px",
+    borderRadius: "5px",
+    textAlign: "center",
+    color: "white",
+    fontWeight: "bold",
+  },
+
+  error: {
+    color: "red",
+  },
+  close: {
+    position: "absolute",
+    top: "15px",
+    right: "35px",
+    color: "#ccc",
+    fontSize: "30px",
+    fontWeight: "bold",
+    transition: "0.3s",
+  },
+  fileInput: {
+    display: "none",
+  },
+  fileUploadBtn: {
+    color: "white",
+    textTransform: "uppercase",
+    outline: "none",
+    backgroundColor: "#4aa1f3",
+    fontWeight: "bold",
+    padding: "8px 15px",
+    marginBottom: "5px",
+  },
 };
 
 const useStyles = makeStyles(styles);
@@ -108,7 +204,12 @@ const DropZone = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [validFiles, setValidFiles] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const [unsupportedFiles, setUnsupportedFiles] = useState([]);
   const classes = useStyles();
+  const fileInputRef = useRef();
+  const uploadModalRef = useRef();
+  const uploadRef = useRef();
+  const progressRef = useRef();
 
   const dragOver = (e) => {
     e.preventDefault();
@@ -159,6 +260,14 @@ const DropZone = () => {
     selectedFiles.splice(selectedFileIndex, 1);
     // update selectedFiles array
     setSelectedFiles([...selectedFiles]);
+    const unsupportedFileIndex = unsupportedFiles.findIndex(
+      (e) => e.name === name
+    );
+    if (unsupportedFileIndex !== -1) {
+      unsupportedFiles.splice(unsupportedFileIndex, 1);
+      // update unsupportedFiles array
+      setUnsupportedFiles([...unsupportedFiles]);
+    }
   };
   const validateFile = (file) => {
     const validTypes = [
@@ -185,6 +294,7 @@ const DropZone = () => {
         setSelectedFiles((prevArray) => [...prevArray, files[i]]);
         // set error message
         setErrorMessage("File type not permitted");
+        setUnsupportedFiles((prevArray) => [...prevArray, files[i]]);
       }
     }
   };
@@ -195,29 +305,113 @@ const DropZone = () => {
       handleFiles(files);
     }
   };
+  const fileInputClicked = () => {
+    fileInputRef.current.click();
+  };
+  const filesSelected = () => {
+    if (fileInputRef.current.files.length) {
+      handleFiles(fileInputRef.current.files);
+    }
+  };
+  const uploadFiles = () => {
+    const email = "snoronha@gmail.com"; // only for TESTING
+    uploadModalRef.current.style.display = "block";
+    uploadRef.current.innerHTML = "File(s) Uploading...";
+    const formData = new FormData();
+    for (let i = 0; i < validFiles.length; i++) {
+      formData.append("files", validFiles[i]);
+    }
+    fetch(
+      `${server.domain}/api/question/attachment/email/${email.toLowerCase()}`,
+      {
+        method: "post",
+        body: formData,
+      }
+    )
+      .then((response) => response.json())
+      .then((json) => {
+        console.log("responseProblem: ", json);
+      })
+      .catch((error) => {
+        console.log(error);
+        // If error, display a message on the upload modal
+        uploadRef.current.innerHTML = `<span class="error">Error Uploading File(s)</span>`;
+        // set progress bar background color to red
+        progressRef.current.style.backgroundColor = "red";
+      })
+      .finally(() => {});
+    /*
+      axios.post("https://api.imgbb.com/1/upload", formData, {}).catch(() => {
+        // If error, display a message on the upload modal
+        uploadRef.current.innerHTML = `<span class="error">Error Uploading File(s)</span>`;
+        // set progress bar background color to red
+        progressRef.current.style.backgroundColor = "red";
+      });
+      */
+  };
+  const openImageModal = (file) => {};
+  const closeUploadModal = () => {
+    uploadModalRef.current.style.display = "none";
+  };
   return (
     <div>
+      <div className={classes.uploadModal} ref={uploadModalRef}>
+        <div className="overlay"></div>
+        <div className={classes.close} onClick={() => closeUploadModal()}>
+          x
+        </div>
+        <div className={classes.progressContainer}>
+          <span ref={uploadRef}></span>
+          <div className={classes.progress}>
+            <div className={classes.progressBar} ref={progressRef}></div>
+          </div>
+        </div>
+      </div>
+      {unsupportedFiles.length === 0 && validFiles.length ? (
+        <button className={classes.fileUploadBtn} onClick={() => uploadFiles()}>
+          Upload Files
+        </button>
+      ) : (
+        ""
+      )}
+      {unsupportedFiles.length ? (
+        <p>Please remove all unsupported files.</p>
+      ) : (
+        ""
+      )}
       <div
         className={classes.dropContainer}
         onDragOver={dragOver}
         onDragEnter={dragEnter}
         onDragLeave={dragLeave}
         onDrop={fileDrop}
+        onClick={fileInputClicked}
       >
         <div className={classes.dropMessage}>
+          <input
+            ref={fileInputRef}
+            className={classes.fileInput}
+            type="file"
+            multiple
+            onChange={filesSelected}
+          />
           <div>
             <FontAwesomeIcon icon={faDownload} size={"sm"} />
           </div>
           Drag & Drop files here or click to upload
         </div>
       </div>
-
       <div className={classes.fileDisplayContainer}>
         {validFiles.map((data, i) => (
           <div className={classes.fileStatusBar} key={i}>
-            <div>
-              <div className={classes.fileTypeLogo} />
-              <div className={classes.fileType}>{fileType(data.name)}</div>
+            <div
+              onClick={
+                !data.invalid
+                  ? () => openImageModal(data)
+                  : () => removeFile(data.name)
+              }
+            >
+              <span className={classes.fileType}>{fileType(data.name)}</span>
               <span className={`file-name ${data.invalid ? "file-error" : ""}`}>
                 {data.name}
               </span>
