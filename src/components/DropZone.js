@@ -10,9 +10,9 @@ const styles = {
     alignItems: "center",
     justifyContent: "center",
     margin: 0,
-    width: "800px",
-    height: "100px",
+    minHeight: "100px",
     border: "4px dashed #4aa1f3",
+    cursor: "pointer",
   },
   dropMessage: {
     textAlign: "center",
@@ -21,8 +21,8 @@ const styles = {
     fontSize: "20px",
   },
   fileDisplayContainer: {
-    position: "fixed",
-    width: "805px",
+    // position: "fixed",
+    // width: "805px",
   },
   fileStatusBar: {
     width: "100%",
@@ -195,12 +195,14 @@ const styles = {
     fontWeight: "bold",
     padding: "8px 15px",
     marginBottom: "5px",
+    cursor: "pointer",
   },
 };
 
 const useStyles = makeStyles(styles);
 
-const DropZone = () => {
+const DropZone = (props) => {
+  const dropContainerWidth = props.width;
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [validFiles, setValidFiles] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
@@ -381,6 +383,7 @@ const DropZone = () => {
       )}
       <div
         className={classes.dropContainer}
+        style={{ width: dropContainerWidth }}
         onDragOver={dragOver}
         onDragEnter={dragEnter}
         onDragLeave={dragLeave}
@@ -401,7 +404,10 @@ const DropZone = () => {
           Drag & Drop files here or click to upload
         </div>
       </div>
-      <div className={classes.fileDisplayContainer}>
+      <div
+        className={classes.fileDisplayContainer}
+        style={{ width: dropContainerWidth }}
+      >
         {validFiles.map((data, i) => (
           <div className={classes.fileStatusBar} key={i}>
             <div

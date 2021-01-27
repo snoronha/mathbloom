@@ -15,7 +15,6 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 // core components
 import MathUtil from "../Math-K-5/MathUtil";
 import server from "../../conf/server";
-import DropZone from "components/DropZone";
 
 const styles = {
   staticDigitInstance: {
@@ -39,24 +38,6 @@ const styles = {
     padding: 4,
     width: 250,
     textAlign: "center",
-  },
-  dropZonecontent: {
-    border: "1px solid #aaa",
-    backgroundColor: "white",
-    minHeight: "10vh",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  dropContainer: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    margin: 0,
-    width: "800px",
-    height: "200px",
-    border: "4px dashed #4aa1f3",
   },
 };
 
@@ -245,9 +226,6 @@ const AaravAnswers = ({ size }) => {
 
   return (
     <div style={{ height: 360, backgroundColor: "#fff" }}>
-      <div className={classes.dropZonecontent}>
-        <DropZone />
-      </div>
       <div style={{ position: "absolute", top: "48px", right: "10px" }}>
         <Button
           variant="contained"

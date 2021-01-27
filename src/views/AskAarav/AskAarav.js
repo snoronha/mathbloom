@@ -16,7 +16,8 @@ import { withSize } from "react-sizeme";
 import MathUtil from "../Math-K-5/MathUtil";
 import server from "../../conf/server";
 import AaravAnswers from "./AaravAnswers";
-import { ABSOLUTE_VALUE } from "mathsteps/lib/ChangeTypes";
+import DropZone from "components/DropZone";
+// import { ABSOLUTE_VALUE } from "mathsteps/lib/ChangeTypes";
 
 const styles = {
   staticDigitInstance: {
@@ -40,6 +41,13 @@ const styles = {
     padding: 4,
     width: 150,
     textAlign: "center",
+  },
+  dropZonecontent: {
+    backgroundColor: "white",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
   },
 };
 
@@ -303,6 +311,9 @@ const AskAarav = ({ size }) => {
               {!questionId && "Save"}
             </Button>
           </div>
+        </div>
+        <div className={classes.dropZonecontent}>
+          <DropZone width={600} />
         </div>
         <span style={{ zIndex: 10, position: "absolute" }}>
           <SymbolMap classes={classes} latexUpdate={latexUpdate} />
