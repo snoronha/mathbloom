@@ -5,13 +5,13 @@
 import {
   faCoffee,
   faRunning,
-  faMagic,
+  // faMagic,
   faHandsHelping,
   faUserEdit,
 } from "@fortawesome/free-solid-svg-icons";
 import MathK5Page from "views/Math-K-5/MathK5.js";
 import MyPractice from "views/MyPractice/MyPractice.js";
-import SolveIt from "views/SolveIt/SolveIt.js";
+// import SolveIt from "views/SolveIt/SolveIt.js";
 import AskAarav from "views/AskAarav/AskAarav.js";
 import AboutPage from "views/About/About.js";
 
