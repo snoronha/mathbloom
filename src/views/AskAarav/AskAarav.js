@@ -43,6 +43,8 @@ const styles = {
     textAlign: "center",
   },
   dropZonecontent: {
+    position: "absolute",
+    bottom: "10px",
     backgroundColor: "white",
     display: "flex",
     flexDirection: "column",
@@ -114,6 +116,8 @@ const AskAarav = ({ size }) => {
   const [selectedIdx, setSelectedIdx] = useState(-1);
   const [questionId, setQuestionId] = useState(null);
   const [descrLines, setDescrLines] = useState([]);
+  const [showSymbolMap, setShowSymbolMap] = useState(false);
+  const [showUpload, setShowUpload] = useState(false);
   // max of 10 equation/text inputs for now - research how to make this dynamic
   const [textInputs, setTextInputs] = useState(
     Array(10)
@@ -193,6 +197,10 @@ const AskAarav = ({ size }) => {
       .finally(() => {});
   };
 
+  const toggleShowUpload = () => {
+    setShowUpload(!showUpload);
+  };
+
   return (
     <Tabs style={{ marginTop: 30 }}>
       <TabList style={{ margin: 0 }}>
@@ -202,8 +210,26 @@ const AskAarav = ({ size }) => {
 
       <TabPanel>
         <div style={{ height: 360, backgroundColor: "#fff" }}>
-          <div style={{ position: "absolute", top: "48px", right: "10px" }}>
+          <div
+            style={{
+              position: "absolute",
+              top: "48px",
+              right: "10px",
+            }}
+          >
             <Button
+              style={{ margin: "4px" }}
+              variant="outlined"
+              color="default"
+              size="small"
+              onMouseDown={() => {
+                createField("text");
+              }}
+            >
+              Text
+            </Button>
+            <Button
+              style={{ margin: "4px" }}
               variant="outlined"
               color="default"
               size="small"
@@ -214,14 +240,13 @@ const AskAarav = ({ size }) => {
               Equation
             </Button>
             <Button
-              variant="contained"
+              style={{ margin: "4px" }}
+              variant="outlined"
               color="default"
               size="small"
-              onMouseDown={() => {
-                createField("text");
-              }}
+              onMouseDown={toggleShowUpload}
             >
-              Text
+              Upload
             </Button>
           </div>
 
@@ -312,12 +337,16 @@ const AskAarav = ({ size }) => {
             </Button>
           </div>
         </div>
-        <div className={classes.dropZonecontent}>
-          <DropZone width={600} />
-        </div>
-        <span style={{ zIndex: 10, position: "absolute" }}>
-          <SymbolMap classes={classes} latexUpdate={latexUpdate} />
-        </span>
+        {showUpload && (
+          <div className={classes.dropZonecontent}>
+            <DropZone width={300} />
+          </div>
+        )}
+        {showSymbolMap && (
+          <span style={{ zIndex: 10, position: "absolute" }}>
+            <SymbolMap classes={classes} latexUpdate={latexUpdate} />
+          </span>
+        )}
       </TabPanel>
       <TabPanel>
         <AaravAnswers />
