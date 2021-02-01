@@ -172,6 +172,12 @@ const AskAarav = ({ size }) => {
 
   const saveQuestion = () => {
     const email = user?.email || "snoronha@gmail.com";
+    const formData = new FormData();
+    formData.append("question", JSON.stringify(descrLines));
+    formData.append("isAnswered", false);
+    if (questionId) {
+      formData.append("id", questionId);
+    }
     const body = questionId
       ? JSON.stringify({
           id: questionId,
@@ -184,7 +190,7 @@ const AskAarav = ({ size }) => {
         });
     fetch(`${server.domain}/api/question/email/${email.toLowerCase()}`, {
       method: "post",
-      body: body,
+      body: formData,
     })
       .then((response) => response.json())
       .then((json) => {
