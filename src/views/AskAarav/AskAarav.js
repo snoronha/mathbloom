@@ -118,6 +118,7 @@ const AskAarav = ({ size }) => {
   const [descrLines, setDescrLines] = useState([]);
   const [showSymbolMap, setShowSymbolMap] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
+  const [validFiles, setValidFiles] = useState([]);
   // max of 10 equation/text inputs for now - research how to make this dynamic
   const [textInputs, setTextInputs] = useState(
     Array(10)
@@ -177,6 +178,9 @@ const AskAarav = ({ size }) => {
     formData.append("isAnswered", false);
     if (questionId) {
       formData.append("id", questionId);
+    }
+    for (let i = 0; i < validFiles.length; i++) {
+      formData.append("files", validFiles[i]);
     }
     const body = questionId
       ? JSON.stringify({
@@ -345,7 +349,11 @@ const AskAarav = ({ size }) => {
         </div>
         {showUpload && (
           <div className={classes.dropZonecontent}>
-            <DropZone width={300} />
+            <DropZone
+              width={300}
+              validFiles={validFiles}
+              setValidFiles={setValidFiles}
+            />
           </div>
         )}
         {showSymbolMap && (

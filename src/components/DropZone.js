@@ -204,7 +204,7 @@ const useStyles = makeStyles(styles);
 const DropZone = (props) => {
   const dropContainerWidth = props.width;
   const [selectedFiles, setSelectedFiles] = useState([]);
-  const [validFiles, setValidFiles] = useState([]);
+  // const [validFiles, setValidFiles] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [unsupportedFiles, setUnsupportedFiles] = useState([]);
   const classes = useStyles();
@@ -234,7 +234,7 @@ const DropZone = (props) => {
         return file;
       }
     }, []);
-    setValidFiles([...filteredArray]);
+    props.setValidFiles([...filteredArray]);
   }, [selectedFiles]);
 
   const fileSize = (size) => {
@@ -253,11 +253,10 @@ const DropZone = (props) => {
   const removeFile = (name) => {
     // find the index of the item
     // remove the item from array
-
-    const validFileIndex = validFiles.findIndex((e) => e.name === name);
-    validFiles.splice(validFileIndex, 1);
+    const validFileIndex = props.validFiles.findIndex((e) => e.name === name);
+    props.validFiles.splice(validFileIndex, 1);
     // update validFiles array
-    setValidFiles([...validFiles]);
+    props.setValidFiles([...props.validFiles]);
     const selectedFileIndex = selectedFiles.findIndex((e) => e.name === name);
     selectedFiles.splice(selectedFileIndex, 1);
     // update selectedFiles array
@@ -317,11 +316,11 @@ const DropZone = (props) => {
   };
   const uploadFiles = () => {
     const email = "snoronha@gmail.com"; // only for TESTING
-    uploadModalRef.current.style.display = "block";
+    // uploadModalRef.current.style.display = "block";
     uploadRef.current.innerHTML = "File(s) Uploading...";
     const formData = new FormData();
-    for (let i = 0; i < validFiles.length; i++) {
-      formData.append("files", validFiles[i]);
+    for (let i = 0; i < props.validFiles.length; i++) {
+      formData.append("files", props.validFiles[i]);
     }
     fetch(
       `${server.domain}/api/question/attachment/email/${email.toLowerCase()}`,
@@ -369,7 +368,7 @@ const DropZone = (props) => {
           </div>
         </div>
       </div>
-      {unsupportedFiles.length === 0 && validFiles.length ? (
+      {unsupportedFiles.length === 0 && props.validFiles.length ? (
         <button className={classes.fileUploadBtn} onClick={() => uploadFiles()}>
           Upload Files
         </button>
@@ -408,7 +407,7 @@ const DropZone = (props) => {
         className={classes.fileDisplayContainer}
         style={{ width: dropContainerWidth }}
       >
-        {validFiles.map((data, i) => (
+        {props.validFiles.map((data, i) => (
           <div className={classes.fileStatusBar} key={i}>
             <div
               onClick={
