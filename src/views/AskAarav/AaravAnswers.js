@@ -115,9 +115,10 @@ const AaravAnswers = ({ size }) => {
     })
       .then((response) => response.json())
       .then((json) => {
-        console.log("responseQuestions: ", json);
+        // console.log("responseQuestions: ", json);
         if (json.questions) {
           let answers = {};
+          let files = {};
           if (json.answers) {
             // merge answers into questions
             json.answers.forEach((answer) => {
@@ -129,10 +130,25 @@ const AaravAnswers = ({ size }) => {
               }
             });
           }
+          if (json.files) {
+            // {ticketId1: [fileObj, fileObj], ticketId2: [..]}
+            json.files.forEach((fileObj) => {
+              if (files[fileObj.ticketId]) {
+                files[fileObj.ticketId].push(fileObj);
+              } else {
+                files[fileObj.ticketId] = [fileObj];
+              }
+            });
+          }
           let questions = [];
           json.questions.forEach((question) => {
             if (question.ID in answers) {
               question.answers = answers[question.ID];
+            }
+            if (question.fileTicketId && question.fileTicketId > 0) {
+              if (files[question.fileTicketId]) {
+                question.files = files[question.fileTicketId];
+              }
             }
             questions.push(question);
           });
@@ -285,6 +301,11 @@ const AaravAnswers = ({ size }) => {
                 )}
                 {part.type === "text" && <div>{part.data}</div>}
               </span>
+            ))}
+            {pageQuestion.files?.map((file, fIdx) => (
+              <div key={fIdx.toString()}>
+                <img src={file.url} />
+              </div>
             ))}
             {pageQuestion.answers?.map((answer, aIdx) => (
               <span key={aIdx.toString()}>
