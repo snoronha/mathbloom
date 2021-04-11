@@ -182,16 +182,6 @@ const AskAarav = ({ size }) => {
     for (let i = 0; i < validFiles.length; i++) {
       formData.append("files", validFiles[i]);
     }
-    const body = questionId
-      ? JSON.stringify({
-          id: questionId,
-          question: JSON.stringify(descrLines),
-          isAnswered: false,
-        })
-      : JSON.stringify({
-          question: JSON.stringify(descrLines),
-          isAnswered: false,
-        });
     fetch(`${server.domain}/api/question/email/${email.toLowerCase()}`, {
       method: "post",
       body: formData,

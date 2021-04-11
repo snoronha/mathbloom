@@ -14,6 +14,7 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 // core components
 import MathUtil from "../Math-K-5/MathUtil";
+import DropZone from "components/DropZone";
 import server from "../../conf/server";
 
 const styles = {
@@ -38,6 +39,15 @@ const styles = {
     padding: 4,
     width: 250,
     textAlign: "center",
+  },
+  dropZonecontent: {
+    position: "absolute",
+    bottom: "10px",
+    backgroundColor: "white",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
   },
 };
 
@@ -89,6 +99,8 @@ const AaravAnswers = ({ size }) => {
   const [page, setPage] = useState(0);
   const [answerId, setAnswerId] = useState(null);
   const [descrLines, setDescrLines] = useState([]);
+  const [showUpload, setShowUpload] = useState(false);
+  const [validFiles, setValidFiles] = useState([]);
   const [pageQuestion, setPageQuestion] = useState({});
   const [modalDisplayed, setModalDisplayed] = useState(false);
   const [textInputs, setTextInputs] = useState(
@@ -119,17 +131,6 @@ const AaravAnswers = ({ size }) => {
         if (json.questions) {
           let answers = {};
           let files = {};
-          if (json.answers) {
-            // merge answers into questions
-            json.answers.forEach((answer) => {
-              answer.answer = JSON.parse(answer.answer);
-              if (answer.questionId in answers) {
-                answers[answer.questionId].push(answer);
-              } else {
-                answers[answer.questionId] = [answer];
-              }
-            });
-          }
           if (json.files) {
             // {ticketId1: [fileObj, fileObj], ticketId2: [..]}
             json.files.forEach((fileObj) => {
@@ -140,10 +141,28 @@ const AaravAnswers = ({ size }) => {
               }
             });
           }
+          if (json.answers) {
+            // merge answers into questions
+            json.answers.forEach((answer) => {
+              answer.answer = JSON.parse(answer.answer);
+              // merge uploaded files with answers (if exist)
+              if (answer.fileTicketId && answer.fileTicketId > 0) {
+                if (files[answer.fileTicketId]) {
+                  answer.files = files[answer.fileTicketId];
+                }
+              }
+              if (answer.questionId in answers) {
+                answers[answer.questionId].push(answer);
+              } else {
+                answers[answer.questionId] = [answer];
+              }
+            });
+          }
+
           let questions = [];
           json.questions.forEach((question) => {
-            if (question.ID in answers) {
-              question.answers = answers[question.ID];
+            if (question.id in answers) {
+              question.answers = answers[question.id];
             }
             if (question.fileTicketId && question.fileTicketId > 0) {
               if (files[question.fileTicketId]) {
@@ -202,20 +221,19 @@ const AaravAnswers = ({ size }) => {
 
   const saveAnswer = () => {
     const email = user?.email || "snoronha@gmail.com";
-    const body = answerId
-      ? JSON.stringify({
-          id: answerId,
-          questionId: pageQuestion.ID,
-          answer: JSON.stringify(descrLines),
-        })
-      : JSON.stringify({
-          questionId: pageQuestion.ID,
-          answer: JSON.stringify(descrLines),
-        });
-    console.log("BODY: ", body);
+    const formData = new FormData();
+    console.log("questionId: ", pageQuestion.id);
+    formData.append("answer", JSON.stringify(descrLines));
+    formData.append("questionId", pageQuestion.id);
+    if (answerId) {
+      formData.append("id", answerId);
+    }
+    for (let i = 0; i < validFiles.length; i++) {
+      formData.append("files", validFiles[i]);
+    }
     fetch(`${server.domain}/api/answer/email/${email.toLowerCase()}`, {
       method: "post",
-      body: body,
+      body: formData,
     })
       .then((response) => response.json())
       .then((json) => {
@@ -240,11 +258,33 @@ const AaravAnswers = ({ size }) => {
     setDescrLines(tmpDescrLines);
   };
 
+  const toggleShowUpload = () => {
+    setShowUpload(!showUpload);
+  };
+
   return (
     <div style={{ height: 360, backgroundColor: "#fff" }}>
-      <div style={{ position: "absolute", top: "48px", right: "10px" }}>
+      <div
+        style={{
+          position: "absolute",
+          top: "8px",
+          right: "10px",
+        }}
+      >
         <Button
-          variant="contained"
+          style={{ margin: "4px" }}
+          variant="outlined"
+          color="default"
+          size="small"
+          onMouseDown={() => {
+            createField("text");
+          }}
+        >
+          Text
+        </Button>
+        <Button
+          style={{ margin: "4px" }}
+          variant="outlined"
           color="default"
           size="small"
           onMouseDown={() => {
@@ -254,14 +294,13 @@ const AaravAnswers = ({ size }) => {
           Equation
         </Button>
         <Button
-          variant="contained"
+          style={{ margin: "4px" }}
+          variant="outlined"
           color="default"
           size="small"
-          onMouseDown={() => {
-            createField("text");
-          }}
+          onMouseDown={toggleShowUpload}
         >
-          Text
+          Upload
         </Button>
       </div>
       <div style={{ position: "absolute", top: "90px", right: "10px" }}>
@@ -275,22 +314,6 @@ const AaravAnswers = ({ size }) => {
           {!answerId && "Save"}
         </Button>
       </div>
-      <span>
-        {/* questions.map((qn, qnIdx) => (
-          <div key={qnIdx.toString()}>
-            <span>{qn.ID}</span>
-            <span>{qn.question}</span>
-            <Link
-              href="#"
-              onClick={() => {
-                showModal(qn.ID);
-              }}
-            >
-              {qn.isAnswered.toString()}
-            </Link>
-          </div>
-        )) */}
-      </span>
       <div style={{ padding: 10 }}>
         {page > 0 && questions.length > 0 && (
           <span>
@@ -319,6 +342,11 @@ const AaravAnswers = ({ size }) => {
                     )}
                     {apart.type === "text" && <div>{apart.data}</div>}
                   </span>
+                ))}
+                {answer.files?.map((file, fIdx) => (
+                  <div key={fIdx.toString()}>
+                    <img src={file.url} />
+                  </div>
                 ))}
               </span>
             ))}
@@ -400,6 +428,15 @@ const AaravAnswers = ({ size }) => {
           )}
         </span>
       ))}
+      {showUpload && (
+        <div className={classes.dropZonecontent}>
+          <DropZone
+            width={300}
+            validFiles={validFiles}
+            setValidFiles={setValidFiles}
+          />
+        </div>
+      )}
       {questions.length > 0 && (
         <span
           style={{
