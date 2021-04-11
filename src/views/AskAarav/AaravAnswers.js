@@ -303,7 +303,7 @@ const AaravAnswers = ({ size }) => {
           Upload
         </Button>
       </div>
-      <div style={{ position: "absolute", top: "90px", right: "10px" }}>
+      <div style={{ position: "absolute", bottom: "10px", right: "10px" }}>
         <Button
           variant="contained"
           color="default"
