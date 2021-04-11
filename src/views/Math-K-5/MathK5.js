@@ -150,9 +150,11 @@ const MathK5 = ({ size }) => {
       </Card>
       {subject && topic && (
         <Card>
+          {/*}
           <CardHeader color="primary">
             <h4>{subject}</h4>
           </CardHeader>
+          */}
           <CardBody style={{ height: 360 }}>
             <ProblemPanel size={size} subject={subject} topic={topic} />
           </CardBody>

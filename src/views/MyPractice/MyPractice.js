@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { withSize } from "react-sizeme";
 import { makeStyles } from "@material-ui/core/styles";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 // core components
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
@@ -69,9 +69,9 @@ const MyPractice = ({ size }) => {
   return (
     <div>
       <Card>
-        <CardHeader color="primary">
+        {/* <CardHeader color="primary">
           <h4>My Problems</h4>
-        </CardHeader>
+        </CardHeader> */}
         <CardBody style={{ height: 360 }}>
           {problems.length > 0 && (
             <ProblemPanel size={size} savedProblems={problems} />

@@ -56,13 +56,13 @@ const styles = {
       verticalAlign: "middle",
       fontWeight: "300",
       borderTopWidth: "0",
-      borderBottom: "1px solid rgba(0, 0, 0, 0.06)",
+      borderBottom: "1px solid rgba(0, 0, 0, 0.01)",
       textAlign: "inherit",
     },
     "& tbody tr td": {
       padding: "12px 8px",
       verticalAlign: "middle",
-      borderTop: "1px solid rgba(0, 0, 0, 0.06)",
+      borderTop: "1px solid rgba(0, 0, 0, 0.01)",
     },
     "& td, & th": {
       display: "table-cell",
@@ -81,12 +81,14 @@ export default function UpgradeToPro() {
     <GridContainer justify="center">
       <GridItem xs={12} sm={12} md={12}>
         <Card>
+          {/* 
           <CardHeader color="info">
             <h4 className={classes.cardTitleWhite}>
               Math For Students By Students
             </h4>
             <p className={classes.cardCategoryWhite}></p>
           </CardHeader>
+          */}
           <CardBody>
             <div className={classes.tableUpgradeWrapper}>
               <table className={classes.table}>
