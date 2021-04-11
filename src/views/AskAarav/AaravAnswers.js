@@ -303,13 +303,15 @@ const AaravAnswers = ({ size }) => {
           Upload
         </Button>
       </div>
-      <div style={{ position: "absolute", bottom: "10px", right: "10px" }}>
-        <Button
-          variant="contained"
-          color="default"
-          size="small"
-          onMouseDown={saveAnswer}
-        >
+      <div
+        style={{
+          position: "absolute",
+          bottom: "10px",
+          right: "10px",
+          zIndex: 10,
+        }}
+      >
+        <Button variant="contained" color="default" onMouseDown={saveAnswer}>
           {answerId && "Update"}
           {!answerId && "Save"}
         </Button>
@@ -445,6 +447,7 @@ const AaravAnswers = ({ size }) => {
             position: "absolute",
             justifyContent: "center",
             bottom: "10px",
+            zIndex: 5,
           }}
         >
           <Pagination
